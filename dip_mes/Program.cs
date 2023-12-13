@@ -16,7 +16,7 @@ namespace dip_mes
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new base_screen());
+            Application.Run(new main_screen());
         }
     }
 }
