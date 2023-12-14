@@ -1,6 +1,6 @@
 ﻿namespace dip_mes.product
 {
-    partial class product02
+    partial class product01
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -36,48 +36,41 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Enabled = false;
-            this.dataGridView1.Location = new System.Drawing.Point(78, 136);
+            this.dataGridView1.Location = new System.Drawing.Point(42, 131);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1090, 416);
-            this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.Size = new System.Drawing.Size(1068, 463);
+            this.dataGridView1.TabIndex = 0;
             // 
             // textBox1
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(727, 72);
+            this.textBox1.Location = new System.Drawing.Point(56, 86);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(138, 21);
-            this.textBox1.TabIndex = 4;
+            this.textBox1.Size = new System.Drawing.Size(272, 21);
+            this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1004, 64);
+            this.button1.Location = new System.Drawing.Point(934, 86);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 33);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "등록";
+            this.button1.Size = new System.Drawing.Size(145, 39);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // product02
+            // product01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Name = "product02";
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.dataGridView1);
+            this.Name = "product01";
             this.Size = new System.Drawing.Size(1673, 826);
-            this.Load += new System.EventHandler(this.UserControl1_Load);
+            this.Load += new System.EventHandler(this.product01_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

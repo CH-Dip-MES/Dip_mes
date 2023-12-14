@@ -13,7 +13,7 @@ namespace dip_mes
 {
     public partial class Form1 : Form
     {
-        private string connectionString = "Server=localhost;Database=test;Uid=root;Pwd=1234;";
+        private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
         public Form1()
         {
@@ -30,7 +30,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 두 테이블을 조인하고 원하는 컬럼들을 선택하여 데이터 가져오기
-                    string query = "SELECT * FROM t12";
+                    string query = "SELECT * FROM product";
 
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
                     {
