@@ -22,7 +22,11 @@ namespace dip_mes.product
             InitializeComponent();
             LoadDataToDataGridView1();
         }
-
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            // DataGridView 업데이트 수행
+            LoadDataToDataGridView1();
+        }
         private void LoadDataToDataGridView1()
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -67,11 +71,35 @@ namespace dip_mes.product
 
                         // "Status" 열의 DisplayIndex를 설정하여 원하는 위치로 이동
                         dataGridView1.Columns["Status"].DisplayIndex = 6; // "Status" 열이 6번째에 표시되도록 설정
+                        // DataGridView1_CellValueChanged 이벤트 핸들러 등록
+                        dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
+                        // 데이터 바인딩 후 작업 완료 상태인 행을 제거
+                        RemoveCompletedRows();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+        private void RemoveCompletedRows()
+        {
+            List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["Status"].Value?.ToString() == "작업완료")
+                {
+                    rowsToRemove.Add(row);
+                }
+            }
+
+            foreach (DataGridViewRow rowToRemove in rowsToRemove)
+            {
+                if (!rowToRemove.IsNewRow)
+                {
+                    dataGridView1.Rows.Remove(rowToRemove);
                 }
             }
         }
@@ -117,6 +145,12 @@ namespace dip_mes.product
 
                     // 데이터베이스 업데이트
                     UpdateStatusInDatabase(primaryKeyValue, newStatusValue);
+
+                    // 작업완료 상태인 행을 DataGridView에서 제거
+                    if (newStatusValue == "작업완료")
+                    {
+                        dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    }
                 }
             }
             catch (Exception ex)
@@ -202,10 +236,9 @@ namespace dip_mes.product
         {
             if (e.KeyCode == Keys.Enter)
             {
-                
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                try
                 {
-                    try
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
                         connection.Open();
 
@@ -233,10 +266,10 @@ namespace dip_mes.product
                             dataGridView1.DataSource = dataTable;
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
                 }
             }
         }
