@@ -54,6 +54,7 @@ namespace dip_mes.buy
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -299,10 +300,20 @@ namespace dip_mes.buy
             this.button5.Text = "행추가";
             this.button5.UseVisualStyleBackColor = true;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1190, 85);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 27;
+            this.button6.Text = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
             // buy01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.dataGridView2);
@@ -365,5 +376,6 @@ namespace dip_mes.buy
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }
