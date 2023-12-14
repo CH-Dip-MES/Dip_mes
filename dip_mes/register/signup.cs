@@ -23,77 +23,69 @@ namespace dip_mes.register
         public signup()
         {
             InitializeComponent();
+            
+
         }
 
         private void serch_btn_Click(object sender, EventArgs e)
         {
-            string nameToSearch = textBox_name.Text.Trim();
-            MySqlConnection connection = new MySqlConnection(ConnectionString);
-            connection.Open();
-
-            // MySQL 쿼리 작성
-            string query = $"SELECT name, id, pwd, number, email, department FROM test WHERE name = '{nameToSearch}'";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@name", nameToSearch);
-
-            // 데이터 어댑터 및 데이터테이블 사용
-            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
-
-            // 데이터그리드에 데이터 바인딩
-            dataGridView1.DataSource = dataTable;
-
-
-
-
-            Console.WriteLine(query);
-            
-            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            checkBoxColumn.HeaderText = "선택";
-            checkBoxColumn.Name = "checkBoxColumn";
-            dataGridView1.Columns.Insert(0, checkBoxColumn);
-
-
-            foreach (DataRow row in dataTable.Rows)
+            using (MySqlConnection sConn = new MySqlConnection(ConnectionString))
             {
-                // DataGridViewRow를 생성하여 데이터 입력
-                DataGridViewRow dgvRow = new DataGridViewRow();
-                dgvRow.CreateCells(dataGridView1);
+                sConn.Open();
+                string searchName = textBox_name.Text.Trim(); // 검색창 텍스트
+                string findName = "select name,id,pwd,number,email,department from test";
+                if (!string.IsNullOrEmpty(searchName)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
+                {
+                    findName += $" WHERE name = '{searchName}'";
+                }
+                MySqlCommand cmd = new MySqlCommand(findName, sConn);
+                try
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        DataTable fManage = new DataTable();
+                        adapter.Fill(fManage);
 
-                // 각 컬럼에 데이터 입력
-                dgvRow.Cells[0].Value = row["name"];  // 여기서 0은 DataGridView의 첫 번째 컬럼을 나타냅니다.
-                dgvRow.Cells[1].Value = row["id"];
-                dgvRow.Cells[2].Value = row["pwd"];
-                dgvRow.Cells[3].Value = row["number"];
-                dgvRow.Cells[4].Value = row["email"];
-                dgvRow.Cells[5].Value = row["department"];
-                // ...
-                // DataGridViewCheckBoxCell을 만들어서 첫 번째 열에 추가
-                DataGridViewCheckBoxCell checkBoxCell = new DataGridViewCheckBoxCell();
-                checkBoxCell.Value = false; // 체크 여부 초기화
-                dgvRow.Cells.Insert(0, checkBoxCell);
+                        dataGridView1.Columns.Clear();
+                        DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+                        checkBoxColumn.HeaderText = "선택";
+                        dataGridView1.Columns.Insert(0, checkBoxColumn);
 
+                        // Check if any rows are returned
+                        if (fManage.Rows.Count > 0)
+                        {
+                            // DataGridView에 데이터 설정
+                            dataGridView1.DataSource = fManage;
 
+                            // DataGridView 컬럼 헤더 텍스트 설정
+                            dataGridView1.Columns["name"].HeaderText = "이름";
+                            dataGridView1.Columns["id"].HeaderText = "아이디";
+                            dataGridView1.Columns["pwd"].HeaderText = "비밀번호";
+                            dataGridView1.Columns["number"].HeaderText = "주민번호";
+                            dataGridView1.Columns["email"].HeaderText = "이메일";
+                            dataGridView1.Columns["department"].HeaderText = "부서";
 
-                // DataGridView에 행 추가
-                //dataGridView1.Rows.Add(dgvRow);
-                
+                            // Make all columns read-only except the checkbox column
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                if (column.Index != 0) // Skip the checkbox column
+                                {
+                                    column.ReadOnly = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("해당 이름의 데이터가 없습니다.");
+                        }
+                    }
+                }
 
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"오류 발생: {ex.Message}");
+                }
             }
-            dataGridView1.AutoResizeColumns();
-            dataGridView1.Columns["name"].HeaderText = "이름";
-            dataGridView1.Columns["id"].HeaderText = "ID";
-            dataGridView1.Columns["pwd"].HeaderText = "PW";
-            dataGridView1.Columns["number"].HeaderText = "주민등록번호";
-            dataGridView1.Columns["email"].HeaderText = "이메일";
-            dataGridView1.Columns["department"].HeaderText = "부서";
-           
         }
-        
-
-        
     }
 }
-

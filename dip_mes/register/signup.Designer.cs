@@ -73,7 +73,6 @@
             this.button2.TabIndex = 3;
             this.button2.Text = "등록";
             this.button2.UseVisualStyleBackColor = true;
-           
             // 
             // button3
             // 
