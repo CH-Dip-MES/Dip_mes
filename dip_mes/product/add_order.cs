@@ -115,6 +115,7 @@ namespace dip_mes
                         cmd.ExecuteNonQuery();
 
                         MessageBox.Show("작업지시 등록이 완료되었습니다.");
+                        this.Close();
                     }
                 }
                 catch (Exception ex)

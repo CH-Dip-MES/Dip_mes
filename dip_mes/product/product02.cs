@@ -21,6 +21,7 @@ namespace dip_mes.product
         {
             InitializeComponent();
             LoadDataToDataGridView1();
+            textBox1.KeyDown += textBox1_KeyDown;
         }
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -224,8 +225,13 @@ namespace dip_mes.product
 
         private void button1_Click(object sender, EventArgs e)
         {
-            add_order Form = new add_order();
-            Form.Show();
+            /*add_order Form = new add_order();
+            Form.Show();*/
+            add_order myForm = new add_order();
+            myForm.TopLevel = false; // 폼이 최상위 수준이 아닌 자식으로 설정
+            myForm.FormBorderStyle = FormBorderStyle.None; // 테두리 제거
+            panel1.Controls.Add(myForm); // 패널에 폼 추가
+            myForm.Show(); // 폼을 표시
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -246,12 +252,12 @@ namespace dip_mes.product
                         string inputValue = textBox1.Text.Trim();
 
                         // MySQL에서 데이터 조회하는 SQL 쿼리
-                        string query = "SELECT No, Product, Process, Planned, Actual, Estimated, Status FROM product WHERE Product = @inputValue";
+                        string query = "SELECT No, Product, Process, Planned, Actual, Estimated, Status FROM product WHERE Product LIKE @inputValue";
 
                         using (MySqlCommand cmd = new MySqlCommand(query, connection))
                         {
                             // 매개변수 설정
-                            cmd.Parameters.AddWithValue("@inputValue", inputValue);
+                            cmd.Parameters.AddWithValue("@inputValue", "%" + inputValue + "%");
 
                             // 데이터를 담을 DataTable 생성
                             DataTable dataTable = new DataTable();
@@ -263,6 +269,7 @@ namespace dip_mes.product
                             }
 
                             // DataGridView에 데이터 바인딩
+                            dataGridView1.DataSource = null;
                             dataGridView1.DataSource = dataTable;
                         }
                     }
@@ -273,6 +280,7 @@ namespace dip_mes.product
                 }
             }
         }
+    
     }
 }
 
