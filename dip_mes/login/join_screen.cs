@@ -46,11 +46,11 @@ namespace dip_mes
                 MySqlConnection connection = new MySqlConnection("Server = 222.108.180.36; Database=mes_2; Uid=EDU_STUDENT;Pwd=1234;");
                 connection.Open();
 
-                string insertQuery = "INSERT INTO test (name, id, pwd) VALUES ('" + txtbox_name.Text + "', '" + txtbox_id.Text + "', '" + txtbox_pwd.Text + "');";
+                string insertQuery = "INSERT INTO test (name, id, pwd, number, email, department) VALUES ('" + txtbox_name.Text + "', '" + txtbox_id.Text + "', '" + txtbox_pwd.Text + "','" + number.Text + "','" + email.Text + "','" + department.Text + "');";
                 MySqlCommand command = new MySqlCommand(insertQuery, connection);
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show(txtbox_name.Text + "님 회원가입 완료, 사용할 아이디는" + txtbox_id + "입니다");
+                    MessageBox.Show(txtbox_name.Text + "님 회원가입 완료, 사용할 아이디는" + txtbox_id.Text + "입니다");
                     connection.Close();
                     Close();
                 }

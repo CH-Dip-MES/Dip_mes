@@ -104,11 +104,11 @@
     <Compile Include="buy\buy01.Designer.cs">
       <DependentUpon>buy01.cs</DependentUpon>
     </Compile>
-    <Compile Include="base_screen.cs">
+    <Compile Include="main_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="base_screen.Designer.cs">
-      <DependentUpon>base_screen.cs</DependentUpon>
+    <Compile Include="main_screen.Designer.cs">
+      <DependentUpon>main_screen.cs</DependentUpon>
     </Compile>
     <Compile Include="login\find_screen.cs">
       <SubType>Form</SubType>
@@ -157,8 +157,8 @@
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="base_screen.resx">
-      <DependentUpon>base_screen.cs</DependentUpon>
+    <EmbeddedResource Include="main_screen.resx">
+      <DependentUpon>main_screen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="login\find_screen.resx">
       <DependentUpon>find_screen.cs</DependentUpon>
