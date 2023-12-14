@@ -13,7 +13,7 @@ namespace dip_mes
     public partial class base_screen : Form
     {
         buy.buy01 buySc1 = new buy.buy01();
-        sale.sale01 saleSc1 = new sale.sale01();
+        sale.sale02 saleSc1 = new sale.sale02();
         product.product02 productSc2 = new product.product02();
         public base_screen()
         {

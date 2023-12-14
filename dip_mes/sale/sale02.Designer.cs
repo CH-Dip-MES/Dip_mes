@@ -1,6 +1,6 @@
 ﻿namespace dip_mes.sale
 {
-    partial class UserControl1
+    partial class sale02
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -30,13 +30,13 @@
         {
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.RegistDate = new System.Windows.Forms.DateTimePicker();
+            this.RegButton2 = new System.Windows.Forms.Button();
+            this.RegButton1 = new System.Windows.Forms.Button();
+            this.CheckButton1 = new System.Windows.Forms.Button();
+            this.saledate = new System.Windows.Forms.DateTimePicker();
             this.findNo = new System.Windows.Forms.TextBox();
-            this.sellNo = new System.Windows.Forms.TextBox();
-            this.cusName = new System.Windows.Forms.ComboBox();
+            this.salecode = new System.Windows.Forms.TextBox();
+            this.buyername = new System.Windows.Forms.ComboBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label10 = new System.Windows.Forms.Label();
@@ -74,44 +74,46 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Visible = false;
             // 
-            // button3
+            // RegButton2
             // 
-            this.button3.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button3.Location = new System.Drawing.Point(1525, 617);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 35);
-            this.button3.TabIndex = 59;
-            this.button3.Text = "등록";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
+            this.RegButton2.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.RegButton2.Location = new System.Drawing.Point(1525, 617);
+            this.RegButton2.Name = "RegButton2";
+            this.RegButton2.Size = new System.Drawing.Size(134, 35);
+            this.RegButton2.TabIndex = 59;
+            this.RegButton2.Text = "등록";
+            this.RegButton2.UseVisualStyleBackColor = true;
+            this.RegButton2.Visible = false;
             // 
-            // button2
+            // RegButton1
             // 
-            this.button2.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.Location = new System.Drawing.Point(1524, 374);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(134, 35);
-            this.button2.TabIndex = 58;
-            this.button2.Text = "등록";
-            this.button2.UseVisualStyleBackColor = true;
+            this.RegButton1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.RegButton1.Location = new System.Drawing.Point(1524, 374);
+            this.RegButton1.Name = "RegButton1";
+            this.RegButton1.Size = new System.Drawing.Size(134, 35);
+            this.RegButton1.TabIndex = 58;
+            this.RegButton1.Text = "등록";
+            this.RegButton1.UseVisualStyleBackColor = true;
+            this.RegButton1.Click += new System.EventHandler(this.RegButton1_Click);
             // 
-            // button1
+            // CheckButton1
             // 
-            this.button1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(1525, 100);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 35);
-            this.button1.TabIndex = 57;
-            this.button1.Text = "조회";
-            this.button1.UseVisualStyleBackColor = true;
+            this.CheckButton1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.CheckButton1.Location = new System.Drawing.Point(1525, 100);
+            this.CheckButton1.Name = "CheckButton1";
+            this.CheckButton1.Size = new System.Drawing.Size(134, 35);
+            this.CheckButton1.TabIndex = 57;
+            this.CheckButton1.Text = "조회";
+            this.CheckButton1.UseVisualStyleBackColor = true;
+            this.CheckButton1.Click += new System.EventHandler(this.CheckButton1_Click);
             // 
-            // RegistDate
+            // saledate
             // 
-            this.RegistDate.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.RegistDate.Location = new System.Drawing.Point(134, 376);
-            this.RegistDate.Name = "RegistDate";
-            this.RegistDate.Size = new System.Drawing.Size(330, 35);
-            this.RegistDate.TabIndex = 56;
+            this.saledate.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.saledate.Location = new System.Drawing.Point(134, 376);
+            this.saledate.Name = "saledate";
+            this.saledate.Size = new System.Drawing.Size(330, 35);
+            this.saledate.TabIndex = 56;
             // 
             // findNo
             // 
@@ -121,29 +123,29 @@
             this.findNo.Size = new System.Drawing.Size(121, 35);
             this.findNo.TabIndex = 54;
             // 
-            // sellNo
+            // salecode
             // 
-            this.sellNo.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.sellNo.Location = new System.Drawing.Point(711, 376);
-            this.sellNo.Name = "sellNo";
-            this.sellNo.Size = new System.Drawing.Size(121, 35);
-            this.sellNo.TabIndex = 55;
+            this.salecode.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.salecode.Location = new System.Drawing.Point(711, 376);
+            this.salecode.Name = "salecode";
+            this.salecode.Size = new System.Drawing.Size(121, 35);
+            this.salecode.TabIndex = 55;
             // 
-            // cusName
+            // buyername
             // 
-            this.cusName.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.cusName.FormattingEnabled = true;
-            this.cusName.ImeMode = System.Windows.Forms.ImeMode.Close;
-            this.cusName.ItemHeight = 24;
-            this.cusName.Items.AddRange(new object[] {
+            this.buyername.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.buyername.FormattingEnabled = true;
+            this.buyername.ImeMode = System.Windows.Forms.ImeMode.Close;
+            this.buyername.ItemHeight = 24;
+            this.buyername.Items.AddRange(new object[] {
             "탕수육",
             "짜장면",
             "짬뽕",
             "우육면"});
-            this.cusName.Location = new System.Drawing.Point(1183, 377);
-            this.cusName.Name = "cusName";
-            this.cusName.Size = new System.Drawing.Size(177, 32);
-            this.cusName.TabIndex = 53;
+            this.buyername.Location = new System.Drawing.Point(1183, 377);
+            this.buyername.Name = "buyername";
+            this.buyername.Size = new System.Drawing.Size(177, 32);
+            this.buyername.TabIndex = 53;
             // 
             // dataGridView2
             // 
@@ -158,6 +160,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(16, 152);
@@ -260,19 +263,19 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "판매관리";
             // 
-            // UserControl1
+            // sale02
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.RegistDate);
+            this.Controls.Add(this.RegButton2);
+            this.Controls.Add(this.RegButton1);
+            this.Controls.Add(this.CheckButton1);
+            this.Controls.Add(this.saledate);
             this.Controls.Add(this.findNo);
-            this.Controls.Add(this.sellNo);
-            this.Controls.Add(this.cusName);
+            this.Controls.Add(this.salecode);
+            this.Controls.Add(this.buyername);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label10);
@@ -284,7 +287,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label1);
-            this.Name = "UserControl1";
+            this.Name = "sale02";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -297,13 +300,13 @@
 
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker RegistDate;
+        private System.Windows.Forms.Button RegButton2;
+        private System.Windows.Forms.Button RegButton1;
+        private System.Windows.Forms.Button CheckButton1;
+        private System.Windows.Forms.DateTimePicker saledate;
         private System.Windows.Forms.TextBox findNo;
-        private System.Windows.Forms.TextBox sellNo;
-        private System.Windows.Forms.ComboBox cusName;
+        private System.Windows.Forms.TextBox salecode;
+        private System.Windows.Forms.ComboBox buyername;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label10;
