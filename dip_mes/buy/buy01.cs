@@ -164,7 +164,7 @@ namespace dip_mes.buy
         {
             if (e.RowIndex >= 0)
             {
-                string selectedCode = dataGridView1.Rows[e.RowIndex].Cells["업체코드"].Value.ToString();
+                string selectedCode = dataGridView1.Rows[e.RowIndex].Cells["발주코드"].Value.ToString();
                 LoadDataToDataGridView2(selectedCode);
 
                 // 클릭한 행의 데이터를 가져와서 처리
@@ -196,10 +196,10 @@ namespace dip_mes.buy
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT nb as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy1 WHERE Code = @code";
+                string selectQuery = "SELECT nb as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy1 WHERE OrderingCode = @OrderingCode";
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@Code", selectedCode);
+                    command.Parameters.AddWithValue("@OrderingCode", selectedCode);
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                     {
                         DataTable dataTable = new DataTable();
@@ -220,43 +220,51 @@ namespace dip_mes.buy
         }
 
         private void button4_Click(object sender, EventArgs e)
-        private void button4_Click(object sender, EventArgs e)
         {
-            // 선택된 DataGridView2 행의 값 가져오기
-            DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
-            string nb = selectedRow.Cells["NO."].Value.ToString();
-            string itemNumber = selectedRow.Cells["품번"].Value.ToString();
-            string itemName = selectedRow.Cells["품명"].Value.ToString();
-            string weight = selectedRow.Cells["중량"].Value.ToString();
-            string unitPrice = selectedRow.Cells["단가"].Value.ToString();
-            string orderAmount = selectedRow.Cells["발주금액"].Value.ToString();
-            string surtax = selectedRow.Cells["부가세"].Value.ToString();
-
-            // MySQL 연결 및 명령어 생성
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            // 선택된 행이 있는지 확인
+            if (dataGridView2.SelectedRows.Count > 0)
             {
-                connection.Open();
+                // 선택된 DataGridView2 행의 값 가져오기
+                DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
+                string nb = selectedRow.Cells["NO."].Value.ToString();
+                string itemNumber = selectedRow.Cells["품번"].Value.ToString();
+                string itemName = selectedRow.Cells["품명"].Value.ToString();
+                string weight = selectedRow.Cells["중량"].Value.ToString();
+                string unitPrice = selectedRow.Cells["단가"].Value.ToString();
+                string orderAmount = selectedRow.Cells["발주금액"].Value.ToString();
+                string surtax = selectedRow.Cells["부가세"].Value.ToString();
 
-                // DataGridView2의 특정 행에 대한 값을 MySQL 데이터베이스에 추가하는 코드
-                string insertQuery = "INSERT INTO buy1 (nb, Itemnumber, Itemname, Weight, Unitprice, Orderamount, Surtax) " +
-                                     "VALUES (@nb, @Itemnumber, @Itemname, @Weight, @Unitprice, @Orderamount, @Surtax)";
-                using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                // MySQL 연결 및 명령어 생성
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@NO", nb);
-                    command.Parameters.AddWithValue("@Itemnumber", itemNumber);
-                    command.Parameters.AddWithValue("@Itemname", itemName);
-                    command.Parameters.AddWithValue("@Weight", weight);
-                    command.Parameters.AddWithValue("@Unitprice", unitPrice);
-                    command.Parameters.AddWithValue("@Orderamount", orderAmount);
-                    command.Parameters.AddWithValue("@Surtax", surtax);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
+                    // DataGridView2의 특정 행에 대한 값을 MySQL 데이터베이스에 추가하는 코드
+                    string insertQuery = "INSERT INTO buy1 (nb, Itemnumber, Itemname, Weight, Unitprice, Orderamount, Surtax) " +
+                                        "VALUES (@nb, @Itemnumber, @Itemname, @Weight, @Unitprice, @Orderamount, @Surtax)";
+                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                    {
+                        // 각 매개변수에 값을 할당
+                        command.Parameters.AddWithValue("@nb", nb);
+                        command.Parameters.AddWithValue("@Itemnumber", itemNumber);
+                        command.Parameters.AddWithValue("@Itemname", itemName);
+                        command.Parameters.AddWithValue("@Weight", weight);
+                        command.Parameters.AddWithValue("@Unitprice", unitPrice);
+                        command.Parameters.AddWithValue("@Orderamount", orderAmount);
+                        command.Parameters.AddWithValue("@Surtax", surtax);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    connection.Close();
                 }
 
-                connection.Close();
+                MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
             }
-
-            MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
+            else
+            {
+                MessageBox.Show("행을 선택하세요.");
+            }
         }
     }
 }
