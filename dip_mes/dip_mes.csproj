@@ -148,6 +148,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="register\signup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="register\signup.Designer.cs">
+      <DependentUpon>signup.cs</DependentUpon>
+    </Compile>
     <Compile Include="sale\sale01.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,6 +199,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="register\signup.resx">
+      <DependentUpon>signup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
     </EmbeddedResource>
