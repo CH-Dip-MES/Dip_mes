@@ -87,5 +87,11 @@ namespace dip_mes.register
                 }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            login.join_screen joinsc = new login.join_screen();
+            joinsc.ShowDialog();
+        }
     }
 }
