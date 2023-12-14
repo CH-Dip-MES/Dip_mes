@@ -189,34 +189,94 @@ namespace dip_mes.buy
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
+                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                 {
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
+
+                    // DataGridView1에 데이터 바인딩
                     dataGridView1.DataSource = dataTable;
                 }
                 connection.Close();
             }
+
+            // DataGridView1에서 첫 번째 행을 선택하도록 설정
+            if (dataGridView1.Rows.Count > 0)
+            {
+                dataGridView1.Rows[0].Selected = true;
+            }
         }
+
+        private void CalculateTotalOrderAmountForGridView2()
+        {
+            decimal totalOrderAmount = 0;
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (row.Cells["발주금액"].Value != null && decimal.TryParse(row.Cells["발주금액"].Value.ToString(), out decimal orderAmount))
+                {
+                    totalOrderAmount += orderAmount;
+                }
+            }
+
+            textBox6.Text = $"{totalOrderAmount:N0}원"; // N0는 숫자를 천 단위로 구분하여 표시
+        }
+
         private void LoadDataToDataGridView2(string selectedCode)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT nb as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE OrderingCode = @OrderingCode";
+
+                // DataGridView2에 데이터를 가져오는 쿼리
+                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE Orderingcode = @Orderingcode";
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@OrderingCode", selectedCode);
+                    command.Parameters.AddWithValue("@Orderingcode", selectedCode);
+
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                     {
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
+
+                        // DataGridView2에 데이터 바인딩
                         dataGridView2.DataSource = dataTable;
+
+                        // 발주금액 컬럼에 대한 형식 지정
+                        dataGridView2.Columns["발주금액"].DefaultCellStyle.Format = "Orderamount";
                     }
                 }
+
                 connection.Close();
+                // 발주금액 합 다시 계산
+                CalculateTotalOrderAmountForGridView2();
+                // 부가세 합 계산
+                CalculateTotalSurtaxForGridView2();
             }
+
+            // DataGridView2에서 첫 번째 행을 선택하도록 설정
+            if (dataGridView2.Rows.Count > 0)
+            {
+                dataGridView2.Rows[0].Selected = true;
+            }
+        }
+
+
+
+        private void CalculateTotalSurtaxForGridView2()
+        {
+            decimal totalSurtax = 0;
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (row.Cells["부가세"].Value != null && decimal.TryParse(row.Cells["부가세"].Value.ToString(), out decimal surtax))
+                {
+                    totalSurtax += surtax;
+                }
+            }
+
+            textBox5.Text = $"{totalSurtax:N0}원";
         }
 
         private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -251,10 +311,10 @@ namespace dip_mes.buy
 
                 foreach (DataGridViewRow row in dataGridView2.SelectedRows)
                 {
-                    // 빈칸 체크
+                    // 빈칸 체크 (단, "nb" 열은 빈 값 허용)
                     foreach (DataGridViewCell cell in row.Cells)
                     {
-                        if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                        if (cell.OwningColumn.Name != "NO." && (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString())))
                         {
                             MessageBox.Show("데이터를 입력하세요.");
                             return; // 빈칸이 있으면 함수 종료
@@ -282,6 +342,8 @@ namespace dip_mes.buy
             }
 
             MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
+            // 등록 후 발주금액 합 다시 계산
+            CalculateTotalOrderAmount();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -305,23 +367,21 @@ namespace dip_mes.buy
                     foreach (DataGridViewRow row in dataGridView2.SelectedRows)
                     {
                         // DataGridView2의 선택된 행에 대한 데이터를 DB에서 삭제
-                        string deleteQuery = "DELETE FROM buy2 WHERE nb = @nb AND Orderingcode = @Orderingcode";
+                        string deleteQuery = "DELETE FROM buy2 WHERE Itemnumber = @Itemnumber AND Orderingcode = @Orderingcode AND Orderamount = @Orderamount";
                         using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
                         {
-                            command.Parameters.AddWithValue("@nb", row.Cells["NO."].Value);
+                            command.Parameters.AddWithValue("@Itemnumber", row.Cells["품번"].Value);
+                            command.Parameters.AddWithValue("@Orderamount", row.Cells["발주금액"].Value);
                             command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
 
                             command.ExecuteNonQuery();
                         }
+
+                        // DataGridView2에서 선택된 행 삭제
+                        dataGridView2.Rows.Remove(row);
                     }
 
                     connection.Close();
-                }
-
-                // DataGridView2에서 선택된 행 삭제
-                foreach (DataGridViewRow row in dataGridView2.SelectedRows)
-                {
-                    dataGridView2.Rows.Remove(row);
                 }
 
                 MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
@@ -329,6 +389,103 @@ namespace dip_mes.buy
             else
             {
                 MessageBox.Show("행을 선택하세요.");
+            }
+            // 등록 후 발주금액 합 다시 계산
+            CalculateTotalOrderAmount();
+        }
+
+        private void CalculateTotalOrderAmount()
+        {
+            // 선택된 행의 발주코드 가져오기
+            string selectedOrderingCode = textBox7.Text;
+
+            if (string.IsNullOrEmpty(selectedOrderingCode))
+            {
+                MessageBox.Show("발주코드를 선택하세요.");
+                return; // 발주코드가 없으면 함수 종료
+            }
+
+            // MySQL 연결 및 명령어 생성
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // 발주코드와 일치하는 행들의 발주금액 합을 계산
+                string selectQuery = "SELECT SUM(Orderamount) FROM buy2 WHERE Orderingcode = @Orderingcode";
+                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
+
+                    // 결과 가져오기
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        // 발주금액 합을 textBox6에 표시
+                        decimal totalOrderAmount = Convert.ToDecimal(result);
+                        textBox6.Text = totalOrderAmount.ToString("#,##0");
+                    }
+                    else
+                    {
+                        // 발주코드에 해당하는 데이터가 없을 경우 0으로 초기화
+                        textBox6.Text = "0";
+                    }
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // 발주금액 업데이트
+                    string updateOrderAmountQuery = @"
+                UPDATE buy1 b1
+                JOIN (
+                    SELECT orderingcode, SUM(Orderamount) AS TotalOrderamount
+                    FROM buy2
+                    GROUP BY orderingcode
+                ) b2 ON b1.Orderingcode = b2.orderingcode
+                SET b1.Orderamount = b2.TotalOrderamount;
+            ";
+
+                    using (MySqlCommand command = new MySqlCommand(updateOrderAmountQuery, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // 부가세 업데이트
+                    string updateSurtaxQuery = @"
+                UPDATE buy1 b1
+                JOIN (
+                    SELECT orderingcode, SUM(Surtax) AS TotalSurtax
+                    FROM buy2
+                    GROUP BY orderingcode
+                ) b2 ON b1.Orderingcode = b2.orderingcode
+                SET b1.Surtax = b2.TotalSurtax;
+            ";
+
+                    using (MySqlCommand command = new MySqlCommand(updateSurtaxQuery, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("데이터가 성공적으로 업데이트되었습니다.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"오류 발생: {ex.Message}");
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
     }

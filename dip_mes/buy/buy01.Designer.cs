@@ -57,6 +57,7 @@ namespace dip_mes.buy
             this.mySqlDataAdapter1 = new MySql.Data.MySqlClient.MySqlDataAdapter();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -333,10 +334,22 @@ namespace dip_mes.buy
             this.label10.TabIndex = 29;
             this.label10.Text = "발주번호";
             // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("굴림", 20F);
+            this.button6.Location = new System.Drawing.Point(1544, 149);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(129, 35);
+            this.button6.TabIndex = 30;
+            this.button6.Text = "업데이트";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // buy01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button5);
@@ -404,5 +417,6 @@ namespace dip_mes.buy
         private MySql.Data.MySqlClient.MySqlDataAdapter mySqlDataAdapter1;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button6;
     }
 }
