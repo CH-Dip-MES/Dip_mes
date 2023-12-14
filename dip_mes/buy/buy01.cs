@@ -51,6 +51,7 @@ namespace dip_mes.buy
 
                 // buy1 테이블에 데이터 삽입
                 string insertQuery = "INSERT INTO buy1 (DeliveryDate, Code, OrderDate, Orderingcode, Companyname) VALUES (@DeliveryDate, @Code, @OrderDate, @OrderingCode, @Companyname)";
+
                 using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
@@ -60,6 +61,13 @@ namespace dip_mes.buy
                     command.Parameters.AddWithValue("@Companyname", textBox2.Text);
 
                     command.ExecuteNonQuery();
+                }
+
+                string insertBuy2Query = "INSERT INTO buy2 (Orderingcode) VALUES (@OrderingCode)";
+                using (MySqlCommand command2 = new MySqlCommand(insertBuy2Query, connection))
+                {
+                    command2.Parameters.AddWithValue("@OrderingCode", orderingCode);
+                    command2.ExecuteNonQuery();
                 }
 
                 connection.Close();
@@ -104,7 +112,7 @@ namespace dip_mes.buy
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -169,7 +177,7 @@ namespace dip_mes.buy
 
                 // 클릭한 행의 데이터를 가져와서 처리
                 DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
-                string codeValue = selectedRow.Cells["업체코드"].Value.ToString();
+                string codeValue = selectedRow.Cells["발주코드"].Value.ToString();
 
                 // textBox7에 업체코드 표시
                 textBox7.Text = codeValue;
@@ -196,7 +204,7 @@ namespace dip_mes.buy
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT nb as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy1 WHERE OrderingCode = @OrderingCode";
+                string selectQuery = "SELECT nb as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE OrderingCode = @OrderingCode";
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
                     command.Parameters.AddWithValue("@OrderingCode", selectedCode);
@@ -221,45 +229,102 @@ namespace dip_mes.buy
 
         private void button4_Click(object sender, EventArgs e)
         {
-            // 선택된 행이 있는지 확인
+            // 선택된 행의 발주코드 가져오기
+            string selectedOrderingCode = textBox7.Text;
+
+            if (string.IsNullOrEmpty(selectedOrderingCode))
+            {
+                MessageBox.Show("발주코드를 선택하세요.");
+                return; // 발주코드가 없으면 함수 종료
+            }
+
+            if (dataGridView2.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("행을 선택하세요.");
+                return; // 선택된 행이 없으면 함수 종료
+            }
+
+            // MySQL 연결 및 명령어 생성
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                foreach (DataGridViewRow row in dataGridView2.SelectedRows)
+                {
+                    // 빈칸 체크
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                        {
+                            MessageBox.Show("데이터를 입력하세요.");
+                            return; // 빈칸이 있으면 함수 종료
+                        }
+                    }
+
+                    // DataGridView2의 선택된 행에 대한 데이터를 DB에 저장
+                    string insertQuery = "INSERT INTO buy2 (nb, Itemnumber, Itemname, Weight, Unitprice, Orderamount, Surtax, Orderingcode) VALUES (@nb, @Itemnumber, @Itemname, @Weight, @Unitprice, @Orderamount, @Surtax, @Orderingcode)";
+                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@nb", row.Cells["NO."].Value);
+                        command.Parameters.AddWithValue("@Itemnumber", row.Cells["품번"].Value);
+                        command.Parameters.AddWithValue("@Itemname", row.Cells["품명"].Value);
+                        command.Parameters.AddWithValue("@Weight", row.Cells["중량"].Value);
+                        command.Parameters.AddWithValue("@Unitprice", row.Cells["단가"].Value);
+                        command.Parameters.AddWithValue("@Orderamount", row.Cells["발주금액"].Value);
+                        command.Parameters.AddWithValue("@Surtax", row.Cells["부가세"].Value);
+                        command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                connection.Close();
+            }
+
+            MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
             if (dataGridView2.SelectedRows.Count > 0)
             {
-                // 선택된 DataGridView2 행의 값 가져오기
-                DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
-                string nb = selectedRow.Cells["NO."].Value.ToString();
-                string itemNumber = selectedRow.Cells["품번"].Value.ToString();
-                string itemName = selectedRow.Cells["품명"].Value.ToString();
-                string weight = selectedRow.Cells["중량"].Value.ToString();
-                string unitPrice = selectedRow.Cells["단가"].Value.ToString();
-                string orderAmount = selectedRow.Cells["발주금액"].Value.ToString();
-                string surtax = selectedRow.Cells["부가세"].Value.ToString();
+                // 선택된 행의 발주코드 가져오기
+                string selectedOrderingCode = textBox7.Text;
+
+                if (string.IsNullOrEmpty(selectedOrderingCode))
+                {
+                    MessageBox.Show("발주코드를 선택하세요.");
+                    return; // 발주코드가 없으면 함수 종료
+                }
 
                 // MySQL 연결 및 명령어 생성
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // DataGridView2의 특정 행에 대한 값을 MySQL 데이터베이스에 추가하는 코드
-                    string insertQuery = "INSERT INTO buy1 (nb, Itemnumber, Itemname, Weight, Unitprice, Orderamount, Surtax) " +
-                                        "VALUES (@nb, @Itemnumber, @Itemname, @Weight, @Unitprice, @Orderamount, @Surtax)";
-                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                    foreach (DataGridViewRow row in dataGridView2.SelectedRows)
                     {
-                        // 각 매개변수에 값을 할당
-                        command.Parameters.AddWithValue("@nb", nb);
-                        command.Parameters.AddWithValue("@Itemnumber", itemNumber);
-                        command.Parameters.AddWithValue("@Itemname", itemName);
-                        command.Parameters.AddWithValue("@Weight", weight);
-                        command.Parameters.AddWithValue("@Unitprice", unitPrice);
-                        command.Parameters.AddWithValue("@Orderamount", orderAmount);
-                        command.Parameters.AddWithValue("@Surtax", surtax);
+                        // DataGridView2의 선택된 행에 대한 데이터를 DB에서 삭제
+                        string deleteQuery = "DELETE FROM buy2 WHERE nb = @nb AND Orderingcode = @Orderingcode";
+                        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@nb", row.Cells["NO."].Value);
+                            command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
 
-                        command.ExecuteNonQuery();
+                            command.ExecuteNonQuery();
+                        }
                     }
 
                     connection.Close();
                 }
 
-                MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
+                // DataGridView2에서 선택된 행 삭제
+                foreach (DataGridViewRow row in dataGridView2.SelectedRows)
+                {
+                    dataGridView2.Rows.Remove(row);
+                }
+
+                MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
             }
             else
             {
