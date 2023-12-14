@@ -64,22 +64,12 @@ namespace dip_mes.sale
                         // Check if any rows are returned
                         if (sManage.Rows.Count > 0)
                         {
-                            DataGridViewComboBoxColumn procstatComboColumn = new DataGridViewComboBoxColumn();
-                            procstatComboColumn.HeaderText = "진행상태";
-                            procstatComboColumn.Name = "procstat";
-                            procstatComboColumn.Items.AddRange("미진행", "진행 중", "완료");
-
-                            // Convert "delistat" column
-                            DataGridViewComboBoxColumn delistatComboColumn = new DataGridViewComboBoxColumn();
-                            delistatComboColumn.HeaderText = "납품상태";
-                            delistatComboColumn.Name = "delistat";
-                            delistatComboColumn.Items.AddRange("미진행", "진행 중", "완료");
-
-                            // Add ComboBox columns to the DataGridView
-                            dataGridView1.Columns.Remove("procstat");
-                            dataGridView1.Columns.Remove("delistat");
-                            dataGridView1.Columns.Insert(3, procstatComboColumn); // Assuming "procstat" is at index 3
-                            dataGridView1.Columns.Insert(4, delistatComboColumn); // Assuming "delistat" is at index 4
+                            DataGridViewComboBoxColumn comboColumn = new DataGridViewComboBoxColumn();
+                            comboColumn.DataPropertyName = "procstat";
+                            comboColumn.HeaderText = "상태";
+                            comboColumn.Name = "ItemStat";
+                            comboColumn.Items.Add("입고");
+                            comboColumn.Items.Add("출고");
 
                             // DataGridView에 데이터 설정
                             dataGridView1.DataSource = sManage;
