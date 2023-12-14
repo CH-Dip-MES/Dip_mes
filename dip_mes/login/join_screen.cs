@@ -12,6 +12,7 @@ namespace dip_mes
 {
     public partial class join_screen : Form
     {
+        
         /* string _server = "EDU"; //DB 서버 주소, 로컬일 경우 localhost
         int _port = 3306; //DB 서버 포트
         string _database = "mes_2"; //DB 이름
