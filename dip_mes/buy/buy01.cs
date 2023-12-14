@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
+
 namespace dip_mes.buy
 {
     public partial class buy01 : UserControl
     {
+
         private const string connectionString = "Server = 222.108.180.36; Database=mes_2; Uid=EDU_STUDENT;Pwd=1234;";
 
         public buy01()
@@ -97,12 +99,12 @@ namespace dip_mes.buy
         }
         private void buy01_Load(object sender, EventArgs e)
         {
-
+            LoadDataToDataGridView1();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -150,6 +152,50 @@ namespace dip_mes.buy
                     dataGridView1.DataSource = dataTable;
                 }
 
+                connection.Close();
+            }
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void LoadDataToDataGridView1()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT Code, OrderDate, Companyname, Number, Orderamount, Surtax, Totalamount, Writer, Orderingcode FROM buy1";
+                using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
+                {
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    dataGridView1.DataSource = dataTable;
+                }
+                connection.Close();
+            }
+        }
+        private void LoadDataToDataGridView2(string selectedCode)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT nb, Itemnumber, Itemname, Weight, Unitprice, Orderamount, Surtax FROM buy1 WHERE Code = @Code";
+                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Code", selectedCode);
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        dataGridView2.DataSource = dataTable;
+                    }
+                }
                 connection.Close();
             }
         }

@@ -1,7 +1,7 @@
 ﻿
 namespace dip_mes
 {
-    partial class base_screen
+    partial class main_screen
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
