@@ -1,4 +1,4 @@
-﻿namespace dip_mes
+﻿namespace dip_mes.login
 {
     partial class login_screen
     {
@@ -71,6 +71,7 @@
             this.PW.Name = "PW";
             this.PW.Size = new System.Drawing.Size(236, 32);
             this.PW.TabIndex = 4;
+            this.PW.UseSystemPasswordChar = true;
             // 
             // label2
             // 
@@ -92,7 +93,7 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "로그인 ";
             // 
-            // Form2
+            // login_screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -103,7 +104,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ID);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
+            this.Name = "login_screen";
             this.Text = "Form2";
             this.ResumeLayout(false);
             this.PerformLayout();

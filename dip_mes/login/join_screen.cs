@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-namespace dip_mes
+namespace dip_mes.login
 {
     public partial class join_screen : Form
     {
+
         /* string _server = "EDU"; //DB 서버 주소, 로컬일 경우 localhost
         int _port = 3306; //DB 서버 포트
         string _database = "mes_2"; //DB 이름
@@ -26,7 +27,7 @@ namespace dip_mes
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -41,31 +42,52 @@ namespace dip_mes
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // 입력값이 비어 있는지 확인
+            if (string.IsNullOrWhiteSpace(txtbox_name.Text) ||
+                string.IsNullOrWhiteSpace(txtbox_id.Text) ||
+                string.IsNullOrWhiteSpace(txtbox_pwd.Text) ||
+                string.IsNullOrWhiteSpace(number.Text) ||
+                string.IsNullOrWhiteSpace(email.Text) ||
+                string.IsNullOrWhiteSpace(department.Text))
+            {
+                MessageBox.Show("모든 필드를 입력하세요.");
+                return; // 등록 중단
+            }
+
             try
             {
-                MySqlConnection connection = new MySqlConnection("Server = 222.108.180.36; Database=mes_2; Uid=EDU_STUDENT;Pwd=1234;");
-                connection.Open();
+                using (MySqlConnection connection = new MySqlConnection("Server = 222.108.180.36; Database=mes_2; Uid=EDU_STUDENT;Pwd=1234;"))
+                {
+                    connection.Open();
 
-                string insertQuery = "INSERT INTO test (name, id, pwd) VALUES ('" + txtbox_name.Text + "', '" + txtbox_id.Text + "', '" + txtbox_pwd.Text + "');";
-                MySqlCommand command = new MySqlCommand(insertQuery, connection);
-                if (command.ExecuteNonQuery() == 1)
-                {
-                    MessageBox.Show(txtbox_name.Text + "님 회원가입 완료, 사용할 아이디는" + txtbox_id + "입니다");
-                    connection.Close();
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("비정상 입력 정보, 재확인 요망");
+                    string insertQuery = "INSERT INTO test (name, id, pwd, number, email, department) VALUES (@name, @id, @pwd, @number, @email, @department)";
+                    MySqlCommand command = new MySqlCommand(insertQuery, connection);
+
+                    // 매개변수 추가
+                    command.Parameters.AddWithValue("@name", txtbox_name.Text);
+                    command.Parameters.AddWithValue("@id", txtbox_id.Text);
+                    command.Parameters.AddWithValue("@pwd", txtbox_pwd.Text);
+                    command.Parameters.AddWithValue("@number", number.Text);
+                    command.Parameters.AddWithValue("@email", email.Text);
+                    command.Parameters.AddWithValue("@department", department.Text);
+
+                    if (command.ExecuteNonQuery() == 1)
+                    {
+                        MessageBox.Show(txtbox_name.Text + "님 회원가입 완료, 사용할 아이디는" + txtbox_id.Text + "입니다");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("비정상 입력 정보, 재확인 요망");
+                    }
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
-            
-
-            
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
+}
 
 
