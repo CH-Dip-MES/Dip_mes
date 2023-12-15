@@ -104,6 +104,12 @@
     <Compile Include="buy\buy01.Designer.cs">
       <DependentUpon>buy01.cs</DependentUpon>
     </Compile>
+    <Compile Include="buy\buy02.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="buy\buy02.Designer.cs">
+      <DependentUpon>buy02.cs</DependentUpon>
+    </Compile>
     <Compile Include="main_screen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="buy\buy02.resx">
+      <DependentUpon>buy02.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="main_screen.resx">
       <DependentUpon>main_screen.cs</DependentUpon>
