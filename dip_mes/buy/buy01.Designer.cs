@@ -54,6 +54,10 @@ namespace dip_mes.buy
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.mySqlDataAdapter1 = new MySql.Data.MySqlClient.MySqlDataAdapter();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -228,46 +232,51 @@ namespace dip_mes.buy
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(0, 211);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1673, 222);
             this.dataGridView1.TabIndex = 19;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // textBox5
             // 
             this.textBox5.Font = new System.Drawing.Font("굴림", 20F);
-            this.textBox5.Location = new System.Drawing.Point(537, 467);
+            this.textBox5.Location = new System.Drawing.Point(992, 471);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(280, 38);
             this.textBox5.TabIndex = 23;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // textBox6
             // 
             this.textBox6.Font = new System.Drawing.Font("굴림", 20F);
-            this.textBox6.Location = new System.Drawing.Point(125, 467);
+            this.textBox6.Location = new System.Drawing.Point(580, 471);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(280, 38);
             this.textBox6.TabIndex = 22;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("굴림", 20F);
-            this.label8.Location = new System.Drawing.Point(1, 470);
+            this.label8.Location = new System.Drawing.Point(456, 474);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(120, 27);
             this.label8.TabIndex = 21;
-            this.label8.Text = "발주번호";
+            this.label8.Text = "발주금액";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("굴림", 20F);
-            this.label9.Location = new System.Drawing.Point(411, 470);
+            this.label9.Location = new System.Drawing.Point(883, 474);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(120, 27);
+            this.label9.Size = new System.Drawing.Size(93, 27);
             this.label9.TabIndex = 20;
-            this.label9.Text = "업체코드";
+            this.label9.Text = "부가세";
             // 
             // dataGridView2
             // 
@@ -278,6 +287,8 @@ namespace dip_mes.buy
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.Size = new System.Drawing.Size(1673, 298);
             this.dataGridView2.TabIndex = 24;
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
+            this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
             // 
             // button4
             // 
@@ -288,6 +299,7 @@ namespace dip_mes.buy
             this.button4.TabIndex = 25;
             this.button4.Text = "등록";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
             // 
@@ -296,13 +308,53 @@ namespace dip_mes.buy
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(107, 35);
             this.button5.TabIndex = 26;
-            this.button5.Text = "행추가";
+            this.button5.Text = "삭제";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // mySqlDataAdapter1
+            // 
+            this.mySqlDataAdapter1.DeleteCommand = null;
+            this.mySqlDataAdapter1.InsertCommand = null;
+            this.mySqlDataAdapter1.SelectCommand = null;
+            this.mySqlDataAdapter1.UpdateCommand = null;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Font = new System.Drawing.Font("굴림", 20F);
+            this.textBox7.Location = new System.Drawing.Point(153, 471);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(282, 38);
+            this.textBox7.TabIndex = 28;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("굴림", 20F);
+            this.label10.Location = new System.Drawing.Point(3, 474);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(120, 27);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "발주번호";
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("굴림", 20F);
+            this.button6.Location = new System.Drawing.Point(1566, 149);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(107, 35);
+            this.button6.TabIndex = 30;
+            this.button6.Text = "삭제";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // buy01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.dataGridView2);
@@ -365,5 +417,9 @@ namespace dip_mes.buy
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private MySql.Data.MySqlClient.MySqlDataAdapter mySqlDataAdapter1;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button6;
     }
 }
