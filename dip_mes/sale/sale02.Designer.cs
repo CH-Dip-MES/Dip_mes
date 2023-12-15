@@ -48,6 +48,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -156,7 +157,6 @@
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.Size = new System.Drawing.Size(1643, 183);
             this.dataGridView2.TabIndex = 52;
-            this.dataGridView2.Visible = false;
             // 
             // dataGridView1
             // 
@@ -263,6 +263,17 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "판매관리";
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(1385, 100);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(134, 35);
+            this.button1.TabIndex = 57;
+            this.button1.Text = "저장";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.CheckButton1_Click);
+            // 
             // sale02
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -271,6 +282,7 @@
             this.Controls.Add(this.button4);
             this.Controls.Add(this.RegButton2);
             this.Controls.Add(this.RegButton1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.CheckButton1);
             this.Controls.Add(this.saledate);
             this.Controls.Add(this.findNo);
@@ -318,5 +330,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }

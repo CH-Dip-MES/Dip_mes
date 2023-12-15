@@ -55,7 +55,7 @@ namespace dip_mes
         private void button3_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
-            panel.Controls.Add(saleSc1);
+            panel.Controls.Add(saleSc2);
         }
 
         private void button5_Click(object sender, EventArgs e)
