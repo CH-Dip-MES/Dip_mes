@@ -127,14 +127,14 @@ namespace dip_mes.buy
                 if (string.IsNullOrEmpty(textBox3.Text))
                 {
                     // TextBox3에 값이 없으면 DeliveryDate만 일치한 행들 조회
-                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
+                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                 }
                 else
                 {
                     // TextBox3에 값이 있으면 code와 DeliveryDate가 일치한 행들 조회
-                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
+                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                     command.Parameters.AddWithValue("@Code", textBox3.Text);
