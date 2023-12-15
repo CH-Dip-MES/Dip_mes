@@ -16,26 +16,26 @@ namespace dip_mes.product
     {
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         private DataGridViewComboBoxColumn statusComboColumn;
+        private add_order _addOrderForm;
 
         public product02()
         {
             InitializeComponent();
             LoadDataToDataGridView1();
             textBox1.KeyDown += textBox1_KeyDown;
+            // add_order 이벤트 핸들러 등록
+            _addOrderForm = new add_order(this);
+            _addOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
         }
-        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
-        {
-            // DataGridView 업데이트 수행
-            LoadDataToDataGridView1();
-        }
-        private void LoadDataToDataGridView1()
+
+        public void LoadDataToDataGridView1()
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
-                    string query = "SELECT No, Product, Process, Planned, Actual, Estimated, Status FROM product";
+                    string query = "SELECT No, Product, Process, Planned, Duration, Estimated, Status FROM product";
 
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
                     {
@@ -68,20 +68,49 @@ namespace dip_mes.product
                         dataGridView1.Columns.Add(statusComboColumn);
 
                         // DataGridView에 데이터 바인딩
+                        dataGridView1.DataSource = null;
                         dataGridView1.DataSource = dataTable;
 
                         // "Status" 열의 DisplayIndex를 설정하여 원하는 위치로 이동
                         dataGridView1.Columns["Status"].DisplayIndex = 6; // "Status" 열이 6번째에 표시되도록 설정
-                        // DataGridView1_CellValueChanged 이벤트 핸들러 등록
+
                         dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
                         // 데이터 바인딩 후 작업 완료 상태인 행을 제거
                         RemoveCompletedRows();
+
+                        // Duration 컬럼의 데이터를 포맷팅하여 표시
+                        FormatDurationColumn();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error: " + ex.Message);
                 }
+            }
+        }
+
+        private void AddOrderForm_DataUpdated(object sender, EventArgs e)
+        {
+            // 데이터그리드 최신화
+            LoadDataToDataGridView1();
+        }
+
+        // add_order 이벤트 핸들러
+        private void AddOrderForm_Button2Clicked(object sender, EventArgs e)
+        {
+            // add_order 폼에서 버튼2가 클릭되었을 때 실행되는 로직
+            // 여기에서 그리드를 최신화하는 메서드 호출
+            LoadDataToDataGridView1();
+        }
+        // product02의 그리드를 최신화하는 메서드
+        
+
+        private void FormatDurationColumn()
+        {
+            // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
+            if (dataGridView1.Columns.Contains("Duration") && dataGridView1.Columns["Duration"] is DataGridViewTextBoxColumn durationColumn)
+            {
+                durationColumn.DefaultCellStyle.Format = "M월 d일 H:mm";
             }
         }
         private void RemoveCompletedRows()
@@ -227,7 +256,7 @@ namespace dip_mes.product
         {
             /*add_order Form = new add_order();
             Form.Show();*/
-            add_order myForm = new add_order();
+            add_order myForm = new add_order(this);
             myForm.TopLevel = false; // 폼이 최상위 수준이 아닌 자식으로 설정
             myForm.FormBorderStyle = FormBorderStyle.None; // 테두리 제거
             panel1.Controls.Add(myForm); // 패널에 폼 추가
