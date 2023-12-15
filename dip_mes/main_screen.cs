@@ -18,6 +18,7 @@ namespace dip_mes
         sale.sale02 saleSc2 = new sale.sale02();
         product.product02 productSc2 = new product.product02();
         register.signup signSc1 = new register.signup();
+        product.product01 productSc1 = new product.product01();
         public main_screen()
         {
             InitializeComponent();
@@ -79,6 +80,12 @@ namespace dip_mes
         {
             panel.Controls.Clear();
             panel.Controls.Add(buySc2);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            panel.Controls.Clear();
+            panel.Controls.Add(productSc1);
         }
     }
 }

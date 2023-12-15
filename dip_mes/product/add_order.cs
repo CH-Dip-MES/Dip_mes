@@ -106,7 +106,9 @@ namespace dip_mes.product
                     string textBox4Value = textBox4.Text.Trim();
 
                     // 데이터베이스에 데이터 추가하는 SQL 쿼리
-                    string query = "INSERT INTO product (No, Product, Process, Planned, Estimated) " + "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4)";
+                    string query = "INSERT INTO product (No, Product, Process, Planned, Estimated, Status) " +
+                            "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4, '작업대기')"; // '작업대기'로 추가
+
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
