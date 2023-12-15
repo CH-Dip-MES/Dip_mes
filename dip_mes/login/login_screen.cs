@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace dip_mes
+namespace dip_mes.login
 {
     public partial class login_screen : Form
     {

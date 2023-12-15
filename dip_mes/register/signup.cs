@@ -77,6 +77,7 @@ namespace dip_mes.register
             }
         }
 
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             using (MySqlConnection sConn = new MySqlConnection(ConnectionString))

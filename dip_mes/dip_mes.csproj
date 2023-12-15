@@ -104,6 +104,12 @@
     <Compile Include="buy\buy01.Designer.cs">
       <DependentUpon>buy01.cs</DependentUpon>
     </Compile>
+    <Compile Include="buy\buy02.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="buy\buy02.Designer.cs">
+      <DependentUpon>buy02.cs</DependentUpon>
+    </Compile>
     <Compile Include="main_screen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,12 +134,6 @@
     <Compile Include="login\login_screen.designer.cs">
       <DependentUpon>login_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="product\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="product\Form1.designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="product\add_order.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +145,12 @@
     </Compile>
     <Compile Include="product\product02.designer.cs">
       <DependentUpon>product02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="product\product01.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="product\product01.Designer.cs">
+      <DependentUpon>product01.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,8 +166,17 @@
     <Compile Include="sale\sale01.designer.cs">
       <DependentUpon>sale01.cs</DependentUpon>
     </Compile>
+    <Compile Include="sale\sale02.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="sale\sale02.Designer.cs">
+      <DependentUpon>sale02.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="buy\buy02.resx">
+      <DependentUpon>buy02.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="main_screen.resx">
       <DependentUpon>main_screen.cs</DependentUpon>
@@ -175,14 +190,14 @@
     <EmbeddedResource Include="login\login_screen.resx">
       <DependentUpon>login_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="product\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="product\add_order.resx">
       <DependentUpon>add_order.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="product\product02.resx">
       <DependentUpon>product02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="product\product01.resx">
+      <DependentUpon>product01.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -198,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="sale\sale02.resx">
+      <DependentUpon>sale02.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
