@@ -13,6 +13,7 @@ namespace dip_mes
     public partial class main_screen : Form
     {
         buy.buy01 buySc1 = new buy.buy01();
+        buy.buy02 buySc2 = new buy.buy02();
         sale.sale01 saleSc1 = new sale.sale01();
         sale.sale02 saleSc2 = new sale.sale02();
         product.product02 productSc2 = new product.product02();
@@ -62,6 +63,17 @@ namespace dip_mes
         {
             panel.Controls.Clear();
             panel.Controls.Add(productSc2);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            panel.Controls.Clear();
+            panel.Controls.Add(buySc2);
         }
     }
 }
