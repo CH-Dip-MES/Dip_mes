@@ -232,6 +232,7 @@ namespace dip_mes.buy
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(0, 211);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1673, 222);
@@ -246,6 +247,7 @@ namespace dip_mes.buy
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(280, 38);
             this.textBox5.TabIndex = 23;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // textBox6
             // 
@@ -254,6 +256,7 @@ namespace dip_mes.buy
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(280, 38);
             this.textBox6.TabIndex = 22;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // label8
             // 
@@ -337,11 +340,11 @@ namespace dip_mes.buy
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("굴림", 20F);
-            this.button6.Location = new System.Drawing.Point(1544, 149);
+            this.button6.Location = new System.Drawing.Point(1566, 149);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(129, 35);
+            this.button6.Size = new System.Drawing.Size(107, 35);
             this.button6.TabIndex = 30;
-            this.button6.Text = "업데이트";
+            this.button6.Text = "삭제";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 

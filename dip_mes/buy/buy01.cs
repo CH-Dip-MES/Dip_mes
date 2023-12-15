@@ -121,6 +121,8 @@ namespace dip_mes.buy
             // DataGridView 클리어
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
+            UpdateBuy1NumberColumn(); // 발주코드의 갯수를 buy1의 number 열에 업데이트
+            UpdateBuy1TotalAmountColumn(); //발주코드와 일치한 발주금액과 부가세 합
 
             // 날짜 형식을 MySQL의 DATETIME 형식으로 변환
             string deliveryDate = dateTimePicker3.Value.ToString("yyyyMMdd");
@@ -137,14 +139,14 @@ namespace dip_mes.buy
                 if (string.IsNullOrEmpty(textBox3.Text))
                 {
                     // TextBox3에 값이 없으면 DeliveryDate만 일치한 행들 조회
-                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
+                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                 }
                 else
                 {
                     // TextBox3에 값이 있으면 code와 DeliveryDate가 일치한 행들 조회
-                    selectQuery = "SELECT nb AS 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
+                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                     command.Parameters.AddWithValue("@Code", textBox3.Text);
@@ -159,8 +161,10 @@ namespace dip_mes.buy
                     // DataGridView에 데이터 바인딩
                     dataGridView1.DataSource = dataTable;
                 }
-
+                
                 connection.Close();
+
+                
             }
         }
 
@@ -344,6 +348,8 @@ namespace dip_mes.buy
             MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
             // 등록 후 발주금액 합 다시 계산
             CalculateTotalOrderAmount();
+            
+            UpdateBuy1TotalAmounts();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -392,6 +398,8 @@ namespace dip_mes.buy
             }
             // 등록 후 발주금액 합 다시 계산
             CalculateTotalOrderAmount();
+
+            UpdateBuy1TotalAmounts();
         }
 
         private void CalculateTotalOrderAmount()
@@ -423,13 +431,117 @@ namespace dip_mes.buy
                     {
                         // 발주금액 합을 textBox6에 표시
                         decimal totalOrderAmount = Convert.ToDecimal(result);
-                        textBox6.Text = totalOrderAmount.ToString("#,##0");
+                        textBox6.Text = totalOrderAmount.ToString("#,##0"); 
+                        decimal TotalSurtax = Convert.ToDecimal(result);
+                        textBox5.Text = TotalSurtax.ToString("#,##0"); 
                     }
                     else
                     {
                         // 발주코드에 해당하는 데이터가 없을 경우 0으로 초기화
                         textBox6.Text = "0";
+                        textBox5.Text = "0";
                     }
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void UpdateBuy1TotalAmounts()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // 발주금액 업데이트
+                string updateOrderAmountQuery = @"
+            UPDATE buy1 b1
+            LEFT JOIN (
+                SELECT orderingcode, COALESCE(SUM(Orderamount), 0) AS TotalOrderamount
+                FROM buy2
+                GROUP BY orderingcode
+            ) b2 ON b1.Orderingcode = b2.orderingcode
+            SET b1.Orderamount = b2.TotalOrderamount;
+        ";
+
+                // 부가세 업데이트
+                string updateSurtaxQuery = @"
+            UPDATE buy1 b1
+            LEFT JOIN (
+                SELECT orderingcode, COALESCE(SUM(Surtax), 0) AS TotalSurtax
+                FROM buy2
+                GROUP BY orderingcode
+            ) b2 ON b1.Orderingcode = b2.orderingcode
+            SET b1.Surtax = b2.TotalSurtax;
+        ";
+
+                using (MySqlCommand command1 = new MySqlCommand(updateOrderAmountQuery, connection))
+                using (MySqlCommand command2 = new MySqlCommand(updateSurtaxQuery, connection))
+                {
+                    command1.ExecuteNonQuery();
+                    command2.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void UpdateBuy1NumberColumn()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // 발주코드의 갯수를 구해서 buy1의 number 열에 업데이트하는 쿼리
+                string updateNumberQuery = @"
+            UPDATE buy1 b1
+            LEFT JOIN (
+                SELECT orderingcode, COALESCE(COUNT(*), 0) AS OrderCount
+                FROM buy2
+                GROUP BY orderingcode
+            ) b2 ON b1.Orderingcode = b2.orderingcode
+            SET b1.number = b2.OrderCount;
+        ";
+
+                using (MySqlCommand command = new MySqlCommand(updateNumberQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpdateBuy1TotalAmountColumn()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Totalamount 업데이트
+                string updateTotalAmountQuery = @"
+            UPDATE buy1 b1
+            LEFT JOIN (
+                SELECT orderingcode, COALESCE(SUM(Orderamount), 0) + COALESCE(SUM(Surtax), 0) AS TotalAmount
+                FROM buy2
+                GROUP BY orderingcode
+            ) b2 ON b1.Orderingcode = b2.orderingcode
+            SET b1.Totalamount = b2.TotalAmount;
+        ";
+
+                using (MySqlCommand command = new MySqlCommand(updateTotalAmountQuery, connection))
+                {
+                    command.ExecuteNonQuery();
                 }
 
                 connection.Close();
@@ -438,54 +550,37 @@ namespace dip_mes.buy
 
         private void button6_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
+            if (dataGridView1.SelectedRows.Count > 0)
+            {    
+                // MySQL 연결 및 명령어 생성
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
+                    string selectedOrderingCode = textBox7.Text;
 
-                    // 발주금액 업데이트
-                    string updateOrderAmountQuery = @"
-                UPDATE buy1 b1
-                JOIN (
-                    SELECT orderingcode, SUM(Orderamount) AS TotalOrderamount
-                    FROM buy2
-                    GROUP BY orderingcode
-                ) b2 ON b1.Orderingcode = b2.orderingcode
-                SET b1.Orderamount = b2.TotalOrderamount;
-            ";
-
-                    using (MySqlCommand command = new MySqlCommand(updateOrderAmountQuery, connection))
+                    foreach (DataGridViewRow row in dataGridView1.SelectedRows)
                     {
-                        command.ExecuteNonQuery();
+                        // DataGridView2의 선택된 행에 대한 데이터를 DB에서 삭제
+                        string deleteQuery = "DELETE FROM buy1 WHERE Orderingcode = @Orderingcode";
+                        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        // DataGridView2에서 선택된 행 삭제
+                        dataGridView1.Rows.Remove(row);
                     }
 
-                    // 부가세 업데이트
-                    string updateSurtaxQuery = @"
-                UPDATE buy1 b1
-                JOIN (
-                    SELECT orderingcode, SUM(Surtax) AS TotalSurtax
-                    FROM buy2
-                    GROUP BY orderingcode
-                ) b2 ON b1.Orderingcode = b2.orderingcode
-                SET b1.Surtax = b2.TotalSurtax;
-            ";
-
-                    using (MySqlCommand command = new MySqlCommand(updateSurtaxQuery, connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-
-                    MessageBox.Show("데이터가 성공적으로 업데이트되었습니다.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"오류 발생: {ex.Message}");
-                }
-                finally
-                {
                     connection.Close();
                 }
+
+                MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("행을 선택하세요.");
             }
         }
     }
