@@ -69,6 +69,7 @@ namespace dip_mes
         {
             panel.Controls.Clear();
             panel.Controls.Add(signSc1);
+        }
         private void button7_Click(object sender, EventArgs e)
         {
 
