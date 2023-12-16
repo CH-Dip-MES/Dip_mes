@@ -21,5 +21,23 @@ namespace dip_mes.product
         {
 
         }
+        
+        public void DisplayDataInTextBox1(string data)
+        {
+            textBox1.Text = data;
+        }
+        public void DisplayDataInTextBox2(string data)
+        {
+            textBox2.Text = data;
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
