@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace dip_mes.base
+namespace dip_mes.standard
 {
     public partial class pcm : UserControl
-{
-    public pcm()
     {
-        InitializeComponent();
+        public pcm()
+        {
+            InitializeComponent();
+        }
     }
-}
 }

@@ -98,12 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="base\pcm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="base\pcm.Designer.cs">
-      <DependentUpon>pcm.cs</DependentUpon>
-    </Compile>
     <Compile Include="buy\buy01.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,9 +154,12 @@
     <Compile Include="sale\sale01.designer.cs">
       <DependentUpon>sale01.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="base\pcm.resx">
+    <Compile Include="standard\pcm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pcm.Designer.cs">
       <DependentUpon>pcm.cs</DependentUpon>
-    </EmbeddedResource>
+    </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
