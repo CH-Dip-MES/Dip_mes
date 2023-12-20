@@ -115,9 +115,10 @@ namespace dip_mes
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void JoinBtn_Click(object sender, EventArgs e)
         {
-
+            join_screen PopupJoinsc = new join_screen();
+            PopupJoinsc.ShowDialog();
         }
     }
 }
