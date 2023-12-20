@@ -16,7 +16,7 @@ namespace dip_mes
     {
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         private DataGridViewComboBoxColumn statusComboColumn;
-        private add_order _addOrderForm;
+        private add_order addOrderForm;
 
         public product02()
         {
@@ -24,8 +24,8 @@ namespace dip_mes
             LoadDataToDataGridView1();
             textBox1.KeyDown += textBox1_KeyDown;
             // add_order 이벤트 핸들러 등록
-            _addOrderForm = new add_order(this);
-            _addOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
+            addOrderForm = new add_order(this);
+            addOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
         }
 
         public void LoadDataToDataGridView1()

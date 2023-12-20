@@ -11,12 +11,12 @@ using MySql.Data.MySqlClient;
 
 namespace dip_mes
 {
-    public partial class signup : UserControl
+    public partial class manage : UserControl
     {
         private MySqlConnection connection;
         private string ConnectionString = "server=222.108.180.36; Uid=EDU_STUDENT; password=1234; database=mes_2;";
 
-        public signup()
+        public manage()
         {
             InitializeComponent();
             btnDelete.Click += btnDelete_Click;
@@ -113,6 +113,11 @@ namespace dip_mes
                     dataGridView1.Rows.Remove(rowsToRemove[i]);
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

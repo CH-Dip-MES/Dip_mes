@@ -13,12 +13,12 @@ namespace dip_mes
 {
     public partial class add_order : Form
     {
-        private product02 _productForm;
+        private product02 ProductForm;
         public add_order(product02 productForm)
         {
             InitializeComponent();
             textBox3.Leave += textBox3_Leave;
-            _productForm = productForm;
+            ProductForm = productForm;
         }
 
       
@@ -122,7 +122,7 @@ namespace dip_mes
                         cmd.ExecuteNonQuery();
 
                         // 데이터그리드 최신화
-                        _productForm.LoadDataToDataGridView1();
+                        ProductForm.LoadDataToDataGridView1();
 
                         this.Close();
 
