@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-
 namespace dip_mes.buy
 {
+
     public partial class buy02 : UserControl
     {
         private const string connectionString = "Server = 222.108.180.36; Database=mes_2; Uid=EDU_STUDENT;Pwd=1234;";
@@ -152,11 +152,16 @@ namespace dip_mes.buy
 
                 // buy4 테이블에서 데이터 조회
                 string selectQuery = @"
-    SELECT 
-        year,1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity, 3Deliveryquantity, 3Enterquantity, 4Deliveryquantity, 4Enterquantity, 5Deliveryquantity, 5Enterquantity, 6Deliveryquantity, 6Enterquantity, 7Deliveryquantity, 7Enterquantity, 8Deliveryquantity, 8Enterquantity, 9Deliveryquantity, 9Enterquantity, 10Deliveryquantity, 10Enterquantity, 11Deliveryquantity, 11Enterquantity, 12Deliveryquantity, 12Enterquantity
-    FROM buy4
-    WHERE year = @Year
-";
+            SELECT 
+                year, 1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
+                3Deliveryquantity, 3Enterquantity, 4Deliveryquantity, 4Enterquantity,
+                5Deliveryquantity, 5Enterquantity, 6Deliveryquantity, 6Enterquantity,
+                7Deliveryquantity, 7Enterquantity, 8Deliveryquantity, 8Enterquantity,
+                9Deliveryquantity, 9Enterquantity, 10Deliveryquantity, 10Enterquantity,
+                11Deliveryquantity, 11Enterquantity, 12Deliveryquantity, 12Enterquantity
+            FROM buy4
+            WHERE year = @Year
+        ";
 
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
@@ -167,20 +172,52 @@ namespace dip_mes.buy
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
 
-                        // DataGridView4에 데이터 바인딩
-                        dataGridView1.DataSource = dataTable;
+                        // DataGridView1 초기화
+                        dataGridView1.Columns.Clear();
+                        dataGridView1.Rows.Clear();
+
+                        // 1행 추가 (월 표시)
+                        dataGridView1.Columns.Add("년도", "년도");
+                        for (int month = 1; month <= 12; month++)
+                        {
+                            dataGridView1.Columns.Add(month + "월", month + "월");
+                            dataGridView1.Columns.Add(month + "월", month + "월");
+                        }
+
+                        // 2행 추가 (DB 칼럼명)
+                        object[] columnRowData = new object[37];
+                        columnRowData[0] = "year";
+                        for (int month = 1; month <= 12; month++)
+                        {
+                            columnRowData[month] = month + "Enterquantity";
+                            columnRowData[month + 12] = month + "Deliveryquantity";
+                        }
+                        dataGridView1.Rows.Add(columnRowData);
+
+                        // 3행 추가 (DB 데이터)
+                        if (dataTable.Rows.Count > 0)
+                        {
+                            object[] rowData = new object[37];
+                            rowData[0] = dataTable.Rows[0]["year"].ToString(); // "년도" 열에 년도 데이터 설정
+
+                            for (int month = 1; month <= 12; month++)
+                            {
+                                string enterColumnName = month + "Enterquantity";
+                                string deliveryColumnName = month + "Deliveryquantity";
+
+                                rowData[2 * month - 1] = dataTable.Rows[0][enterColumnName];
+                                rowData[2 * month] = dataTable.Rows[0][deliveryColumnName];
+                            }
+
+                            dataGridView1.Rows.Add(rowData);
+                        }
                     }
                 }
 
                 connection.Close();
             }
-
-            // DataGridView4에서 첫 번째 행을 선택하도록 설정
-            if (dataGridView1.Rows.Count > 0)
-            {
-                dataGridView1.Rows[0].Selected = true;
-            }
         }
+
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
@@ -188,18 +225,53 @@ namespace dip_mes.buy
             LoadDataToDataGridView1((int)numericUpDown1.Value);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void dataGridView1_Paint(object sender, PaintEventArgs e)
         {
-            // 선택된 년도 출력
-            MessageBox.Show($"선택된 년도: {numericUpDown1.Value}");
+            Rectangle r1 = dataGridView1.GetCellDisplayRectangle(1, -1, true);
+            int w2 = dataGridView1.GetCellDisplayRectangle(2, -1, true).Width;
+            r1.X += 1;
+            r1.Y += 1;
+            r1.Width = r1.Width + w2 - 2;
+            r1.Height = r1.Height / 2 - 2;
+            e.Graphics.FillRectangle(new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.BackColor), r1);
+
+            StringFormat format = new StringFormat();
+
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+            e.Graphics.DrawString("Merged Text", dataGridView1.ColumnHeadersDefaultCellStyle.Font,
+                new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor), r1, format);
+
+        }
+        private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            Rectangle rtHeader = dataGridView1.DisplayRectangle;
+            rtHeader.Height = dataGridView1.ColumnHeadersHeight / 2;
+            dataGridView1.Invalidate(rtHeader);
+        }
+        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        {
+            Rectangle rtHeader = dataGridView1.DisplayRectangle;
+            rtHeader.Height = dataGridView1.ColumnHeadersHeight / 2;
+            dataGridView1.Invalidate(rtHeader);
+
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+            if (e.RowIndex == -1 && e.ColumnIndex > -1)
+            {
+                Rectangle r2 = e.CellBounds;
+                r2.Y += e.CellBounds.Height / 2;
+                r2.Height = e.CellBounds.Height / 2;
+                e.PaintBackground(r2, true);
+                e.PaintContent(r2);
+                e.Handled = true;
+            }
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_ColumnHeadersHeightChanged(object sender, EventArgs e)
         {
 
         }
