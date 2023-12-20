@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.delRow = new System.Windows.Forms.Button();
+            this.addRow = new System.Windows.Forms.Button();
             this.RegButton2 = new System.Windows.Forms.Button();
             this.RegButton1 = new System.Windows.Forms.Button();
             this.CheckButton1 = new System.Windows.Forms.Button();
@@ -48,31 +48,34 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button5
+            // delRow
             // 
-            this.button5.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button5.Location = new System.Drawing.Point(1375, 618);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(134, 35);
-            this.button5.TabIndex = 61;
-            this.button5.Text = "행삭제";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
+            this.delRow.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.delRow.Location = new System.Drawing.Point(1375, 618);
+            this.delRow.Name = "delRow";
+            this.delRow.Size = new System.Drawing.Size(134, 35);
+            this.delRow.TabIndex = 61;
+            this.delRow.Text = "행삭제";
+            this.delRow.UseVisualStyleBackColor = true;
+            this.delRow.Visible = false;
+            this.delRow.Click += new System.EventHandler(this.delRow_Click);
             // 
-            // button4
+            // addRow
             // 
-            this.button4.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button4.Location = new System.Drawing.Point(1226, 619);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(134, 35);
-            this.button4.TabIndex = 60;
-            this.button4.Text = "행추가";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
+            this.addRow.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.addRow.Location = new System.Drawing.Point(1226, 619);
+            this.addRow.Name = "addRow";
+            this.addRow.Size = new System.Drawing.Size(134, 35);
+            this.addRow.TabIndex = 60;
+            this.addRow.Text = "행추가";
+            this.addRow.UseVisualStyleBackColor = true;
+            this.addRow.Visible = false;
+            this.addRow.Click += new System.EventHandler(this.addRow_Click);
             // 
             // RegButton2
             // 
@@ -84,6 +87,7 @@
             this.RegButton2.Text = "등록";
             this.RegButton2.UseVisualStyleBackColor = true;
             this.RegButton2.Visible = false;
+            this.RegButton2.Click += new System.EventHandler(this.RegButton2_Click);
             // 
             // RegButton1
             // 
@@ -149,6 +153,7 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Location = new System.Drawing.Point(15, 417);
@@ -168,6 +173,8 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1643, 204);
             this.dataGridView1.TabIndex = 51;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick);
             // 
             // label10
             // 
@@ -263,14 +270,26 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "판매관리";
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(1385, 100);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(134, 35);
+            this.button1.TabIndex = 57;
+            this.button1.Text = "저장";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.CheckButton1_Click);
+            // 
             // sale02
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.delRow);
+            this.Controls.Add(this.addRow);
             this.Controls.Add(this.RegButton2);
             this.Controls.Add(this.RegButton1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.CheckButton1);
             this.Controls.Add(this.saledate);
             this.Controls.Add(this.findNo);
@@ -298,8 +317,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button delRow;
+        private System.Windows.Forms.Button addRow;
         private System.Windows.Forms.Button RegButton2;
         private System.Windows.Forms.Button RegButton1;
         private System.Windows.Forms.Button CheckButton1;
@@ -318,5 +337,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
