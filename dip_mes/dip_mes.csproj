@@ -154,6 +154,12 @@
     <Compile Include="sale\sale01.designer.cs">
       <DependentUpon>sale01.cs</DependentUpon>
     </Compile>
+    <Compile Include="standard\pcm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pcm.Designer.cs">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
@@ -189,6 +195,9 @@
     </Compile>
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pcm.resx">
+      <DependentUpon>pcm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
