@@ -184,15 +184,6 @@ namespace dip_mes.buy
                             dataGridView1.Columns.Add(month + "월", month + "월");
                         }
 
-                        // 2행 추가 (DB 칼럼명)
-                        object[] columnRowData = new object[37];
-                        columnRowData[0] = "year";
-                        for (int month = 1; month <= 12; month++)
-                        {
-                            columnRowData[month] = month + "Enterquantity";
-                            columnRowData[month + 12] = month + "Deliveryquantity";
-                        }
-                        dataGridView1.Rows.Add(columnRowData);
 
                         // 3행 추가 (DB 데이터)
                         if (dataTable.Rows.Count > 0)
@@ -239,9 +230,8 @@ namespace dip_mes.buy
 
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;
-            e.Graphics.DrawString("Merged Text", dataGridView1.ColumnHeadersDefaultCellStyle.Font,
+            e.Graphics.DrawString("1월", dataGridView1.ColumnHeadersDefaultCellStyle.Font,
                 new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor), r1, format);
-
         }
         private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
