@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace dip_mes.product
+namespace dip_mes
 {
     public partial class product02 : UserControl
     {

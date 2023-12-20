@@ -1,4 +1,4 @@
-﻿namespace dip_mes.register
+﻿namespace dip_mes
 {
     partial class signup
     {

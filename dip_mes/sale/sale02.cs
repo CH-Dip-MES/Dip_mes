@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace dip_mes.sale
+namespace dip_mes
 {
     public partial class sale02 : UserControl
     {
