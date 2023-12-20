@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.txtLeadTime = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.txtInput = new System.Windows.Forms.TextBox();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.txtProcess = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,11 +68,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.btnDelete);
-            this.groupBox1.Controls.Add(this.txtLeadTime);
-            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.txtInput);
+            this.groupBox1.Controls.Add(this.btnRegister);
             this.groupBox1.Controls.Add(this.dataGridView2);
-            this.groupBox1.Controls.Add(this.txtProcess);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Location = new System.Drawing.Point(36, 489);
@@ -82,6 +82,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(60, 45);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(156, 20);
+            this.comboBox1.TabIndex = 40;
+            // 
             // btnDelete
             // 
             this.btnDelete.Location = new System.Drawing.Point(671, 45);
@@ -90,25 +98,23 @@
             this.btnDelete.TabIndex = 23;
             this.btnDelete.Text = "삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // txtLeadTime
+            // txtInput
             // 
-            this.txtLeadTime.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtLeadTime.Location = new System.Drawing.Point(303, 42);
-            this.txtLeadTime.Name = "txtLeadTime";
-            this.txtLeadTime.Size = new System.Drawing.Size(156, 26);
-            this.txtLeadTime.TabIndex = 22;
+            this.txtInput.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtInput.Location = new System.Drawing.Point(303, 42);
+            this.txtInput.Name = "txtInput";
+            this.txtInput.Size = new System.Drawing.Size(156, 26);
+            this.txtInput.TabIndex = 22;
             // 
-            // button4
+            // btnRegister
             // 
-            this.button4.Location = new System.Drawing.Point(584, 45);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(78, 27);
-            this.button4.TabIndex = 20;
-            this.button4.Text = "등록";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnRegister.Location = new System.Drawing.Point(584, 45);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(78, 27);
+            this.btnRegister.TabIndex = 20;
+            this.btnRegister.Text = "등록";
+            this.btnRegister.UseVisualStyleBackColor = true;
             // 
             // dataGridView2
             // 
@@ -121,14 +127,6 @@
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(730, 188);
             this.dataGridView2.TabIndex = 19;
-            // 
-            // txtProcess
-            // 
-            this.txtProcess.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtProcess.Location = new System.Drawing.Point(58, 42);
-            this.txtProcess.Name = "txtProcess";
-            this.txtProcess.Size = new System.Drawing.Size(156, 26);
-            this.txtProcess.TabIndex = 15;
             // 
             // label8
             // 
@@ -310,7 +308,6 @@
             this.button7.TabIndex = 23;
             this.button7.Text = "삭제";
             this.button7.UseVisualStyleBackColor = true;
-          
             // 
             // txtmany
             // 
@@ -328,7 +325,6 @@
             this.button9.TabIndex = 20;
             this.button9.Text = "등록";
             this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // dataGridView3
             // 
@@ -405,10 +401,9 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.TextBox txtLeadTime;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox txtInput;
+        private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.TextBox txtProcess;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label5;
@@ -434,5 +429,6 @@
         private System.Windows.Forms.TextBox txtgoods;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

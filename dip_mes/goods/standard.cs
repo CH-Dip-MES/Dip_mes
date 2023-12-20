@@ -1,91 +1,130 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+using System.Data;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace dip_mes.goods
 {
     public partial class standard : UserControl
     {
+        private MySqlConnection connection;
+        private string connectionString = "Server=222.108.180.36; Database=mes_2; User ID=EDU_STUDENT; Password=1234;";
+
         public standard()
         {
             InitializeComponent();
-
-            // UserControl 로드 시에 열 및 RowHeadersVisible 설정을 할 수 있도록 이벤트 핸들러 등록
-            this.Load += Standard_Load;
+            InitializeDatabaseConnection();
+            LoadDataIntoComboBox();
         }
 
-        private void Standard_Load(object sender, EventArgs e)
+        private void InitializeDatabaseConnection()
         {
-            // 데이터그리드뷰에 열 추가
-            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            checkBoxColumn.Name = "체크";
-            dataGridView2.Columns.Add(checkBoxColumn); // 체크박스 열을 추가
+            connection = new MySqlConnection(connectionString);
 
-            // DataGridView에 행 번호를 표시하는 방법
-            dataGridView2.RowPostPaint += DataGridView2_RowPostPaint;
-
-            dataGridView2.Columns.Add("ProcessColumn", "공정");
-            dataGridView2.Columns.Add("LeadTimeColumn", "리드타임");
-
-
-
-
-
-        }
-
-        private void DataGridView2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            // 각 행의 행 번호를 표시
-            using (SolidBrush b = new SolidBrush(dataGridView2.RowHeadersDefaultCellStyle.ForeColor))
+            try
             {
-                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+                connection.Open();
+                Console.WriteLine("MySQL Connection Opened");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void LoadDataIntoComboBox()
         {
-            // 텍스트박스에서 체크, 공정, 리드타임을 가져옴
-            bool isChecked = dataGridView2.Rows.Count > 0 &&
-                             dataGridView2.Rows[dataGridView2.Rows.Count - 1].Cells["체크"].Value != null &&
-                             (bool)dataGridView2.Rows[dataGridView2.Rows.Count - 1].Cells["체크"].Value;
-            string process = txtProcess.Text;
-            string leadTime = txtLeadTime.Text;
+            string query = "SELECT process_name FROM process";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
 
-            // 데이터그리드뷰에 행 추가
-            dataGridView2.Rows.Add(isChecked, process, leadTime);
+            try
+            {
+                MySqlDataReader dataReader = cmd.ExecuteReader();
 
-            // 텍스트박스 비우기
-            txtProcess.Clear();
-            txtLeadTime.Clear();
+                while (dataReader.Read())
+                {
+                    comboBox1.Items.Add(dataReader.GetString("process_name"));
+                }
+
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnRegister_Click(object sender, EventArgs e)
         {
-            // 체크된 행을 찾아서 삭제할 목록 생성
-            List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
+            string selectedValue = comboBox1.SelectedItem?.ToString();
+            string inputValue = txtInput.Text;
 
-            foreach (DataGridViewRow row in dataGridView2.Rows)
+            if (!string.IsNullOrEmpty(selectedValue) && !string.IsNullOrEmpty(inputValue))
             {
-                // 체크된 행인지 확인
-                bool isChecked = Convert.ToBoolean(row.Cells["체크"].Value);
-                if (isChecked)
+                string insertQuery = "INSERT INTO product_process (process_name, process_time) VALUES (@SelectedValue, @InputValue)";
+
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
                 {
-                    // 삭제할 행을 목록에 추가
-                    rowsToRemove.Add(row);
+                    cmd.Parameters.AddWithValue("@SelectedValue", selectedValue);
+                    cmd.Parameters.AddWithValue("@InputValue", inputValue);
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
+
+                        // 데이터 이동 부분 추가
+                        MoveDataBetweenTables();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                        MessageBox.Show("데이터 등록 중 오류가 발생했습니다.");
+                    }
                 }
             }
-
-            // 목록에 있는 행을 삭제
-            foreach (DataGridViewRow row in rowsToRemove)
+            else
             {
-                dataGridView2.Rows.Remove(row);
+                MessageBox.Show("콤보박스와 텍스트 박스에 값을 입력하세요.");
             }
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void MoveDataBetweenTables()
         {
+            try
+            {
+                // 읽어올 테이블
+                string sourceTableName = "sourceTable";
+                string selectQuery = $"SELECT * FROM {sourceTableName}";
+                MySqlCommand selectCmd = new MySqlCommand(selectQuery, connection);
 
+                MySqlDataReader dataReader = selectCmd.ExecuteReader();
+
+                // 삽입할 테이블
+                string destinationTableName = "destinationTable";
+                string insertQuery = $"INSERT INTO {destinationTableName} (column1, column2, column3) VALUES (@Value1, @Value2, @Value3)";
+
+                while (dataReader.Read())
+                {
+                    using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
+                    {
+                        // 예시: 컬럼 이름 및 데이터 타입에 맞게 수정
+                        insertCmd.Parameters.AddWithValue("@Value1", dataReader.GetString("sourceColumn1"));
+                        insertCmd.Parameters.AddWithValue("@Value2", dataReader.GetInt32("sourceColumn2"));
+                        insertCmd.Parameters.AddWithValue("@Value3", dataReader.GetDateTime("sourceColumn3"));
+
+                        insertCmd.ExecuteNonQuery();
+                    }
+                }
+
+                dataReader.Close();
+                MessageBox.Show("데이터 이동이 완료되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                MessageBox.Show("데이터 이동 중 오류가 발생했습니다.");
+            }
         }
     }
 }
