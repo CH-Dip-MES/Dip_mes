@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace dip_mes.product
 {
     public partial class product01 : UserControl
     {
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
-        private add_input addInputForm;
+        public event EventHandler RefreshData;
         public product01()
         {
             InitializeComponent();
@@ -39,9 +40,12 @@ namespace dip_mes.product
             DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
             // 필요한 데이터를 추출하는 예시 (실제로는 데이터 소스로부터 가져와야 함)
             string orderId = selectedRow.Cells["No"].Value.ToString();
-
             // add_input 폼에 데이터 전달
             add_input addInputForm = GetOrCreateAddInputForm(orderId);
+
+            // 이벤트 핸들러 등록
+            addInputForm.RefreshData += (s, args) => LoadDataToDataGridView();
+
             addInputForm.Tag = orderId;
 
             // 폼 설정
@@ -57,10 +61,57 @@ namespace dip_mes.product
 
             // DataGridView에서 선택된 행의 데이터를 add_input 폼의 TextBox에 표시
             addInputForm.DisplayDataInTextBox1(selectedRow.Cells["No"].Value.ToString());
-            // 두 번째 TextBox에 다른 데이터 표시 예시
-            addInputForm.DisplayDataInTextBox2(selectedRow.Cells["Product"].Value.ToString());
+            addInputForm.DisplayDataInTextBox2(selectedRow.Cells["제품명"].Value.ToString());
+
+            // 추가: 콤보박스 데이터 로드
+            addInputForm.LoadMaterialData(selectedRow.Cells["제품명"].Value.ToString());
+
+            // 추가: 텍스트박스3에 데이터 표시
+            LoadDataForTextBox3(addInputForm, selectedRow);
+
         }
 
+        private void LoadDataForTextBox3(add_input addInputForm, DataGridViewRow selectedRow)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // 텍스트박스1, 텍스트박스2에 해당하는 행을 조회하는 SQL 쿼리
+                    string query = "SELECT Planned, Standard FROM manufacture WHERE No = @No AND Product = @Product";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        // 매개변수 설정
+                        cmd.Parameters.AddWithValue("@No", selectedRow.Cells["No"].Value.ToString());
+                        cmd.Parameters.AddWithValue("@Product", selectedRow.Cells["제품명"].Value.ToString());
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Planned 및 Standard 컬럼 값 가져오기
+                                int plannedValue = reader["Planned"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Planned"]);
+                                double standardValue = reader["Standard"] == DBNull.Value ? 0 : Convert.ToDouble(reader["Standard"]);
+
+                                // 텍스트박스3에 표시할 값 계산
+                                double result = plannedValue * standardValue;
+
+                                // 텍스트박스3에 결과 표시
+                                addInputForm.DisplayDataInTextBox3(result.ToString());
+                            }
+                            reader.Close();
+                        } // using 블록을 벗어나면서 자동으로 reader.Close() 호출
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error in LoadDataForTextBox3: " + ex.Message);
+            }
+        }
         private add_input GetOrCreateAddInputForm(string orderId)
         {
             var existingForm = panel1.Controls.OfType<add_input>().FirstOrDefault();
@@ -87,7 +138,7 @@ namespace dip_mes.product
                     connection.Open();
 
                     // MySQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No, Product, Material, Planned, Input, Residue, Duration FROM product WHERE Status = '작업대기'";
+                    string query = "SELECT No, Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE Status = '작업대기'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -104,6 +155,7 @@ namespace dip_mes.product
                         dataGridView1.DataSource = null;
                         dataGridView1.DataSource = dataTable;
 
+                        
                         // Duration 컬럼의 데이터를 포맷팅하여 표시
                         FormatDurationColumn();
 
@@ -135,7 +187,7 @@ namespace dip_mes.product
                     string inputValue = textBox1.Text.Trim();
 
                     // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = "SELECT No, Product, Material, Planned, Input, Residue, Duration FROM product WHERE No LIKE @inputValue";
+                    string query = "SELECT No, Product, Material, Planned, Input, Residue, Duration FROM manufacture WHERE No LIKE @inputValue";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
