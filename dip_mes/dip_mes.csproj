@@ -160,6 +160,12 @@
     <Compile Include="standard\pcm.Designer.cs">
       <DependentUpon>pcm.cs</DependentUpon>
     </Compile>
+    <Compile Include="standard\pmm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pmm.Designer.cs">
+      <DependentUpon>pmm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="standard\pcm.resx">
       <DependentUpon>pcm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pmm.resx">
+      <DependentUpon>pmm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
