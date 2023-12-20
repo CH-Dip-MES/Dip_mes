@@ -32,8 +32,11 @@ namespace dip_mes.sale
                     msc.Parameters.AddWithValue("@saledate", saledate.Value);
                     msc.Parameters.AddWithValue("@salecode", salecode.Text);
                     msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
-
                     msc.ExecuteNonQuery();
+
+                    MySqlCommand msc3 = new MySqlCommand("insert into sale3(salecode) values(@salecode)", iConn);
+                    msc3.Parameters.AddWithValue("@salecode", salecode.Text);
+                    msc3.ExecuteNonQuery();
                 }
             }
             else
@@ -48,7 +51,7 @@ namespace dip_mes.sale
             {
                 sConn.Open();
                 string fSellNo = findNo.Text.Trim(); // 검색창 텍스트
-                string sInfo = "select saledate,salecode,buyername,procstat,delidate from sale2";
+                string sInfo = "select saledate,salecode,buyername,procstat,delistat,delidate from sale2";
 
                 if (!string.IsNullOrEmpty(fSellNo)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
                 {
@@ -184,6 +187,8 @@ namespace dip_mes.sale
                 }
             }
         }
+
+        private string selectedSaleCode;
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             dataGridView2.Visible = true;
@@ -197,7 +202,7 @@ namespace dip_mes.sale
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
-                string selectedSaleCode = selectedRow.Cells["salecode"].Value.ToString();
+                selectedSaleCode = selectedRow.Cells["salecode"].Value.ToString();
 
                 // DataGridView2에 해당 판매번호에 대한 세부 정보를 표시하는 함수 호출
                 LoadSaleDetails(selectedSaleCode);
@@ -209,7 +214,7 @@ namespace dip_mes.sale
             using (MySqlConnection sConn = new MySqlConnection(jConn))
             {
                 sConn.Open();
-                string sDetail = "select salecode,planQ,itemprice,sellprice,vat from sale2 WHERE salecode = @salecode";
+                string sDetail = "select salecode,planQ,itemprice,sellprice,vat from sale3 WHERE salecode = @salecode";
                 MySqlCommand cmd = new MySqlCommand(sDetail, sConn);
                 cmd.Parameters.AddWithValue("@salecode", salecode);
                 try
@@ -262,6 +267,9 @@ namespace dip_mes.sale
             {
                 // 새로운 행을 생성합니다.
                 DataRow newRow = dt.NewRow();
+
+                // 현재 활성화된 salecode를 새 행의 salecode에 할당합니다.
+                newRow["salecode"] = selectedSaleCode;
 
                 // 새로운 행을 DataTable에 추가합니다.
                 dt.Rows.Add(newRow);
@@ -320,11 +328,11 @@ namespace dip_mes.sale
                         string query;
                         if (i == 0) // 첫 번째 행
                         {
-                            query = "UPDATE sale2 SET ItemNo = @ItemNo, ItemName = @ItemName, planQ = @planQ, itemprice = @itemprice, sellprice = @sellprice, vat = @vat WHERE salecode = @salecode";
+                            query = "UPDATE sale3 SET ItemNo = @ItemNo, ItemName = @ItemName, planQ = @planQ, itemprice = @itemprice, sellprice = @sellprice, vat = @vat WHERE salecode = @salecode";
                         }
                         else // 추가된 행
                         {
-                            query = "INSERT INTO sale2 (salecode, ItemNo, ItemName, planQ, itemprice, sellprice, vat) VALUES (@salecode, @ItemNo, @ItemName, @planQ, @itemprice, @sellprice, @vat)";
+                            query = "INSERT INTO sale3 (salecode, ItemNo, ItemName, planQ, itemprice, sellprice, vat) VALUES (@salecode, @ItemNo, @ItemName, @planQ, @itemprice, @sellprice, @vat)";
                         }
 
                         using (MySqlCommand cmd = new MySqlCommand(query, iConn))
@@ -343,6 +351,5 @@ namespace dip_mes.sale
                 }
             }
         }
-
     }
 }
