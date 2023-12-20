@@ -16,9 +16,35 @@ namespace dip_mes.sale
     {
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
+        private void LoadComboBoxItems()
+        {
+            using (MySqlConnection conn = new MySqlConnection(jConn))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT product_code,product_name FROM product";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ItemNo.Items.Add(reader["product_code"].ToString());
+                            ItemName.Items.Add(reader["product_name"].ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"데이터 로드 중 오류 발생: {ex.Message}");
+                }
+            }
+        }
         public sale01()
         {
             InitializeComponent();
+            LoadComboBoxItems();
         }
 
         private void button2_Click(object sender, EventArgs e) //Req5-2

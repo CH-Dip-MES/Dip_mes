@@ -87,10 +87,6 @@
             this.ItemName.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ItemName.FormattingEnabled = true;
             this.ItemName.ItemHeight = 24;
-            this.ItemName.Items.AddRange(new object[] {
-            "리튬배터리",
-            "2차전지",
-            "전기차배터리"});
             this.ItemName.Location = new System.Drawing.Point(1215, 462);
             this.ItemName.Name = "ItemName";
             this.ItemName.Size = new System.Drawing.Size(227, 32);
@@ -101,10 +97,6 @@
             this.ItemNo.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ItemNo.FormattingEnabled = true;
             this.ItemNo.ItemHeight = 24;
-            this.ItemNo.Items.AddRange(new object[] {
-            "SB-123",
-            "SB-223",
-            "SB=323"});
             this.ItemNo.Location = new System.Drawing.Point(620, 462);
             this.ItemNo.Name = "ItemNo";
             this.ItemNo.Size = new System.Drawing.Size(227, 32);
@@ -253,7 +245,7 @@
             this.Search.Size = new System.Drawing.Size(121, 35);
             this.Search.TabIndex = 22;
             // 
-            // bm01
+            // sale01
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -276,7 +268,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "bm01";
+            this.Name = "sale01";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
