@@ -218,52 +218,74 @@ namespace dip_mes.buy
 
         private void dataGridView1_Paint(object sender, PaintEventArgs e)
         {
-            Rectangle r1 = dataGridView1.GetCellDisplayRectangle(1, -1, true);
-            int w2 = dataGridView1.GetCellDisplayRectangle(2, -1, true).Width;
-            r1.X += 1;
-            r1.Y += 1;
-            r1.Width = r1.Width + w2 - 2;
-            r1.Height = r1.Height / 2 - 2;
-            e.Graphics.FillRectangle(new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.BackColor), r1);
-
+            DataGridView gv = (DataGridView)sender;
+            string[] strHeaders = { "헤더1", "헤더2" };
             StringFormat format = new StringFormat();
-
             format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;
-            e.Graphics.DrawString("1월", dataGridView1.ColumnHeadersDefaultCellStyle.Font,
-                new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor), r1, format);
+            format.LineAlignment = StringAlignment.Center;            
+            // Category Painting           
+            {
+                if (gv.Rows.Count > 0)
+                {
+                    Rectangle r1 = gv.GetCellDisplayRectangle(1, -1, false);
+                    //Console.WriteLine(r1);
+                    int width1 = gv.GetCellDisplayRectangle(2, -1, false).Width;
+                    r1.X += 1;
+                    r1.Y += 1;
+                    r1.Width = r1.Width + width1 - 2;
+                    r1.Height = (r1.Height / 2) - 2;
+                    e.Graphics.DrawRectangle(new Pen(gv.BackgroundColor), r1);
+                    e.Graphics.FillRectangle(new SolidBrush(gv.ColumnHeadersDefaultCellStyle.BackColor), r1);
+                    e.Graphics.DrawString(strHeaders[0], gv.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(gv.ColumnHeadersDefaultCellStyle.ForeColor), r1, format);
+                }
+            }
+            // Projection Painting
+            {
+                if (gv.Rows.Count > 0)
+                {
+                    Rectangle r2 = gv.GetCellDisplayRectangle(3, -1, false);
+                    int width = gv.GetCellDisplayRectangle(4, -1, false).Width;
+                    r2.X += 1;
+                    r2.Y += 1;
+                    r2.Width = r2.Width + width - 2;
+                    r2.Height = (r2.Height / 2) - 2;
+                    e.Graphics.DrawRectangle(new Pen(gv.BackgroundColor), r2);
+                    e.Graphics.FillRectangle(new SolidBrush(gv.ColumnHeadersDefaultCellStyle.BackColor), r2);
+                    e.Graphics.DrawString(strHeaders[1], gv.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(gv.ColumnHeadersDefaultCellStyle.ForeColor), r2, format);
+                }
+            }
         }
+
         private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
-            Rectangle rtHeader = dataGridView1.DisplayRectangle;
-            rtHeader.Height = dataGridView1.ColumnHeadersHeight / 2;
-            dataGridView1.Invalidate(rtHeader);
+            DataGridView gv = (DataGridView)sender;
+            Rectangle rtHeader = gv.DisplayRectangle;
+            rtHeader.Height = gv.ColumnHeadersHeight / 2;
+            gv.Invalidate(rtHeader);
         }
+
         private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
         {
-            Rectangle rtHeader = dataGridView1.DisplayRectangle;
-            rtHeader.Height = dataGridView1.ColumnHeadersHeight / 2;
-            dataGridView1.Invalidate(rtHeader);
-
+            DataGridView gv = (DataGridView)sender;
+            Rectangle rtHeader = gv.DisplayRectangle;
+            rtHeader.Height = gv.ColumnHeadersHeight / 2;
+            gv.Invalidate(rtHeader);
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex == -1 && e.ColumnIndex > -1)
+            //Console.WriteLine("----------------");
+            //Console.WriteLine(e.RowIndex);
+            //Console.WriteLine(e.ColumnIndex);
+            //Console.WriteLine("----------------");
+            if (e.RowIndex == -1 && e.ColumnIndex > -1) 
             {
-                Rectangle r2 = e.CellBounds;
-                r2.Y += e.CellBounds.Height / 2;
-                r2.Height = e.CellBounds.Height / 2;
-                e.PaintBackground(r2, true);
-                e.PaintContent(r2);
+                Rectangle r = e.CellBounds;
+                r.Y += e.CellBounds.Height / 2;
+                r.Height = e.CellBounds.Height / 2;
+                e.PaintBackground(r, true); e.PaintContent(r);
                 e.Handled = true;
             }
-
-        }
-
-        private void dataGridView1_ColumnHeadersHeightChanged(object sender, EventArgs e)
-        {
-
         }
     }
-    }
+}
