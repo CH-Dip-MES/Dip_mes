@@ -196,6 +196,9 @@
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="standard\pcm.resx">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
