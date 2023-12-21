@@ -1,9 +1,8 @@
-﻿using System;
-using System.Data;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
-namespace dip_mes.goods
+namespace dip_mes
 {
     public partial class standard : UserControl
     {
@@ -14,116 +13,256 @@ namespace dip_mes.goods
         {
             InitializeComponent();
             InitializeDatabaseConnection();
-            LoadDataIntoComboBox();
+
+            // 폼이 로드될 때 DataGridView에 컬럼 추가
+            InitializeDataGridViewColumns();
         }
 
         private void InitializeDatabaseConnection()
         {
             connection = new MySqlConnection(connectionString);
-
             try
             {
                 connection.Open();
-                Console.WriteLine("MySQL Connection Opened");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                MessageBox.Show("Database connection error: " + ex.Message);
             }
         }
 
-        private void LoadDataIntoComboBox()
+        private void InitializeDataGridViewColumns()
         {
-            string query = "SELECT process_name FROM process";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
+            // 체크박스 컬럼 추가
+            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+            checkBoxColumn.Name = "checkBoxColumn";
+            checkBoxColumn.HeaderText = "체크";
+            dataGridView1.Columns.Add(checkBoxColumn);
 
-            try
-            {
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    comboBox1.Items.Add(dataReader.GetString("process_name"));
-                }
-
-                dataReader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
+            // DataGridView에 컬럼 추가
+            dataGridView1.Columns.Add("Field2Column", "품번");
+            dataGridView1.Columns.Add("Field3Column", "품명");
+            dataGridView1.Columns.Add("Field4Column", "제품구분");
+            dataGridView1.Columns.Add("Field5Column", "제품규격");
+            dataGridView1.Columns.Add("ins_dateColumn", "등록 시간");
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            string selectedValue = comboBox1.SelectedItem?.ToString();
-            string inputValue = txtInput.Text;
+            // 데이터 그리드뷰에 데이터 추가
+            DateTime ins_date = DateTime.Now;
 
-            if (!string.IsNullOrEmpty(selectedValue) && !string.IsNullOrEmpty(inputValue))
+            // 중복 품번 체크
+            string productCode = textBox2.Text;
+            if (IsProductCodeDuplicate(productCode))
             {
-                string insertQuery = "INSERT INTO product_process (process_name, process_time) VALUES (@SelectedValue, @InputValue)";
-
-                using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
-                {
-                    cmd.Parameters.AddWithValue("@SelectedValue", selectedValue);
-                    cmd.Parameters.AddWithValue("@InputValue", inputValue);
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
-
-                        // 데이터 이동 부분 추가
-                        MoveDataBetweenTables();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error: " + ex.Message);
-                        MessageBox.Show("데이터 등록 중 오류가 발생했습니다.");
-                    }
-                }
+                MessageBox.Show("중복된 품번입니다. 확인 부탁드립니다.");
+                return; // 중복이면 더 이상 진행하지 않음
             }
-            else
+
+            // 새로운 행 생성
+            DataGridViewRow newRow = new DataGridViewRow();
+
+            // 행에 데이터 추가
+            newRow.CreateCells(dataGridView1, false, productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+
+            // 행을 데이터그리드뷰의 첫 번째 위치에 삽입
+            dataGridView1.Rows.Insert(0, newRow);
+
+            // MySQL에 데이터 삽입
+            InsertDataIntoMySQL(productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+        }
+
+        private bool IsProductCodeDuplicate(string productCode)
+        {
+            // 품번이 중복되는지 데이터베이스에서 확인하는 로직을 구현
+            string query = "SELECT COUNT(*) FROM product WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                MessageBox.Show("콤보박스와 텍스트 박스에 값을 입력하세요.");
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
             }
         }
 
-        private void MoveDataBetweenTables()
+        private void InsertDataIntoMySQL(string product_code, string product_name, string category, string product_size, DateTime ins_date)
         {
-            try
+            string query = "INSERT INTO product (product_code, product_name, category, product_size, ins_date) VALUES (@product_code, @product_name, @category, @product_size, @ins_date)";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                // 읽어올 테이블
-                string sourceTableName = "sourceTable";
-                string selectQuery = $"SELECT * FROM {sourceTableName}";
-                MySqlCommand selectCmd = new MySqlCommand(selectQuery, connection);
+                cmd.Parameters.AddWithValue("@product_code", product_code);
+                cmd.Parameters.AddWithValue("@product_name", product_name);
+                cmd.Parameters.AddWithValue("@category", category);
+                cmd.Parameters.AddWithValue("@product_size", product_size);
+                cmd.Parameters.AddWithValue("@ins_date", ins_date);
 
-                MySqlDataReader dataReader = selectCmd.ExecuteReader();
-
-                // 삽입할 테이블
-                string destinationTableName = "destinationTable";
-                string insertQuery = $"INSERT INTO {destinationTableName} (column1, column2, column3) VALUES (@Value1, @Value2, @Value3)";
-
-                while (dataReader.Read())
+                try
                 {
-                    using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection))
-                    {
-                        // 예시: 컬럼 이름 및 데이터 타입에 맞게 수정
-                        insertCmd.Parameters.AddWithValue("@Value1", dataReader.GetString("sourceColumn1"));
-                        insertCmd.Parameters.AddWithValue("@Value2", dataReader.GetInt32("sourceColumn2"));
-                        insertCmd.Parameters.AddWithValue("@Value3", dataReader.GetDateTime("sourceColumn3"));
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("제품 데이터가 성공적으로 등록되었습니다");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error inserting data into MySQL: " + ex.Message);
+                }
+            }
+        }
 
-                        insertCmd.ExecuteNonQuery();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                // 전체 조회
+                RetrieveAllData();
+            }
+            else
+            {
+                // 해당 품번에 대한 조회
+                RetrieveDataByProductCode(textBox1.Text);
+            }
+
+            // textbox1 초기화
+            textBox1.Clear();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // 체크된 항목 삭제
+            DeleteCheckedItems();
+        }
+
+        private void DeleteCheckedItems()
+        {
+            // 체크된 항목을 반복하여 삭제
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                // 체크된 항목인지 확인
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
+
+                if (isChecked)
+                {
+                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
+                    string productCode = row.Cells["Field2Column"].Value.ToString();
+                    DeleteRowFromDataGridView(row);
+                    DeleteRowFromMySQL(productCode);
+                }
+            }
+        }
+
+        private void DeleteRowFromDataGridView(DataGridViewRow row)
+        {
+            // 데이터 그리드에서 특정 행 삭제
+            dataGridView1.Rows.Remove(row);
+        }
+
+        private void DeleteRowFromMySQL(string productCode)
+        {
+            // MySQL에서 특정 품번 데이터 삭제
+            string query = "DELETE FROM product WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                }
+            }
+        }
+
+        private void RetrieveAllData()
+        {
+            // 데이터그리드뷰 초기화
+            dataGridView1.Rows.Clear();
+
+            // MySQL에서 데이터 조회
+            string query = "SELECT product_code, product_name, category, product_size, ins_date FROM product";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string productCode = reader.GetString("product_code");
+                        string productName = reader.GetString("product_name");
+                        string category = reader.GetString("category");
+                        string productSize = reader.GetString("product_size");
+                        DateTime insDate = reader.GetDateTime("ins_date");
+
+                        // 조회된 데이터를 DataGridView에 추가
+                        DataGridViewRow newRow = new DataGridViewRow();
+                        newRow.CreateCells(dataGridView1, false, productCode, productName, category, productSize, insDate);
+
+                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
+                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
+                        for (int i = 1; i < newRow.Cells.Count; i++)
+                        {
+                            newRow.Cells[i].ReadOnly = true;
+                        }
+
+                        dataGridView1.Rows.Add(newRow);
                     }
                 }
-
-                dataReader.Close();
-                MessageBox.Show("데이터 이동이 완료되었습니다.");
             }
-            catch (Exception ex)
+        }
+
+        private void RetrieveDataByProductCode(string productCode)
+        {
+            // 데이터그리드뷰 초기화
+            dataGridView1.Rows.Clear();
+
+            // MySQL에서 해당 품번 데이터 조회
+            string query = "SELECT product_code, product_name, category, product_size, ins_date FROM product WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                Console.WriteLine("Error: " + ex.Message);
-                MessageBox.Show("데이터 이동 중 오류가 발생했습니다.");
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string productName = reader.GetString("product_name");
+                        string category = reader.GetString("category");
+                        string productSize = reader.GetString("product_size");
+                        DateTime insDate = reader.GetDateTime("ins_date");
+
+                        // 조회된 데이터를 DataGridView에 추가
+                        DataGridViewRow newRow = new DataGridViewRow();
+                        newRow.CreateCells(dataGridView1, false, productCode, productName, category, productSize, insDate);
+
+                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
+                        for (int i = 1; i < newRow.Cells.Count; i++)
+                        {
+                            newRow.Cells[i].ReadOnly = true;
+                        }
+
+                        dataGridView1.Rows.Add(newRow);
+                    }
+                }
+            }
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // 체크박스의 값이 변경되었을 때의 이벤트 처리
+            if (e.ColumnIndex == dataGridView1.Columns["checkBoxColumn"].Index && e.RowIndex >= 0)
+            {
+                DataGridViewCheckBoxCell checkBoxCell = dataGridView1.Rows[e.RowIndex].Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
+
+                if (isChecked)
+                {
+                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
+                    string productCode = dataGridView1.Rows[e.RowIndex].Cells["Field2Column"].Value.ToString();
+                    DeleteRowFromMySQL(productCode);
+                }
             }
         }
     }
