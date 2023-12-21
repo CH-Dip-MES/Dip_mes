@@ -51,6 +51,7 @@ namespace dip_mes
             this.button7 = new System.Windows.Forms.Button();
             this.panel = new System.Windows.Forms.Panel();
             this.button8 = new System.Windows.Forms.Button();
+
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -274,6 +275,7 @@ namespace dip_mes
             this.button6.TabIndex = 4;
             this.button6.Text = "회원정보";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 

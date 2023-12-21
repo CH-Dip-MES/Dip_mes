@@ -1,4 +1,4 @@
-﻿namespace dip_mes.login
+﻿namespace dip_mes
 {
     partial class login_screen
     {

@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using dip_mes.product;
 using MySql.Data.MySqlClient;
 
-namespace dip_mes.product
+namespace dip_mes
 {
     public partial class add_order : Form
     {

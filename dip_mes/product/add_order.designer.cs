@@ -1,4 +1,4 @@
-﻿namespace dip_mes.product
+﻿namespace dip_mes
 {
     partial class add_order
     {
