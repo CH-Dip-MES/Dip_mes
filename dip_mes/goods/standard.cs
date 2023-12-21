@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
@@ -14,11 +13,8 @@ namespace dip_mes
         {
             InitializeComponent();
             InitializeDatabaseConnection();
-
-            // 폼이 로드될 때 DataGridView에 컬럼 추가
             InitializeDataGridViewColumns();
-
-            // DataGridView에 CellClick 이벤트 핸들러 등록
+            LoadDataIntoComboBox();
             dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
@@ -49,9 +45,42 @@ namespace dip_mes
             dataGridView1.Columns.Add("Field4Column", "제품구분");
             dataGridView1.Columns.Add("Field5Column", "제품규격");
             dataGridView1.Columns.Add("ins_dateColumn", "등록 시간");
+
+            // ComboBox 추가
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.Items.Add("선택하세요");  // 초기 선택 항목 추가
+            comboBox1.SelectedIndex = 0;
+            Controls.Add(comboBox1);  // 폼에 컨트롤 추가
         }
 
-        private void btnRegister_Click(object sender, EventArgs e)
+        private void LoadDataIntoComboBox()
+        {
+            string query = "SELECT process_name FROM process";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+
+            try
+            {
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    comboBox1.Items.Add(dataReader.GetString("process_name"));
+                }
+
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        // 나머지 메서드들은 여기에 추가하시면 됩니다.
+    
+
+
+
+private void btnRegister_Click(object sender, EventArgs e)
         {
             // 데이터 그리드뷰에 데이터 추가
             DateTime ins_date = DateTime.Now;
@@ -327,39 +356,6 @@ namespace dip_mes
 
                 // product_code의 값을 textbox6에 설정합니다.
                 textbox6.Text = productCode;
-
-                // textbox6의 값에 따라 dataGridView2에 데이터를 불러옵니다.
-                LoadDataIntoDataGridView2(productCode);
-            }
-        }
-
-        private void LoadDataIntoDataGridView2(string productCode)
-        {
-            // dataGridView2 초기화
-            dataGridView2.Rows.Clear();
-
-            // MySQL에서 product_process 테이블에서 데이터 조회
-            string query = "SELECT * FROM product_process WHERE product_code = @product_code";
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                cmd.Parameters.AddWithValue("@product_code", productCode);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // 조회된 데이터를 DataGridView2에 추가
-                        DataGridViewRow newRow = new DataGridViewRow();
-                        newRow.CreateCells(dataGridView2);
-
-                        for (int i = 0; i < newRow.Cells.Count; i++)
-                        {
-                            newRow.Cells[i].Value = reader[i];
-                        }
-
-                        dataGridView2.Rows.Add(newRow);
-                    }
-                }
             }
         }
     }
