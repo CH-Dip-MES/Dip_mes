@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Windows.Forms.DataVisualization.Charting;
 namespace dip_mes.buy
 {
 
@@ -27,7 +28,14 @@ namespace dip_mes.buy
             LoadDataToDataGridView1((int)numericUpDown1.Value);
         }
 
-        
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+        }
 
         private void LoadDataToDataGridView3()
         {
@@ -178,13 +186,15 @@ namespace dip_mes.buy
 
                         // 1행 추가 (월 표시)
                         dataGridView1.Columns.Add("년도", "년도");
+
                         for (int month = 1; month <= 12; month++)
                         {
-                            dataGridView1.Columns.Add(month + "월", month + "월");
-                            dataGridView1.Columns.Add(month + "월", month + "월");
+                            dataGridView1.Columns.Add("입고내역", "입고내역");
+                            dataGridView1.Columns.Add("출고내역", "출고내역");
                         }
 
 
+                        // 3행 추가 (DB 데이터)
                         // 3행 추가 (DB 데이터)
                         if (dataTable.Rows.Count > 0)
                         {
@@ -199,7 +209,6 @@ namespace dip_mes.buy
                                 rowData[2 * month - 1] = dataTable.Rows[0][enterColumnName];
                                 rowData[2 * month] = dataTable.Rows[0][deliveryColumnName];
                             }
-
                             dataGridView1.Rows.Add(rowData);
                         }
                     }
@@ -214,44 +223,32 @@ namespace dip_mes.buy
         {
             // NumericUpDown의 값이 변경될 때마다 데이터 다시 불러오기
             LoadDataToDataGridView1((int)numericUpDown1.Value);
+            LoadDataToChart((int)numericUpDown1.Value);
         }
 
         private void dataGridView1_Paint(object sender, PaintEventArgs e)
         {
             DataGridView gv = (DataGridView)sender;
-            string[] strHeaders = { "헤더1", "헤더2" };
+            string[] strHeaders = { "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" };
             StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;            
-            // Category Painting           
+            format.LineAlignment = StringAlignment.Center;
+
+            for (int i = 0; i < strHeaders.Length; i++)
             {
                 if (gv.Rows.Count > 0)
                 {
-                    Rectangle r1 = gv.GetCellDisplayRectangle(1, -1, false);
-                    //Console.WriteLine(r1);
-                    int width1 = gv.GetCellDisplayRectangle(2, -1, false).Width;
-                    r1.X += 1;
-                    r1.Y += 1;
-                    r1.Width = r1.Width + width1 - 2;
-                    r1.Height = (r1.Height / 2) - 2;
-                    e.Graphics.DrawRectangle(new Pen(gv.BackgroundColor), r1);
-                    e.Graphics.FillRectangle(new SolidBrush(gv.ColumnHeadersDefaultCellStyle.BackColor), r1);
-                    e.Graphics.DrawString(strHeaders[0], gv.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(gv.ColumnHeadersDefaultCellStyle.ForeColor), r1, format);
-                }
-            }
-            // Projection Painting
-            {
-                if (gv.Rows.Count > 0)
-                {
-                    Rectangle r2 = gv.GetCellDisplayRectangle(3, -1, false);
-                    int width = gv.GetCellDisplayRectangle(4, -1, false).Width;
-                    r2.X += 1;
-                    r2.Y += 1;
-                    r2.Width = r2.Width + width - 2;
-                    r2.Height = (r2.Height / 2) - 2;
-                    e.Graphics.DrawRectangle(new Pen(gv.BackgroundColor), r2);
-                    e.Graphics.FillRectangle(new SolidBrush(gv.ColumnHeadersDefaultCellStyle.BackColor), r2);
-                    e.Graphics.DrawString(strHeaders[1], gv.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(gv.ColumnHeadersDefaultCellStyle.ForeColor), r2, format);
+                    int nextColumnIndex = i * 2 + 1; // Calculate the next column index based on the month index
+                    Rectangle r = gv.GetCellDisplayRectangle(nextColumnIndex, -1, false);
+                    int width = gv.GetCellDisplayRectangle(nextColumnIndex + 1, -1, false).Width;
+                    r.X += 1;
+                    r.Y += 1;
+                    r.Width = r.Width + width - 2;
+                    r.Height = (r.Height / 2) - 2;
+
+                    e.Graphics.DrawRectangle(new Pen(gv.BackgroundColor), r);
+                    e.Graphics.FillRectangle(new SolidBrush(gv.ColumnHeadersDefaultCellStyle.BackColor), r);
+                    e.Graphics.DrawString(strHeaders[i], gv.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(gv.ColumnHeadersDefaultCellStyle.ForeColor), r, format);
                 }
             }
         }
@@ -274,17 +271,86 @@ namespace dip_mes.buy
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            //Console.WriteLine("----------------");
-            //Console.WriteLine(e.RowIndex);
-            //Console.WriteLine(e.ColumnIndex);
-            //Console.WriteLine("----------------");
-            if (e.RowIndex == -1 && e.ColumnIndex > -1) 
+            Console.WriteLine("----------------");
+            Console.WriteLine(e.RowIndex);
+            Console.WriteLine(e.ColumnIndex);
+            Console.WriteLine("----------------");
+            if (e.RowIndex == -1 && e.ColumnIndex > -1)
             {
                 Rectangle r = e.CellBounds;
                 r.Y += e.CellBounds.Height / 2;
                 r.Height = e.CellBounds.Height / 2;
                 e.PaintBackground(r, true); e.PaintContent(r);
                 e.Handled = true;
+            }
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoadDataToChart(int selectedYear)
+        {
+            // MySQL 연결 및 명령어 생성
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // buy4 테이블에서 데이터 조회
+                string selectQuery = @"
+                    SELECT 
+                        1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
+                        3Deliveryquantity, 3Enterquantity, 4Deliveryquantity, 4Enterquantity,
+                        5Deliveryquantity, 5Enterquantity, 6Deliveryquantity, 6Enterquantity,
+                        7Deliveryquantity, 7Enterquantity, 8Deliveryquantity, 8Enterquantity,
+                        9Deliveryquantity, 9Enterquantity, 10Deliveryquantity, 10Enterquantity,
+                        11Deliveryquantity, 11Enterquantity, 12Deliveryquantity, 12Enterquantity
+                    FROM buy4
+                    WHERE year = @Year
+                ";
+
+                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Year", selectedYear);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        // Series 초기화
+                        chart2.Series.Clear();
+
+                        // "입고내역" 시리즈 생성 및 설정
+                        Series enterSeries = new Series("입고내역");
+                        enterSeries.ChartType = SeriesChartType.Column;
+
+                        // "출고내역" 시리즈 생성 및 설정
+                        Series deliverySeries = new Series("출고내역");
+                        deliverySeries.ChartType = SeriesChartType.Column;
+
+                        // 데이터 바인딩
+                        if (reader.Read())
+                        {
+                            for (int month = 1; month <= 12; month++)
+                            {
+                                string enterColumnName = month + "Enterquantity";
+                                string deliveryColumnName = month + "Deliveryquantity";
+
+                                int enterValue = Convert.ToInt32(reader[enterColumnName]);
+                                int deliveryValue = Convert.ToInt32(reader[deliveryColumnName]);
+
+                                // 데이터 포인트 추가
+                                enterSeries.Points.AddXY(month, enterValue);
+                                deliverySeries.Points.AddXY(month, deliveryValue);
+                            }
+                        }
+
+                        // 차트에 시리즈 추가
+                        chart2.Series.Add(enterSeries);
+                        chart2.Series.Add(deliverySeries);
+                    }
+                }
+
+                connection.Close();
             }
         }
     }
