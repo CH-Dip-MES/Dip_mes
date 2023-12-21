@@ -140,6 +140,12 @@
     <Compile Include="product\add_order.designer.cs">
       <DependentUpon>add_order.cs</DependentUpon>
     </Compile>
+    <Compile Include="product\add_input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="product\add_input.Designer.cs">
+      <DependentUpon>add_input.cs</DependentUpon>
+    </Compile>
     <Compile Include="product\product02.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -192,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="product\add_order.resx">
       <DependentUpon>add_order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="product\add_input.resx">
+      <DependentUpon>add_input.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="product\product02.resx">
       <DependentUpon>product02.cs</DependentUpon>

@@ -35,7 +35,7 @@ namespace dip_mes
                 try
                 {
                     connection.Open();
-                    string query = "SELECT No, Product, Process, Planned, Duration, Estimated, Status FROM product";
+                    string query = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status  FROM manufacture";
 
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
                     {
@@ -51,7 +51,7 @@ namespace dip_mes
 
                         // DataGridView에 "Status" 열을 콤보박스로 설정
                         statusComboColumn = new DataGridViewComboBoxColumn();
-                        statusComboColumn.HeaderText = "Status";
+                        statusComboColumn.HeaderText = "작업상태";
                         statusComboColumn.Name = "Status";
                         statusComboColumn.DataSource = GetStatusOptions(); // 콤보박스의 옵션을 설정하는 메서드 호출
                         statusComboColumn.DisplayMember = "StatusOption"; // 표시될 멤버 설정
@@ -198,7 +198,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 데이터베이스 업데이트 쿼리 작성
-                    string updateQuery = "UPDATE product SET Status = @newStatus WHERE No = @primaryKey";
+                    string updateQuery = "UPDATE manufacture SET Status = @newStatus WHERE No = @primaryKey";
 
                     using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
                     {
@@ -281,7 +281,7 @@ namespace dip_mes
                         string inputValue = textBox1.Text.Trim();
 
                         // MySQL에서 데이터 조회하는 SQL 쿼리
-                        string query = "SELECT No, Product, Process, Planned, Actual, Estimated, Status FROM product WHERE Product LIKE @inputValue";
+                        string query = "SELECT No, Product, Process, Planned, Actual, Estimated, Status FROM manufacture WHERE Product LIKE @inputValue";
 
                         using (MySqlCommand cmd = new MySqlCommand(query, connection))
                         {

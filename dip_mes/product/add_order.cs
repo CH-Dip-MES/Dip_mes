@@ -60,7 +60,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 입력된 컬럼 이름을 기반으로 데이터 조회
-                    string query = $"SELECT DISTINCT Process FROM product WHERE Product = @inputValue";
+                    string query = $"SELECT DISTINCT Process FROM manufacture WHERE Product = @inputValue";
                     //string query = $"SELECT DISTINCT Process, 조회하고자 하는 컬럼 FROM 조회를 원하는 테이블명 WHERE Product = @inputValue";
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -105,7 +105,9 @@ namespace dip_mes
                     string textBox4Value = textBox4.Text.Trim();
 
                     // 데이터베이스에 데이터 추가하는 SQL 쿼리
-                    string query = "INSERT INTO product (No, Product, Process, Planned, Estimated) " + "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4)";
+                    string query = "INSERT INTO manufacture (No, Product, Process, Planned, Estimated, Status) " +
+                            "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4, '작업대기')"; // '작업대기'로 추가
+
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -167,7 +169,7 @@ namespace dip_mes
                     string selectedProcess = comboBox1.Text.Trim();
 
                     // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = "SELECT Time FROM product WHERE Process = @selectedProcess";
+                    string query = "SELECT Time FROM manufacture WHERE Process = @selectedProcess";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {

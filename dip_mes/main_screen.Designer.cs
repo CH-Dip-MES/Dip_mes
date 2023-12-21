@@ -50,6 +50,8 @@ namespace dip_mes
             this.button2 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.panel = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
+
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -245,6 +247,7 @@ namespace dip_mes
             this.tableLayoutPanel7.Controls.Add(this.button3, 0, 1);
             this.tableLayoutPanel7.Controls.Add(this.button2, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.button7, 0, 5);
+            this.tableLayoutPanel7.Controls.Add(this.button8, 0, 6);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
@@ -320,7 +323,6 @@ namespace dip_mes
             this.button2.TabIndex = 0;
             this.button2.Text = "기준정보";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button7
             // 
@@ -344,6 +346,18 @@ namespace dip_mes
             this.panel.Size = new System.Drawing.Size(1673, 826);
             this.panel.TabIndex = 1;
             this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Form_load);
+            // 
+            // button8
+            // 
+            this.button8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button8.Location = new System.Drawing.Point(0, 286);
+            this.button8.Margin = new System.Windows.Forms.Padding(0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(185, 46);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "자재투입";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // main_screen
             // 
@@ -391,6 +405,7 @@ namespace dip_mes
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 
