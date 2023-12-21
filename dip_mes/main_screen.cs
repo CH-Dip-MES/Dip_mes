@@ -16,6 +16,7 @@ namespace dip_mes
         sale.sale01 saleSc1 = new sale.sale01();
         product.product02 productSc2 = new product.product02();
         standard stanSc = new standard();
+        goods.standard02 stanSc2 = new goods.standard02();
         public main_screen()
         {
             InitializeComponent();
@@ -68,6 +69,12 @@ namespace dip_mes
         {
             panel.Controls.Clear();
             panel.Controls.Add(stanSc);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            panel.Controls.Clear();
+            panel.Controls.Add(stanSc2);
         }
     }
 }
