@@ -48,7 +48,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -141,11 +140,6 @@
             this.buyername.FormattingEnabled = true;
             this.buyername.ImeMode = System.Windows.Forms.ImeMode.Close;
             this.buyername.ItemHeight = 24;
-            this.buyername.Items.AddRange(new object[] {
-            "탕수육",
-            "짜장면",
-            "짬뽕",
-            "우육면"});
             this.buyername.Location = new System.Drawing.Point(1183, 377);
             this.buyername.Name = "buyername";
             this.buyername.Size = new System.Drawing.Size(177, 32);
@@ -270,17 +264,6 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "판매관리";
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(1385, 100);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 35);
-            this.button1.TabIndex = 57;
-            this.button1.Text = "저장";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.CheckButton1_Click);
-            // 
             // sale02
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -289,7 +272,6 @@
             this.Controls.Add(this.addRow);
             this.Controls.Add(this.RegButton2);
             this.Controls.Add(this.RegButton1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.CheckButton1);
             this.Controls.Add(this.saledate);
             this.Controls.Add(this.findNo);
@@ -337,6 +319,5 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
     }
 }
