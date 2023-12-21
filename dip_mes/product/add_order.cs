@@ -14,6 +14,7 @@ namespace dip_mes
     public partial class add_order : Form
     {
         private product02 ProductForm;
+        private int orderCount = 0; // 주문 번호 카운터
         public add_order(product02 productForm)
         {
             InitializeComponent();
@@ -86,8 +87,6 @@ namespace dip_mes
         public event EventHandler Button2Clicked;
         private void button2_Click(object sender, EventArgs e)
         {
-            
-
             // 데이터베이스 연결 문자열
             string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;"; //테이블 변경과 패스워드 설정
 
@@ -104,9 +103,12 @@ namespace dip_mes
                     string textBox3Value = textBox3.Text.Trim();
                     string textBox4Value = textBox4.Text.Trim();
 
+                    // 중복되지 않는 Lot 번호 생성
+                    string lotNumber = GenerateLotNumber(connection, textBox2Value);
+
                     // 데이터베이스에 데이터 추가하는 SQL 쿼리
-                    string query = "INSERT INTO manufacture (No, Product, Process, Planned, Estimated, Status) " +
-                            "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4, '작업대기')"; // '작업대기'로 추가
+                    string query = "INSERT INTO manufacture (No, Product, Process, Planned, Estimated, Status, Lot) " +
+                            "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4, '작업대기', @lotNumber )"; // '작업대기'로 추가
 
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
@@ -117,6 +119,7 @@ namespace dip_mes
                         cmd.Parameters.AddWithValue("@comboBox1", comboBox1Value);
                         cmd.Parameters.AddWithValue("@textBox3", textBox3Value);
                         cmd.Parameters.AddWithValue("@textBox4", textBox4Value);
+                        cmd.Parameters.AddWithValue("@lotNumber", lotNumber);
 
                         OnButton2Clicked(EventArgs.Empty);
 
@@ -210,6 +213,34 @@ namespace dip_mes
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
+        }
+        private string GenerateLotNumber(MySqlConnection connection, string product)
+        {
+            string today = DateTime.Now.ToString("yyMMdd");
+
+            string query = "SELECT Lot FROM manufacture WHERE Lot LIKE @pattern ORDER BY Lot DESC LIMIT 1";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@pattern", $"{today}-{product}-%");
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string lastLotNumber = reader["Lot"].ToString();
+                        string[] parts = lastLotNumber.Split('-');
+                        if (parts.Length == 3 && int.TryParse(parts[2], out int lastNumber))
+                        {
+                            // 마지막으로 사용된 번호에 1을 더하여 반환
+                            return $"{today}-{product}-{(lastNumber + 1).ToString("0000")}";
+                        }
+                    }
+                }
+            }
+
+            // 해당 날짜와 제품으로 시작하는 Lot 번호가 없으면 0001로 반환
+            return $"{today}-{product}-0001";
         }
     }
 }

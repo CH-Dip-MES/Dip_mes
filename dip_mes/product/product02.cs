@@ -17,6 +17,7 @@ namespace dip_mes
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         private DataGridViewComboBoxColumn statusComboColumn;
         private add_order addOrderForm;
+        private DateTime? startTime; // 작업시작 상태의 시간을 저장할 변수
 
         public product02()
         {
@@ -27,6 +28,16 @@ namespace dip_mes
             addOrderForm = new add_order(this);
             addOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
         }
+
+        // add_order 이벤트 핸들러
+        private void AddOrderForm_Button2Clicked(object sender, EventArgs e)
+        {
+            // add_order 폼에서 버튼2가 클릭되었을 때 실행되는 로직
+            // 여기에서 그리드를 최신화하는 메서드 호출
+            LoadDataToDataGridView1();
+        }
+        // 최초 한 번만 수행하기 위한 플래그
+        private bool isComboBoxAdded = false;
 
         public void LoadDataToDataGridView1()
         {
@@ -49,27 +60,47 @@ namespace dip_mes
                             dataTable.Columns.Add(statusColumn);
                         }
 
-                        // DataGridView에 "Status" 열을 콤보박스로 설정
-                        statusComboColumn = new DataGridViewComboBoxColumn();
-                        statusComboColumn.HeaderText = "작업상태";
-                        statusComboColumn.Name = "Status";
-                        statusComboColumn.DataSource = GetStatusOptions(); // 콤보박스의 옵션을 설정하는 메서드 호출
-                        statusComboColumn.DisplayMember = "StatusOption"; // 표시될 멤버 설정
-                        statusComboColumn.DataPropertyName = "Status"; // 데이터 소스의 컬럼과 매핑 
+                        // 기존에 "Status" 열이 있는지 확인
+                        DataGridViewComboBoxColumn existingComboColumn = dataGridView1.Columns["Status"] as DataGridViewComboBoxColumn;
 
-                        statusComboColumn.DefaultCellStyle.NullValue = "작업대기";
-
-                        // "Status" 열이 이미 있으면 제거
-                        if (dataGridView1.Columns.Contains("Status"))
+                        if (existingComboColumn != null)
                         {
-                            dataGridView1.Columns.Remove("Status");
+                            // 기존 ComboBox 열이 존재하면 업데이트
+                            existingComboColumn.DataSource = GetStatusOptions();
                         }
-                        // DataGridView에 "Status" 열 추가
-                        dataGridView1.Columns.Add(statusComboColumn);
+                        else
+                        {
+                            // 최초 한 번만 실행
+                            if (!isComboBoxAdded)
+                            {
+                                // "Status" 열의 데이터를 새로운 ComboBox 열로 복사
+                                DataGridViewComboBoxColumn newComboColumn = new DataGridViewComboBoxColumn();
+                                newComboColumn.HeaderText = "작업상태";
+                                newComboColumn.Name = "Status";
+                                newComboColumn.DataSource = GetStatusOptions();
+                                newComboColumn.DisplayMember = "StatusOption";
+                                newComboColumn.DataPropertyName = "Status";
+                                newComboColumn.DefaultCellStyle.NullValue = "작업대기";
+
+                                // "Status" 열이 이미 있으면 제거
+                                if (dataGridView1.Columns.Contains("Status"))
+                                {
+                                    dataGridView1.Columns.Remove("Status");
+                                }
+
+                                // DataGridView에 "Status" 열 추가
+                                dataGridView1.Columns.Add(newComboColumn);
+
+                                isComboBoxAdded = true;
+                            }
+                        }
 
                         // DataGridView에 데이터 바인딩
                         dataGridView1.DataSource = null;
                         dataGridView1.DataSource = dataTable;
+
+                        // Duration 컬럼의 데이터를 포맷팅하여 표시
+                        FormatDurationColumn();
 
                         // "Status" 열의 DisplayIndex를 설정하여 원하는 위치로 이동
                         dataGridView1.Columns["Status"].DisplayIndex = 6; // "Status" 열이 6번째에 표시되도록 설정
@@ -77,9 +108,6 @@ namespace dip_mes
                         dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
                         // 데이터 바인딩 후 작업 완료 상태인 행을 제거
                         RemoveCompletedRows();
-
-                        // Duration 컬럼의 데이터를 포맷팅하여 표시
-                        FormatDurationColumn();
                     }
                 }
                 catch (Exception ex)
@@ -89,28 +117,13 @@ namespace dip_mes
             }
         }
 
-        private void AddOrderForm_DataUpdated(object sender, EventArgs e)
-        {
-            // 데이터그리드 최신화
-            LoadDataToDataGridView1();
-        }
-
-        // add_order 이벤트 핸들러
-        private void AddOrderForm_Button2Clicked(object sender, EventArgs e)
-        {
-            // add_order 폼에서 버튼2가 클릭되었을 때 실행되는 로직
-            // 여기에서 그리드를 최신화하는 메서드 호출
-            LoadDataToDataGridView1();
-        }
-        // product02의 그리드를 최신화하는 메서드
-        
 
         private void FormatDurationColumn()
         {
             // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
             if (dataGridView1.Columns.Contains("Duration") && dataGridView1.Columns["Duration"] is DataGridViewTextBoxColumn durationColumn)
             {
-                durationColumn.DefaultCellStyle.Format = "M월 d일 H:mm";
+                durationColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
             }
         }
         private void RemoveCompletedRows()
@@ -176,9 +189,25 @@ namespace dip_mes
                     // 데이터베이스 업데이트
                     UpdateStatusInDatabase(primaryKeyValue, newStatusValue);
 
-                    // 작업완료 상태인 행을 DataGridView에서 제거
-                    if (newStatusValue == "작업완료")
+                    string statusValue = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value?.ToString();
+
+                    if (newStatusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
                     {
+                        // 작업시작 상태인 경우 현재 시간을 Timesave 컬럼에 저장
+                        if (statusValue.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
+                        {
+                            SaveStartTimeInDatabase(primaryKeyValue);
+                        }
+                        // 작업완료 상태인 경우 작업시작 상태에서부터의 경과 시간을 계산하여 Worktime에 저장
+                        else if (statusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
+                        {
+                            SaveWorkTimeInDatabase(primaryKeyValue);
+                        }
+
+                        // 행을 제거하기 전에 필요한 데이터를 추출
+                        string removedNoValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
+
+                        // 행 제거
                         dataGridView1.Rows.RemoveAt(e.RowIndex);
                     }
                 }
@@ -186,6 +215,71 @@ namespace dip_mes
             catch (Exception ex)
             {
                 MessageBox.Show($"Error in DataGridView1_CellValueChanged: {ex.Message}");
+            }
+        }
+        private void SaveStartTimeInDatabase(string primaryKeyValue)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // 데이터베이스 업데이트 쿼리 작성
+                    string updateQuery = "UPDATE manufacture SET Timesave = CURRENT_TIMESTAMP WHERE No = @primaryKey";
+
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
+
+                        // 쿼리 실행
+                        int affectedRows = cmd.ExecuteNonQuery();
+
+                        if (affectedRows > 0)
+                        {
+                            // 현재 시간을 startTime 변수에 저장
+                            startTime = DateTime.Now;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No rows affected. Update may not have occurred.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error in SaveStartTimeInDatabase: " + ex.Message);
+                }
+            }
+        }
+        private void SaveWorkTimeInDatabase(string primaryKeyValue)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // 데이터베이스 업데이트 쿼리 작성
+                    string updateQuery = "UPDATE manufacture SET Worktime = TIMEDIFF(NOW(), Timesave) WHERE No = @primaryKey";
+
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
+
+                        // 쿼리 실행
+                        int affectedRows = cmd.ExecuteNonQuery();
+
+                        if (affectedRows == 0)
+                        {
+                            MessageBox.Show("No rows affected. Update may not have occurred.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error in SaveWorkTimeInDatabase: " + ex.Message);
+                }
             }
         }
 

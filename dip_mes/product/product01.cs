@@ -15,7 +15,7 @@ namespace dip_mes
     public partial class product01 : UserControl
     {
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
-        public event EventHandler RefreshData;
+        //public event EventHandler RefreshData;
         public product01()
         {
             InitializeComponent();
@@ -187,7 +187,7 @@ namespace dip_mes
                     string inputValue = textBox1.Text.Trim();
 
                     // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = "SELECT No, Product, Material, Planned, Input, Residue, Duration FROM manufacture WHERE No LIKE @inputValue";
+                    string query = "SELECT No, Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE No LIKE @inputValue AND Status = '작업대기'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
