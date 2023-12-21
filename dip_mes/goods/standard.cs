@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
@@ -16,6 +17,9 @@ namespace dip_mes
 
             // 폼이 로드될 때 DataGridView에 컬럼 추가
             InitializeDataGridViewColumns();
+
+            // DataGridView에 CellClick 이벤트 핸들러 등록
+            dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
         private void InitializeDatabaseConnection()
@@ -64,14 +68,61 @@ namespace dip_mes
             DataGridViewRow newRow = new DataGridViewRow();
 
             // 행에 데이터 추가
-            newRow.CreateCells(dataGridView1, false, productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+            newRow.CreateCells(dataGridView1, false, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
 
             // 행을 데이터그리드뷰의 첫 번째 위치에 삽입
             dataGridView1.Rows.Insert(0, newRow);
 
             // MySQL에 데이터 삽입
             InsertDataIntoMySQL(productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+
+            // product_process 테이블에도 데이터 삽입
+            InsertProductCodeIntoProductProcess(productCode);
+
+            // product_parts 테이블에도 데이터 삽입
+            InsertProductCodeIntoProductParts(productCode);
         }
+
+        private void InsertProductCodeIntoProductProcess(string productCode)
+        {
+            // product_process 테이블에 product_code 추가
+            string processQuery = "INSERT INTO product_process (product_code) VALUES (@product_code)";
+            using (MySqlCommand processCmd = new MySqlCommand(processQuery, connection))
+            {
+                processCmd.Parameters.AddWithValue("@product_code", productCode);
+
+                try
+                {
+                    processCmd.ExecuteNonQuery();
+                    MessageBox.Show("product_process 테이블에 데이터가 성공적으로 등록되었습니다");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error inserting data into product_process table: " + ex.Message);
+                }
+            }
+        }
+
+        private void InsertProductCodeIntoProductParts(string productCode)
+        {
+            // product_parts 테이블에 product_code 추가
+            string partsQuery = "INSERT INTO product_parts (product_code) VALUES (@product_code)";
+            using (MySqlCommand partsCmd = new MySqlCommand(partsQuery, connection))
+            {
+                partsCmd.Parameters.AddWithValue("@product_code", productCode);
+
+                try
+                {
+                    partsCmd.ExecuteNonQuery();
+                    MessageBox.Show("product_parts 테이블에 데이터가 성공적으로 등록되었습니다");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error inserting data into product_parts table: " + ex.Message);
+                }
+            }
+        }
+
 
         private bool IsProductCodeDuplicate(string productCode)
         {
@@ -262,6 +313,52 @@ namespace dip_mes
                     // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
                     string productCode = dataGridView1.Rows[e.RowIndex].Cells["Field2Column"].Value.ToString();
                     DeleteRowFromMySQL(productCode);
+                }
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 유효한 행이 클릭되었는지 확인 (헤더나 빈 행이 아닌 경우)
+            if (e.RowIndex >= 0)
+            {
+                // 클릭된 행에서 product_code의 값을 가져옵니다.
+                string productCode = dataGridView1.Rows[e.RowIndex].Cells["Field2Column"].Value.ToString();
+
+                // product_code의 값을 textbox6에 설정합니다.
+                textbox6.Text = productCode;
+
+                // textbox6의 값에 따라 dataGridView2에 데이터를 불러옵니다.
+                LoadDataIntoDataGridView2(productCode);
+            }
+        }
+
+        private void LoadDataIntoDataGridView2(string productCode)
+        {
+            // dataGridView2 초기화
+            dataGridView2.Rows.Clear();
+
+            // MySQL에서 product_process 테이블에서 데이터 조회
+            string query = "SELECT * FROM product_process WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // 조회된 데이터를 DataGridView2에 추가
+                        DataGridViewRow newRow = new DataGridViewRow();
+                        newRow.CreateCells(dataGridView2);
+
+                        for (int i = 0; i < newRow.Cells.Count; i++)
+                        {
+                            newRow.Cells[i].Value = reader[i];
+                        }
+
+                        dataGridView2.Rows.Add(newRow);
+                    }
                 }
             }
         }

@@ -58,7 +58,7 @@
             this.txtInput = new System.Windows.Forms.TextBox();
             this.btnDelete1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textbox6 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -158,7 +158,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1585, 287);
             this.dataGridView1.TabIndex = 28;
-           
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // btnDelete
             // 
@@ -353,14 +353,13 @@
             this.comboBox1.Size = new System.Drawing.Size(156, 20);
             this.comboBox1.TabIndex = 40;
             // 
-            // textBox6
+            // textbox6
             // 
-            this.textBox6.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox6.Location = new System.Drawing.Point(551, 531);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(156, 26);
-            this.textBox6.TabIndex = 42;
-        
+            this.textbox6.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textbox6.Location = new System.Drawing.Point(551, 531);
+            this.textbox6.Name = "textbox6";
+            this.textbox6.Size = new System.Drawing.Size(156, 26);
+            this.textbox6.TabIndex = 42;
             // 
             // label11
             // 
@@ -376,7 +375,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.textbox6);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox2);
@@ -444,7 +443,7 @@
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Button btnDelete1;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textbox6;
         private System.Windows.Forms.Label label11;
     }
 }
