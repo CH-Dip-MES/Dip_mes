@@ -131,7 +131,7 @@ namespace dip_mes.sale
                         FROM sale2
                         JOIN sale3 ON sale2.salecode = sale3.salecode
                         WHERE sale2.buyername = @buyerName AND sale2.procstat = '완료' AND sale2.delistat = '완료'
-                        GROUP BY MONTH(sale2.delidate), sale3.productname";
+                        GROUP BY MONTH(sale2.delidate), sale3.ItemName";
                 MySqlCommand cmd = new MySqlCommand(query, sConn);
                 cmd.Parameters.AddWithValue("@buyerName", buyerName);
 
@@ -146,10 +146,10 @@ namespace dip_mes.sale
             chart2.Series.Clear();
             chart2.ChartAreas[0].AxisX.Interval = 1;
             chart2.ChartAreas[0].AxisX.Title = "월";
-            chart2.ChartAreas[0].AxisY.Title = "제품별 매출액";
+            chart2.ChartAreas[0].AxisY.Title = "제품별 매출";
 
             // 제품별로 시리즈 추가
-            var productNames = dataTable.AsEnumerable().Select(row => row.Field<string>("productname")).Distinct();
+            var productNames = dataTable.AsEnumerable().Select(row => row.Field<string>("ItemName")).Distinct();
             foreach (var productName in productNames)
             {
                 Series series = new Series(productName) { ChartType = SeriesChartType.Column };
@@ -158,7 +158,7 @@ namespace dip_mes.sale
                 for (int month = 1; month <= 12; month++)
                 {
                     var monthlySales = dataTable.AsEnumerable()
-                        .Where(row => row.Field<string>("productname") == productName && row.Field<int>("SaleMonth") == month)
+                        .Where(row => row.Field<string>("ItemName") == productName && row.Field<int>("SaleMonth") == month)
                         .Sum(row => row.IsNull("ProductSales") ? 0 : row.Field<decimal>("ProductSales"));
 
                     series.Points.AddXY(month, monthlySales);
