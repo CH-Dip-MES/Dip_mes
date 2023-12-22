@@ -95,17 +95,33 @@ namespace dip_mes
                             }
                         }
 
+                        // 기존 데이터를 유지한 채로 새로운 데이터를 추가
+                        DataRow[] existingRows = dataTable.Select();
+                        DataRow[] existingGridRows = ((DataTable)dataGridView1.DataSource)?.Select();
+
+                        //foreach (DataRow row in existingRows)
+                        //{
+                        //    // 이미 그리드에 존재하는 행인지 확인
+                        //    bool rowExistsInGrid = existingGridRows?.Any(gridRow => gridRow["No"].ToString() == row["No"].ToString()) ?? false;
+
+                        //    // 그리드에 존재하지 않으면 추가
+                        //    if (!rowExistsInGrid)
+                        //    {
+                        //        dataTable.ImportRow(row);
+                        //    }
+                        //} 그리드에 마지막 행 추가되는 부분 오류
+
                         // DataGridView에 데이터 바인딩
                         dataGridView1.DataSource = null;
                         dataGridView1.DataSource = dataTable;
 
                         // Duration 컬럼의 데이터를 포맷팅하여 표시
-                        FormatDurationColumn();
+                        //FormatDurationColumn();
 
                         // "Status" 열의 DisplayIndex를 설정하여 원하는 위치로 이동
                         dataGridView1.Columns["Status"].DisplayIndex = 6; // "Status" 열이 6번째에 표시되도록 설정
 
-                        dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
+                        //dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
                         // 데이터 바인딩 후 작업 완료 상태인 행을 제거
                         RemoveCompletedRows();
                     }
@@ -118,20 +134,23 @@ namespace dip_mes
         }
 
 
-        private void FormatDurationColumn()
-        {
-            // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
-            if (dataGridView1.Columns.Contains("Duration") && dataGridView1.Columns["Duration"] is DataGridViewTextBoxColumn durationColumn)
-            {
-                durationColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
-            }
-        }
+        //private void FormatDurationColumn()
+        //{
+        //    // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
+        //    if (dataGridView1.Columns.Contains("Duration") && dataGridView1.Columns["Duration"] is DataGridViewTextBoxColumn durationColumn)
+        //    {
+        //        durationColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
+        //    }
+        //}
         private void RemoveCompletedRows()
         {
             List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
 
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            // 역순으로 반복문 수행
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             {
+                DataGridViewRow row = dataGridView1.Rows[i];
+
                 if (row.Cells["Status"].Value?.ToString() == "작업완료")
                 {
                     rowsToRemove.Add(row);
@@ -168,56 +187,56 @@ namespace dip_mes
         }
 
 
-        private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == dataGridView1.Columns["Status"].Index && e.RowIndex >= 0)
-                {
-                    // 변경된 값 가져오기
-                    string newStatusValue = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value?.ToString();
+        //private async void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.ColumnIndex == dataGridView1.Columns["Status"].Index && e.RowIndex >= 0)
+        //        {
+        //            // 변경된 값 가져오기
+        //            string newStatusValue = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value?.ToString();
 
-                    if (string.IsNullOrEmpty(newStatusValue))
-                    {
-                        // 처리할 내용이 없으면 리턴
-                        return;
-                    }
+        //            if (string.IsNullOrEmpty(newStatusValue))
+        //            {
+        //                // 처리할 내용이 없으면 리턴
+        //                return;
+        //            }
 
-                    // 해당 행의 기본 키(예: No) 가져오기
-                    string primaryKeyValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
+        //            // 해당 행의 기본 키(예: No) 가져오기
+        //            string primaryKeyValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
 
-                    // 데이터베이스 업데이트
-                    UpdateStatusInDatabase(primaryKeyValue, newStatusValue);
+        //            // 데이터베이스 업데이트
+        //            await UpdateStatusInDatabaseAsync(primaryKeyValue, newStatusValue);  // async 메서드 호출
 
-                    string statusValue = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value?.ToString();
+        //            string statusValue = dataGridView1.Rows[e.RowIndex].Cells["Status"].Value?.ToString();
 
-                    if (newStatusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
-                    {
-                        // 작업시작 상태인 경우 현재 시간을 Timesave 컬럼에 저장
-                        if (statusValue.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
-                        {
-                            SaveStartTimeInDatabase(primaryKeyValue);
-                        }
-                        // 작업완료 상태인 경우 작업시작 상태에서부터의 경과 시간을 계산하여 Worktime에 저장
-                        else if (statusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
-                        {
-                            SaveWorkTimeInDatabase(primaryKeyValue);
-                        }
+        //            if (newStatusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                // 작업시작 상태인 경우 현재 시간을 Timesave 컬럼에 저장
+        //                if (statusValue.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    await SaveStartTimeInDatabaseAsync(primaryKeyValue);  // async 메서드 호출
+        //                }
+        //                // 작업완료 상태인 경우 작업시작 상태에서부터의 경과 시간을 계산하여 Worktime에 저장
+        //                else if (statusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    await SaveWorkTimeInDatabaseAsync(primaryKeyValue);  // async 메서드 호출
+        //                }
 
-                        // 행을 제거하기 전에 필요한 데이터를 추출
-                        string removedNoValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
+        //                // 행을 제거하기 전에 필요한 데이터를 추출
+        //                string removedNoValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
 
-                        // 행 제거
-                        dataGridView1.Rows.RemoveAt(e.RowIndex);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error in DataGridView1_CellValueChanged: {ex.Message}");
-            }
-        }
-        private void SaveStartTimeInDatabase(string primaryKeyValue)
+        //                // 행 제거
+        //                dataGridView1.Rows.RemoveAt(e.RowIndex);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error in DataGridView1_CellValueChanged: {ex.Message}");
+        //    }
+        //}
+        private async Task SaveStartTimeInDatabaseAsync(string primaryKeyValue)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -233,7 +252,7 @@ namespace dip_mes
                         cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
 
                         // 쿼리 실행
-                        int affectedRows = cmd.ExecuteNonQuery();
+                        int affectedRows = await cmd.ExecuteNonQueryAsync();
 
                         if (affectedRows > 0)
                         {
@@ -248,11 +267,11 @@ namespace dip_mes
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in SaveStartTimeInDatabase: " + ex.Message);
+                    MessageBox.Show("Error in SaveStartTimeInDatabaseAsync: " + ex.Message);
                 }
             }
         }
-        private void SaveWorkTimeInDatabase(string primaryKeyValue)
+        private async Task SaveWorkTimeInDatabaseAsync(string primaryKeyValue)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -268,7 +287,7 @@ namespace dip_mes
                         cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
 
                         // 쿼리 실행
-                        int affectedRows = cmd.ExecuteNonQuery();
+                        int affectedRows = await cmd.ExecuteNonQueryAsync();
 
                         if (affectedRows == 0)
                         {
@@ -278,18 +297,18 @@ namespace dip_mes
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in SaveWorkTimeInDatabase: " + ex.Message);
+                    MessageBox.Show("Error in SaveWorkTimeInDatabaseAsync: " + ex.Message);
                 }
             }
         }
 
-        private void UpdateStatusInDatabase(string primaryKeyValue, string newStatusValue)
+        private async Task UpdateStatusInDatabaseAsync(string primaryKeyValue, string newStatusValue)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
 
                     // 데이터베이스 업데이트 쿼리 작성
                     string updateQuery = "UPDATE manufacture SET Status = @newStatus WHERE No = @primaryKey";
@@ -300,7 +319,7 @@ namespace dip_mes
                         cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
 
                         // 쿼리 실행
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception ex)
@@ -319,6 +338,7 @@ namespace dip_mes
             textBox1.GotFocus += TextBox1_GotFocus;
             textBox1.LostFocus += TextBox1_LostFocus;
         }
+
 
         private void SetDefaultText()
         {
@@ -361,7 +381,7 @@ namespace dip_mes
         {
 
         }
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        private async void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -369,7 +389,7 @@ namespace dip_mes
                 {
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
-                        connection.Open();
+                        await connection.OpenAsync(); // 비동기로 연결 열기
 
                         // 텍스트 박스에서 입력된 값 가져오기
                         string inputValue = textBox1.Text.Trim();
@@ -382,18 +402,15 @@ namespace dip_mes
                             // 매개변수 설정
                             cmd.Parameters.AddWithValue("@inputValue", "%" + inputValue + "%");
 
-                            // 데이터를 담을 DataTable 생성
-                            DataTable dataTable = new DataTable();
-
-                            // MySQLDataAdapter를 사용하여 데이터 가져오기
+                            // 비동기로 데이터 가져오기
                             using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                             {
-                                adapter.Fill(dataTable);
+                                using (DataTable dataTable = new DataTable())
+                                {
+                                    await Task.Run(() => adapter.Fill(dataTable));
+                                    dataGridView1.DataSource = dataTable;
+                                }
                             }
-
-                            // DataGridView에 데이터 바인딩
-                            dataGridView1.DataSource = null;
-                            dataGridView1.DataSource = dataTable;
                         }
                     }
                 }
