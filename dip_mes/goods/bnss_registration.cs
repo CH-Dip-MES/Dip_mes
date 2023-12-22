@@ -31,6 +31,7 @@ namespace dip_mes.goods
             string companyName = textBox1.Text;
             string phoneNumber = textBox2.Text;
             string address = textBox3.Text;
+            string companycode = textBox4.Text;
 
             // 텍스트박스가 비어있는지 확인
             if (string.IsNullOrEmpty(companyName) || string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(address))
@@ -48,7 +49,7 @@ namespace dip_mes.goods
                     connection.Open();
 
                     // MySQL에 데이터 삽입하는 SQL 쿼리
-                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate) VALUES (@division, @companyname, @phonenumber, @address, NOW())";
+                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate, companycode) VALUES (@division, @companyname, @phonenumber, @address, NOW(),@companycode)";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -57,6 +58,7 @@ namespace dip_mes.goods
                         cmd.Parameters.AddWithValue("@companyname", companyName);
                         cmd.Parameters.AddWithValue("@phonenumber", phoneNumber);
                         cmd.Parameters.AddWithValue("@address", address);
+                        cmd.Parameters.AddWithValue("@companycode", companycode);
 
                         // 쿼리 실행
                         cmd.ExecuteNonQuery();
@@ -77,6 +79,7 @@ namespace dip_mes.goods
             string companyName = textBox1.Text;
             string phoneNumber = textBox2.Text;
             string address = textBox3.Text;
+            string companycode = textBox4.Text;
 
             // 텍스트박스가 비어있는지 확인
             if (string.IsNullOrEmpty(companyName) || string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(address))
@@ -94,7 +97,7 @@ namespace dip_mes.goods
                     connection.Open();
 
                     // MySQL에 데이터 삽입하는 SQL 쿼리
-                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate) VALUES (@division, @companyname, @phonenumber, @address, NOW())";
+                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate,companycode) VALUES (@division, @companyname, @phonenumber, @address, NOW(),@companycode)";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -103,6 +106,8 @@ namespace dip_mes.goods
                         cmd.Parameters.AddWithValue("@companyname", companyName);
                         cmd.Parameters.AddWithValue("@phonenumber", phoneNumber);
                         cmd.Parameters.AddWithValue("@address", address);
+                        cmd.Parameters.AddWithValue("@companycode", companycode);
+
 
                         // 쿼리 실행
                         cmd.ExecuteNonQuery();

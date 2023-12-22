@@ -38,13 +38,15 @@ namespace dip_mes.goods
             this.label4 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(177, 61);
+            this.label1.Location = new System.Drawing.Point(187, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(230, 40);
             this.label1.TabIndex = 0;
@@ -53,14 +55,14 @@ namespace dip_mes.goods
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox1.Location = new System.Drawing.Point(91, 197);
+            this.textBox1.Location = new System.Drawing.Point(91, 162);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(409, 39);
             this.textBox1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(174, 481);
+            this.button1.Location = new System.Drawing.Point(184, 535);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 43);
             this.button1.TabIndex = 2;
@@ -72,7 +74,7 @@ namespace dip_mes.goods
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(233, 148);
+            this.label2.Location = new System.Drawing.Point(233, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(129, 27);
             this.label2.TabIndex = 3;
@@ -82,7 +84,7 @@ namespace dip_mes.goods
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(263, 251);
+            this.label3.Location = new System.Drawing.Point(261, 320);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 27);
             this.label3.TabIndex = 5;
@@ -91,7 +93,7 @@ namespace dip_mes.goods
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox2.Location = new System.Drawing.Point(91, 300);
+            this.textBox2.Location = new System.Drawing.Point(89, 369);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(409, 39);
             this.textBox2.TabIndex = 4;
@@ -100,7 +102,7 @@ namespace dip_mes.goods
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(263, 357);
+            this.label4.Location = new System.Drawing.Point(261, 426);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 27);
             this.label4.TabIndex = 7;
@@ -109,14 +111,14 @@ namespace dip_mes.goods
             // textBox3
             // 
             this.textBox3.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox3.Location = new System.Drawing.Point(91, 403);
+            this.textBox3.Location = new System.Drawing.Point(89, 472);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(409, 39);
             this.textBox3.TabIndex = 6;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(301, 481);
+            this.button2.Location = new System.Drawing.Point(311, 535);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(95, 43);
             this.button2.TabIndex = 8;
@@ -124,11 +126,31 @@ namespace dip_mes.goods
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label5.Location = new System.Drawing.Point(233, 216);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(120, 27);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "업체코드";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.textBox4.Location = new System.Drawing.Point(91, 265);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(409, 39);
+            this.textBox4.TabIndex = 9;
+            // 
             // bnss_registration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 561);
+            this.ClientSize = new System.Drawing.Size(584, 606);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
@@ -157,5 +179,7 @@ namespace dip_mes.goods
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
