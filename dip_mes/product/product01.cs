@@ -224,7 +224,7 @@ namespace dip_mes
         private void FormatDurationColumn()
         {
             // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
-            if (dataGridView1.Columns.Contains("Duration") && dataGridView1.Columns["Duration"] is DataGridViewTextBoxColumn durationColumn)
+            if (dataGridView1.Columns.Contains("지시일자") && dataGridView1.Columns["지시일자"] is DataGridViewTextBoxColumn durationColumn)
             {
                 durationColumn.DefaultCellStyle.Format = "M월 d일 H:mm";
             }

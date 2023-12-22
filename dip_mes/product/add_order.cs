@@ -62,7 +62,7 @@ namespace dip_mes
 
                     // 입력된 컬럼 이름을 기반으로 데이터 조회
                     string query = $"SELECT DISTINCT Process FROM manufacture WHERE Product = @inputValue";
-                    //string query = $"SELECT DISTINCT Process, 조회하고자 하는 컬럼 FROM 조회를 원하는 테이블명 WHERE Product = @inputValue";
+                    
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@inputValue", textBox2.Text.Trim());
