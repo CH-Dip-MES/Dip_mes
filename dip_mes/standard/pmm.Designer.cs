@@ -52,6 +52,7 @@
             this.button1.TabIndex = 23;
             this.button1.Text = "조회";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView2
             // 
@@ -90,7 +91,6 @@
             this.DeleteButton1.TabIndex = 19;
             this.DeleteButton1.Text = "삭제";
             this.DeleteButton1.UseVisualStyleBackColor = true;
-          
             // 
             // RegisterButton1
             // 
