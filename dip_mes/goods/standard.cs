@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
@@ -14,7 +16,8 @@ namespace dip_mes
             InitializeComponent();
             InitializeDatabaseConnection();
             InitializeDataGridViewColumns();
-            LoadDataIntoComboBox();
+            LoadDataIntoComboBox1();
+            LoadDataIntoComboBox2();
             dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
@@ -34,10 +37,18 @@ namespace dip_mes
         private void InitializeDataGridViewColumns()
         {
             // 체크박스 컬럼 추가
-            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            checkBoxColumn.Name = "checkBoxColumn";
-            checkBoxColumn.HeaderText = "체크";
-            dataGridView1.Columns.Add(checkBoxColumn);
+            DataGridViewCheckBoxColumn checkBoxColumn1 = new DataGridViewCheckBoxColumn();
+            DataGridViewCheckBoxColumn checkBoxColumn2 = new DataGridViewCheckBoxColumn();
+            DataGridViewCheckBoxColumn checkBoxColumn3 = new DataGridViewCheckBoxColumn();
+            checkBoxColumn1.Name = "checkBoxColumn";
+            checkBoxColumn1.HeaderText = "체크";
+            checkBoxColumn2.Name = "checkBoxColumn";
+            checkBoxColumn2.HeaderText = "체크";
+            checkBoxColumn3.Name = "checkBoxColumn";
+            checkBoxColumn3.HeaderText = "체크";
+            dataGridView1.Columns.Add(checkBoxColumn1);
+            dataGridView2.Columns.Add(checkBoxColumn2);
+            dataGridView3.Columns.Add(checkBoxColumn3);
 
             // DataGridView에 컬럼 추가
             dataGridView1.Columns.Add("Field2Column", "품번");
@@ -46,14 +57,29 @@ namespace dip_mes
             dataGridView1.Columns.Add("Field5Column", "제품규격");
             dataGridView1.Columns.Add("ins_dateColumn", "등록 시간");
 
+            // DateGridView2 컬럼 추가
+            dataGridView2.Columns.Add("Field2Column", "제품번호");
+            dataGridView2.Columns.Add("Field3Column", "공정명");
+            dataGridView2.Columns.Add("Field4Column", "공정시간");
+
+            // DateGridView3 컬럼 추가
+            dataGridView3.Columns.Add("Field2Column", "제품번호");
+            dataGridView3.Columns.Add("Field3Column", "자재명");
+            dataGridView3.Columns.Add("Field4Column", "자재수량");
+
             // ComboBox 추가
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox1.SelectedIndex = 0;
             Controls.Add(comboBox1);  // 폼에 컨트롤 추가
+            // ComboBox 추가
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.Items.Add("선택하세요");  // 초기 선택 항목 추가
+            comboBox2.SelectedIndex = 0;
+            Controls.Add(comboBox2);  // 폼에 컨트롤 추가
         }
 
-        private void LoadDataIntoComboBox()
+        private void LoadDataIntoComboBox1()
         {
             string query = "SELECT process_name FROM process";
             MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -74,13 +100,30 @@ namespace dip_mes
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
+        private void LoadDataIntoComboBox2()
+        {
+            string query = "SELECT parts_name FROM parts";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
 
-        // 나머지 메서드들은 여기에 추가하시면 됩니다.
-    
+            try
+            {
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    comboBox2.Items.Add(dataReader.GetString("parts_name"));
+                }
+
+                dataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
 
 
-
-private void btnRegister_Click(object sender, EventArgs e)
+        private void btnRegister_Click(object sender, EventArgs e)
         {
             // 데이터 그리드뷰에 데이터 추가
             DateTime ins_date = DateTime.Now;
@@ -105,24 +148,22 @@ private void btnRegister_Click(object sender, EventArgs e)
             // MySQL에 데이터 삽입
             InsertDataIntoMySQL(productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
 
-            // product_process 테이블에도 데이터 삽입
-            InsertProductCodeIntoProductProcess(productCode);
-
-            // product_parts 테이블에도 데이터 삽입
-            InsertProductCodeIntoProductParts(productCode);
+           
         }
 
-        private void InsertProductCodeIntoProductProcess(string productCode)
+        private void InsertProductProcess(string processName, int processTime, string productCode)
         {
-            // product_process 테이블에 product_code 추가
-            string processQuery = "INSERT INTO product_process (product_code) VALUES (@product_code)";
-            using (MySqlCommand processCmd = new MySqlCommand(processQuery, connection))
+            // product_process 테이블에 사용자에게 입력받은 데이터 DB 저장
+            string Query = "INSERT INTO product_process (product_code, process_name, process_time) VALUES (@product_code, @process_name, @process_time)";
+            using (MySqlCommand Cmd = new MySqlCommand(Query, connection))
             {
-                processCmd.Parameters.AddWithValue("@product_code", productCode);
+                Cmd.Parameters.AddWithValue("@product_code", productCode);
+                Cmd.Parameters.AddWithValue("@process_name", processName);
+                Cmd.Parameters.AddWithValue("@process_time", processTime);
 
                 try
                 {
-                    processCmd.ExecuteNonQuery();
+                    Cmd.ExecuteNonQuery();
                     MessageBox.Show("product_process 테이블에 데이터가 성공적으로 등록되었습니다");
                 }
                 catch (Exception ex)
@@ -131,18 +172,19 @@ private void btnRegister_Click(object sender, EventArgs e)
                 }
             }
         }
-
-        private void InsertProductCodeIntoProductParts(string productCode)
+        private void InsertProductParts(string partsName, int partsNumber, string productCode)
         {
-            // product_parts 테이블에 product_code 추가
-            string partsQuery = "INSERT INTO product_parts (product_code) VALUES (@product_code)";
-            using (MySqlCommand partsCmd = new MySqlCommand(partsQuery, connection))
+            // product_parts 테이블에 사용자에게 입력받은 데이터 DB 저장
+            string Query = "INSERT INTO product_parts (product_code, parts_name, parts_number) VALUES (@product_code, @parts_name, @parts_number)";
+            using (MySqlCommand Cmd = new MySqlCommand(Query, connection))
             {
-                partsCmd.Parameters.AddWithValue("@product_code", productCode);
+                Cmd.Parameters.AddWithValue("@product_code", productCode);
+                Cmd.Parameters.AddWithValue("@parts_number", partsNumber);
+                Cmd.Parameters.AddWithValue("@parts_name", partsName);
 
                 try
                 {
-                    partsCmd.ExecuteNonQuery();
+                    Cmd.ExecuteNonQuery();
                     MessageBox.Show("product_parts 테이블에 데이터가 성공적으로 등록되었습니다");
                 }
                 catch (Exception ex)
@@ -328,20 +370,72 @@ private void btnRegister_Click(object sender, EventArgs e)
                 }
             }
         }
-
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void SelectProductProcess(string productCode)
         {
-            // 체크박스의 값이 변경되었을 때의 이벤트 처리
-            if (e.ColumnIndex == dataGridView1.Columns["checkBoxColumn"].Index && e.RowIndex >= 0)
-            {
-                DataGridViewCheckBoxCell checkBoxCell = dataGridView1.Rows[e.RowIndex].Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
-                bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
+            // 데이터그리드뷰 초기화
+            dataGridView2.Rows.Clear();
 
-                if (isChecked)
+            // MySQL에서 해당 품번 데이터 조회
+            string query = "SELECT product_code, process_name, process_time FROM product_process WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
-                    string productCode = dataGridView1.Rows[e.RowIndex].Cells["Field2Column"].Value.ToString();
-                    DeleteRowFromMySQL(productCode);
+                    while (reader.Read())
+                    {
+                        string getProcessCode = reader.GetString("product_code");
+                        string getProcessName = reader.GetString("process_name");
+                        string getProcessTime = reader.GetString("process_time");
+                        
+                        // 조회된 데이터를 DataGridView에 추가
+                        DataGridViewRow newRow = new DataGridViewRow();
+                        newRow.CreateCells(dataGridView2, false, getProcessCode, getProcessName, getProcessTime);
+
+                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
+                        for (int i = 1; i < newRow.Cells.Count; i++)
+                        {
+                            newRow.Cells[i].ReadOnly = true;
+                        }
+
+                        dataGridView2.Rows.Add(newRow);
+                    }
+                }
+            }
+        }
+
+        private void SelectProductParts(string productCode)
+        {
+            // 데이터그리드뷰 초기화
+            dataGridView3.Rows.Clear();
+
+            // MySQL에서 해당 품번 데이터 조회
+            string query = "SELECT product_code, parts_name, parts_number FROM product_parts WHERE product_code = @product_code";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@product_code", productCode);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string getProcessCode = reader.GetString("product_code");
+                        string getPartsName = reader.GetString("parts_name");
+                        string getPartsNumber = reader.GetString("parts_number");
+
+                        // 조회된 데이터를 DataGridView에 추가
+                        DataGridViewRow newRow = new DataGridViewRow();
+                        newRow.CreateCells(dataGridView3, false, getProcessCode, getPartsName, getPartsNumber);
+
+                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
+                        for (int i = 1; i < newRow.Cells.Count; i++)
+                        {
+                            newRow.Cells[i].ReadOnly = true;
+                        }
+
+                        dataGridView3.Rows.Add(newRow);
+                    }
                 }
             }
         }
@@ -356,6 +450,56 @@ private void btnRegister_Click(object sender, EventArgs e)
 
                 // product_code의 값을 textbox6에 설정합니다.
                 textbox6.Text = productCode;
+                textBox7.Text = productCode;
+                SelectProductProcess(productCode);
+                SelectProductParts(productCode);
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRegister1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textbox6.Text)) 
+            {
+                MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
+            }
+            else if (string.IsNullOrEmpty(txtInput.Text))
+            {
+                MessageBox.Show("공정시간을 입력해주세요");
+            }
+            else if (!Char.IsDigit(txtInput.Text, 0))
+            {
+                MessageBox.Show("공정시간을 분단위로 숫자만 입력해주세요");
+            }
+            else
+            {
+                int getTime = int.Parse(txtInput.Text);
+                InsertProductProcess(comboBox1.Text, getTime, textbox6.Text);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox7.Text))
+            {
+                MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
+            }
+            else if (string.IsNullOrEmpty(textBox8.Text))
+            {
+                MessageBox.Show("자재수량을 입력해주세요");
+            }
+            else if (!Char.IsDigit(textBox8.Text, 0))
+            {
+                MessageBox.Show("자재수량을 숫자로 입력해주세요");
+            }
+            else
+            {
+                int getNumber = int.Parse(textBox8.Text);
+                InsertProductParts(comboBox2.Text, getNumber, textBox7.Text);
             }
         }
     }
