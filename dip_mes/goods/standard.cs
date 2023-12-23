@@ -61,11 +61,13 @@ namespace dip_mes
             dataGridView2.Columns.Add("Field2Column", "제품번호");
             dataGridView2.Columns.Add("Field3Column", "공정명");
             dataGridView2.Columns.Add("Field4Column", "공정시간");
+            dataGridView2.Columns.Add("Field5Column", "id");
 
             // DateGridView3 컬럼 추가
             dataGridView3.Columns.Add("Field2Column", "제품번호");
             dataGridView3.Columns.Add("Field3Column", "자재명");
             dataGridView3.Columns.Add("Field4Column", "자재수량");
+            dataGridView3.Columns.Add("Field5Column", "id");
 
             // ComboBox 추가
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -77,6 +79,9 @@ namespace dip_mes
             comboBox2.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox2.SelectedIndex = 0;
             Controls.Add(comboBox2);  // 폼에 컨트롤 추가
+
+            dataGridView2.Columns["Field5Column"].Visible = false;
+            dataGridView3.Columns["Field5Column"].Visible = false;
         }
 
         private void LoadDataIntoComboBox1()
@@ -266,7 +271,7 @@ namespace dip_mes
                 if (isChecked)
                 {
                     // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
-                    string productCode = row.Cells["Field2Column"].Value.ToString();
+                    string productCode = row.Cells["Field5Column"].Value.ToString();
                     DeleteRowFromDataGridView(row);
                     DeleteRowFromMySQL(productCode);
                 }
@@ -376,7 +381,7 @@ namespace dip_mes
             dataGridView2.Rows.Clear();
 
             // MySQL에서 해당 품번 데이터 조회
-            string query = "SELECT product_code, process_name, process_time FROM product_process WHERE product_code = @product_code";
+            string query = "SELECT * FROM product_process WHERE product_code = @product_code";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@product_code", productCode);
@@ -385,13 +390,14 @@ namespace dip_mes
                 {
                     while (reader.Read())
                     {
+                        string getId = reader.GetString("product_process_id");
                         string getProcessCode = reader.GetString("product_code");
                         string getProcessName = reader.GetString("process_name");
                         string getProcessTime = reader.GetString("process_time");
                         
                         // 조회된 데이터를 DataGridView에 추가
                         DataGridViewRow newRow = new DataGridViewRow();
-                        newRow.CreateCells(dataGridView2, false, getProcessCode, getProcessName, getProcessTime);
+                        newRow.CreateCells(dataGridView2, false, getProcessCode, getProcessName, getProcessTime, getId);
 
                         // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
                         for (int i = 1; i < newRow.Cells.Count; i++)
@@ -411,7 +417,7 @@ namespace dip_mes
             dataGridView3.Rows.Clear();
 
             // MySQL에서 해당 품번 데이터 조회
-            string query = "SELECT product_code, parts_name, parts_number FROM product_parts WHERE product_code = @product_code";
+            string query = "SELECT * FROM product_parts WHERE product_code = @product_code";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@product_code", productCode);
@@ -420,13 +426,14 @@ namespace dip_mes
                 {
                     while (reader.Read())
                     {
+                        string getId = reader.GetString("product_parts_id");
                         string getProcessCode = reader.GetString("product_code");
                         string getPartsName = reader.GetString("parts_name");
                         string getPartsNumber = reader.GetString("parts_number");
 
                         // 조회된 데이터를 DataGridView에 추가
                         DataGridViewRow newRow = new DataGridViewRow();
-                        newRow.CreateCells(dataGridView3, false, getProcessCode, getPartsName, getPartsNumber);
+                        newRow.CreateCells(dataGridView3, false, getProcessCode, getPartsName, getPartsNumber, getId);
 
                         // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
                         for (int i = 1; i < newRow.Cells.Count; i++)
@@ -507,12 +514,74 @@ namespace dip_mes
 
         private void btnDelete1_Click(object sender, EventArgs e)
         {
+            // 체크된 항목을 반복하여 삭제
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                // 체크된 항목인지 확인
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
+                if (isChecked)
+                {
+                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
+                    string getid = row.Cells["Field5Column"].Value.ToString();
+                    int id = int.Parse(getid);
+
+                    dataGridView2.Rows.Remove(row);
+
+                    string query = "DELETE FROM product_process WHERE product_process_id = @product_process_id";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@product_process_id", id);
+
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                        }
+                    }
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // 체크된 항목을 반복하여 삭제
+            foreach (DataGridViewRow row in dataGridView3.Rows)
+            {
+                // 체크된 항목인지 확인
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
+                if (isChecked)
+                {
+                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
+                    string getid = row.Cells["Field5Column"].Value.ToString();
+                    int id = int.Parse(getid);
+
+                    dataGridView3.Rows.Remove(row);
+
+                    string query = "DELETE FROM product_parts WHERE product_parts_id = @product_parts_id";
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@product_parts_id", id);
+
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                        }
+                    }
+                }
+            }
         }
     }
 }
