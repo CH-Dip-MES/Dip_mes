@@ -480,6 +480,7 @@ namespace dip_mes
                 int getTime = int.Parse(txtInput.Text);
                 InsertProductProcess(comboBox1.Text, getTime, textbox6.Text);
             }
+            SelectProductProcess(textbox6.Text);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -501,6 +502,17 @@ namespace dip_mes
                 int getNumber = int.Parse(textBox8.Text);
                 InsertProductParts(comboBox2.Text, getNumber, textBox7.Text);
             }
+            SelectProductParts(textBox7.Text);
+        }
+
+        private void btnDelete1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

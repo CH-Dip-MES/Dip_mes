@@ -266,6 +266,7 @@
             this.btnDelete1.TabIndex = 23;
             this.btnDelete1.Text = "삭제";
             this.btnDelete1.UseVisualStyleBackColor = true;
+            this.btnDelete1.Click += new System.EventHandler(this.btnDelete1_Click);
             // 
             // comboBox1
             // 
@@ -328,6 +329,7 @@
             this.button2.TabIndex = 48;
             this.button2.Text = "삭제";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox8
             // 
