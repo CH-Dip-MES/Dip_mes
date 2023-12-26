@@ -110,22 +110,22 @@
     <Compile Include="main_screen.Designer.cs">
       <DependentUpon>main_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\find_screen.cs">
+    <Compile Include="user\find_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\find_screen.designer.cs">
+    <Compile Include="user\find_screen.designer.cs">
       <DependentUpon>find_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\join_screen.cs">
+    <Compile Include="user\join_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\join_screen.designer.cs">
+    <Compile Include="user\join_screen.designer.cs">
       <DependentUpon>join_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\login_screen.cs">
+    <Compile Include="user\login_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\login_screen.designer.cs">
+    <Compile Include="user\login_screen.designer.cs">
       <DependentUpon>login_screen.cs</DependentUpon>
     </Compile>
     <Compile Include="product\Form1.cs">
@@ -166,13 +166,13 @@
     <EmbeddedResource Include="main_screen.resx">
       <DependentUpon>main_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\find_screen.resx">
+    <EmbeddedResource Include="user\find_screen.resx">
       <DependentUpon>find_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\join_screen.resx">
+    <EmbeddedResource Include="user\join_screen.resx">
       <DependentUpon>join_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\login_screen.resx">
+    <EmbeddedResource Include="user\login_screen.resx">
       <DependentUpon>login_screen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="product\Form1.resx">
