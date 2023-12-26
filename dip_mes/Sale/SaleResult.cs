@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using MySql.Data.MySqlClient;
 
-namespace dip_mes.sale
+namespace dip_mes
 {
     public partial class SaleResult : UserControl
     {

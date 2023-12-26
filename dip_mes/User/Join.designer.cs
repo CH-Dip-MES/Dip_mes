@@ -1,6 +1,6 @@
 ﻿namespace dip_mes
 {
-    partial class join_screen
+    partial class Join
     {
         /// <summary>
         /// Required designer variable.
@@ -162,7 +162,7 @@
             this.number.Size = new System.Drawing.Size(218, 29);
             this.number.TabIndex = 14;
             // 
-            // join_screen
+            // Join
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -180,7 +180,7 @@
             this.Controls.Add(this.txtbox_id);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtbox_name);
-            this.Name = "join_screen";
+            this.Name = "Join";
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);

@@ -13,13 +13,13 @@ using MySqlX.XDevAPI.Relational;
 
 namespace dip_mes
 {
-    public partial class find_screen : Form
+    public partial class FindUser : Form
     {
 
 
 
         private const string ConnectionString = "server= 222.108.180.36; Uid=EDU_STUDENT; password=1234; database=mes_2;";
-        public find_screen()
+        public FindUser()
         {
             InitializeComponent();
         }

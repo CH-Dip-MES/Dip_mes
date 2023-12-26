@@ -1,6 +1,6 @@
 ﻿namespace dip_mes
 {
-    partial class login_screen
+    partial class Login
     {
         /// <summary>
         /// Required designer variable.
@@ -115,7 +115,7 @@
             this.New.UseVisualStyleBackColor = true;
             this.New.Click += new System.EventHandler(this.New_Click);
             // 
-            // login_screen
+            // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,7 +128,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ID);
             this.Controls.Add(this.label1);
-            this.Name = "login_screen";
+            this.Name = "Login";
             this.Text = "Form2";
             this.ResumeLayout(false);
             this.PerformLayout();

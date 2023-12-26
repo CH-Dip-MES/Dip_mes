@@ -11,11 +11,11 @@ using MySql.Data.MySqlClient;
 
 namespace dip_mes
 {
-    public partial class login_screen : Form
+    public partial class Login : Form
     {
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
-        public login_screen()
+        public Login()
         {
             InitializeComponent();
         }
@@ -60,13 +60,13 @@ namespace dip_mes
         }
         private void Find_Click(object sender, EventArgs e)
         {
-            find_screen find_Screen = new find_screen();
-            find_Screen.Show();
+            FindUser FindUser = new FindUser();
+            FindUser.Show();
         }
         private void New_Click(object sender, EventArgs e)
         {
-            join_screen join_screen = new join_screen();
-            join_screen.Show();
+            Join Join = new Join();
+            Join.Show();
         }
     }
 }

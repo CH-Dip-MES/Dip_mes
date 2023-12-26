@@ -1,6 +1,6 @@
 ﻿namespace dip_mes
 {
-    partial class find_screen
+    partial class FindUser
     {
         /// <summary>
         /// Required designer variable.

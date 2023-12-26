@@ -11,12 +11,12 @@ using MySql.Data.MySqlClient;
 
 namespace dip_mes
 {
-    public partial class manage : UserControl
+    public partial class Manage : UserControl
     {
         private MySqlConnection connection;
         private string ConnectionString = "server=222.108.180.36; Uid=EDU_STUDENT; password=1234; database=mes_2;";
 
-        public manage()
+        public Manage()
         {
             InitializeComponent();
             btnDelete.Click += btnDelete_Click;
@@ -117,7 +117,7 @@ namespace dip_mes
 
         private void JoinBtn_Click(object sender, EventArgs e)
         {
-            join_screen PopupJoinsc = new join_screen();
+            Join PopupJoinsc = new Join();
             PopupJoinsc.ShowDialog();
         }
     }

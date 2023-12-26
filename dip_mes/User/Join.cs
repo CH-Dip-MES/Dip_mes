@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 namespace dip_mes
 {
-    public partial class join_screen : Form
+    public partial class Join : Form
     {
 
         /* string _server = "EDU"; //DB 서버 주소, 로컬일 경우 localhost
@@ -20,7 +20,7 @@ namespace dip_mes
         string _pw = "1234"; //계정 비밀번호
         string _connectionAddress = ""; */
 
-        public join_screen()
+        public Join()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace dip_mes
 {
-    partial class manage
+    partial class Manage
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.

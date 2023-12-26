@@ -1,4 +1,4 @@
-﻿namespace dip_mes.sale
+﻿namespace dip_mes
 {
     partial class SaleResult
     {

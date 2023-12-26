@@ -108,11 +108,11 @@
     <Compile Include="Buy\MaterialOrder.Designer.cs">
       <DependentUpon>MaterialOrder.cs</DependentUpon>
     </Compile>
-    <Compile Include="main_screen.cs">
+    <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="main_screen.Designer.cs">
-      <DependentUpon>main_screen.cs</DependentUpon>
+    <Compile Include="MainScreen.Designer.cs">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Standard\AddClient.cs">
       <SubType>Form</SubType>
@@ -233,8 +233,8 @@
     <EmbeddedResource Include="Buy\MaterialOrder.resx">
       <DependentUpon>MaterialOrder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="main_screen.resx">
-      <DependentUpon>main_screen.cs</DependentUpon>
+    <EmbeddedResource Include="MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Standard\AddClient.resx">
       <DependentUpon>AddClient.cs</DependentUpon>
