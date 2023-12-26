@@ -108,35 +108,53 @@
     <Compile Include="buy\buy01.Designer.cs">
       <DependentUpon>buy01.cs</DependentUpon>
     </Compile>
+    <Compile Include="goods\bnss_registration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="goods\bnss_registration.Designer.cs">
+      <DependentUpon>bnss_registration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="goods\standard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="goods\standard.Designer.cs">
+      <DependentUpon>standard.cs</DependentUpon>
+	</Compile>
+	<Compile Include="buy\buy02.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="buy\buy02.Designer.cs">
+      <DependentUpon>buy02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="goods\standard02.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="goods\standard02.Designer.cs">
+      <DependentUpon>standard02.cs</DependentUpon>
+    </Compile>
     <Compile Include="main_screen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="main_screen.Designer.cs">
       <DependentUpon>main_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\find_screen.cs">
+    <Compile Include="user\find_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\find_screen.designer.cs">
+    <Compile Include="user\find_screen.designer.cs">
       <DependentUpon>find_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\join_screen.cs">
+    <Compile Include="user\join_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\join_screen.designer.cs">
+    <Compile Include="user\join_screen.designer.cs">
       <DependentUpon>join_screen.cs</DependentUpon>
     </Compile>
-    <Compile Include="login\login_screen.cs">
+    <Compile Include="user\login_screen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="login\login_screen.designer.cs">
+    <Compile Include="user\login_screen.designer.cs">
       <DependentUpon>login_screen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="product\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="product\Form1.designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="product\add_order.cs">
       <SubType>Form</SubType>
@@ -144,25 +162,49 @@
     <Compile Include="product\add_order.designer.cs">
       <DependentUpon>add_order.cs</DependentUpon>
     </Compile>
+    <Compile Include="product\add_input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="product\add_input.Designer.cs">
+      <DependentUpon>add_input.cs</DependentUpon>
+    </Compile>
     <Compile Include="product\product02.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="product\product02.designer.cs">
       <DependentUpon>product02.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="register\signup.cs">
+    <Compile Include="product\product01.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="register\signup.Designer.cs">
-      <DependentUpon>signup.cs</DependentUpon>
+    <Compile Include="product\product01.Designer.cs">
+      <DependentUpon>product01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="user\manage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="user\manage.Designer.cs">
+      <DependentUpon>manage.cs</DependentUpon>
     </Compile>
     <Compile Include="sale\sale01.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="sale\sale01.designer.cs">
       <DependentUpon>sale01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="standard\pcm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pcm.Designer.cs">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="standard\pmm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pmm.Designer.cs">
+      <DependentUpon>pmm.cs</DependentUpon>
     </Compile>
     <Compile Include="sale\sale02.cs">
       <SubType>UserControl</SubType>
@@ -179,26 +221,41 @@
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="goods\bnss_registration.resx">
+      <DependentUpon>bnss_registration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="goods\standard.resx">
+      <DependentUpon>standard.cs</DependentUpon>
+	</EmbeddedResource>
+	<EmbeddedResource Include="buy\buy02.resx">
+      <DependentUpon>buy02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="goods\standard02.resx">
+      <DependentUpon>standard02.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="main_screen.resx">
       <DependentUpon>main_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\find_screen.resx">
+    <EmbeddedResource Include="user\find_screen.resx">
       <DependentUpon>find_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\join_screen.resx">
+    <EmbeddedResource Include="user\join_screen.resx">
       <DependentUpon>join_screen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="login\login_screen.resx">
+    <EmbeddedResource Include="user\login_screen.resx">
       <DependentUpon>login_screen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="product\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="product\add_order.resx">
       <DependentUpon>add_order.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="product\add_input.resx">
+      <DependentUpon>add_input.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="product\product02.resx">
       <DependentUpon>product02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="product\product01.resx">
+      <DependentUpon>product01.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -209,11 +266,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="register\signup.resx">
-      <DependentUpon>signup.cs</DependentUpon>
+    <EmbeddedResource Include="user\manage.resx">
+      <DependentUpon>manage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pcm.resx">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pmm.resx">
+      <DependentUpon>pmm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale02.resx">
       <DependentUpon>sale02.cs</DependentUpon>

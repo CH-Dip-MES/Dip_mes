@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace dip_mes.sale
+namespace dip_mes
 {
     public partial class sale02 : UserControl
     {

@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 
-namespace dip_mes.login
+namespace dip_mes
 {
     public partial class find_screen : Form
     {

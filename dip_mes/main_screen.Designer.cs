@@ -48,7 +48,10 @@ namespace dip_mes
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.panel = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
+
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -74,6 +77,7 @@ namespace dip_mes
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1904, 1001);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -86,7 +90,7 @@ namespace dip_mes
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1042F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel2, 4, 0);
@@ -111,7 +115,7 @@ namespace dip_mes
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.22222F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(477, 74);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(475, 74);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -121,7 +125,7 @@ namespace dip_mes
             this.label1.Font = new System.Drawing.Font("굴림", 30F);
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(471, 44);
+            this.label1.Size = new System.Drawing.Size(469, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "MES 구축 프로젝트";
             // 
@@ -130,7 +134,7 @@ namespace dip_mes
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(1565, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(1563, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.33333F));
@@ -138,17 +142,6 @@ namespace dip_mes
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(174, 74);
             this.tableLayoutPanel4.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 15F);
-            this.label2.Location = new System.Drawing.Point(-2, 13);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 20);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "ID";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // panel1
             // 
@@ -170,10 +163,21 @@ namespace dip_mes
             this.label3.Text = "사용자 이름";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("굴림", 15F);
+            this.label2.Location = new System.Drawing.Point(-2, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(25, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "ID";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(1745, 3);
+            this.panel2.Location = new System.Drawing.Point(1743, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(135, 74);
             this.panel2.TabIndex = 2;
@@ -243,55 +247,35 @@ namespace dip_mes
             this.tableLayoutPanel7.Controls.Add(this.button4, 0, 2);
             this.tableLayoutPanel7.Controls.Add(this.button3, 0, 1);
             this.tableLayoutPanel7.Controls.Add(this.button2, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.button7, 0, 5);
+            this.tableLayoutPanel7.Controls.Add(this.button8, 0, 6);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.tableLayoutPanel7.RowCount = 6;
+            this.tableLayoutPanel7.RowCount = 7;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(185, 836);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
-            // button2
+            // button6
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(0, 10);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(185, 46);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "기준정보";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(0, 56);
-            this.button3.Margin = new System.Windows.Forms.Padding(0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(185, 46);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "영업관리";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.Location = new System.Drawing.Point(0, 102);
-            this.button4.Margin = new System.Windows.Forms.Padding(0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(185, 46);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "구매관리";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button6.Location = new System.Drawing.Point(0, 194);
+            this.button6.Margin = new System.Windows.Forms.Padding(0);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(185, 46);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "회원정보";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
@@ -305,17 +289,52 @@ namespace dip_mes
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button6
+            // button4
             // 
-            this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button6.Location = new System.Drawing.Point(0, 194);
-            this.button6.Margin = new System.Windows.Forms.Padding(0);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(185, 46);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "회원정보";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button4.Location = new System.Drawing.Point(0, 102);
+            this.button4.Margin = new System.Windows.Forms.Padding(0);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(185, 46);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "구매관리";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.Location = new System.Drawing.Point(0, 56);
+            this.button3.Margin = new System.Windows.Forms.Padding(0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(185, 46);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "영업관리";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Location = new System.Drawing.Point(0, 10);
+            this.button2.Margin = new System.Windows.Forms.Padding(0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(185, 46);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "기준정보";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button7
+            // 
+            this.button7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button7.Location = new System.Drawing.Point(0, 240);
+            this.button7.Margin = new System.Windows.Forms.Padding(0);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(185, 46);
+            this.button7.TabIndex = 5;
+            this.button7.Text = "구매관리2";
+            this.button7.UseVisualStyleBackColor = true;
             // 
             // panel
             // 
@@ -328,13 +347,24 @@ namespace dip_mes
             this.panel.TabIndex = 1;
             this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Form_load);
             // 
-            // Form1
+            // button8
+            // 
+            this.button8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button8.Location = new System.Drawing.Point(0, 286);
+            this.button8.Margin = new System.Windows.Forms.Padding(0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(185, 46);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "자재투입";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // main_screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "Form1";
+            this.Name = "main_screen";
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -373,6 +403,8 @@ namespace dip_mes
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 
