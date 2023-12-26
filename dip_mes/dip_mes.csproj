@@ -113,7 +113,8 @@
     </Compile>
     <Compile Include="goods\standard.Designer.cs">
       <DependentUpon>standard.cs</DependentUpon>
-    <Compile Include="buy\buy02.cs">
+	</Compile>
+	<Compile Include="buy\buy02.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="buy\buy02.Designer.cs">
@@ -192,7 +193,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="goods\standard.resx">
       <DependentUpon>standard.cs</DependentUpon>
-    <EmbeddedResource Include="buy\buy02.resx">
+	</EmbeddedResource>
+	<EmbeddedResource Include="buy\buy02.resx">
       <DependentUpon>buy02.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="main_screen.resx">
