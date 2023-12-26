@@ -182,6 +182,18 @@
     <Compile Include="sale\sale01.designer.cs">
       <DependentUpon>sale01.cs</DependentUpon>
     </Compile>
+    <Compile Include="standard\pcm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pcm.Designer.cs">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="standard\pmm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="standard\pmm.Designer.cs">
+      <DependentUpon>pmm.cs</DependentUpon>
+    </Compile>
     <Compile Include="sale\sale02.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +247,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale01.resx">
       <DependentUpon>sale01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pcm.resx">
+      <DependentUpon>pcm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="standard\pmm.resx">
+      <DependentUpon>pmm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale02.resx">
       <DependentUpon>sale02.cs</DependentUpon>

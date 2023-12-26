@@ -12,6 +12,7 @@ namespace dip_mes
 {
     public partial class main_screen : Form
     {
+        standard.pmm stanSc = new standard.pmm();
         buy01 buySc1 = new buy01();
         buy02 buySc2 = new buy02();
         sale01 saleSc1 = new sale01();
@@ -69,6 +70,8 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
+            panel.Controls.Clear();
+            panel.Controls.Add(stanSc);
         }
     }
 }
