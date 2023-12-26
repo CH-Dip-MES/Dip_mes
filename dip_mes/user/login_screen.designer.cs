@@ -34,6 +34,8 @@
             this.PW = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.Find = new System.Windows.Forms.Button();
+            this.New = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -56,11 +58,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(336, 518);
+            this.button1.Location = new System.Drawing.Point(530, 372);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 25);
+            this.button1.Size = new System.Drawing.Size(97, 97);
             this.button1.TabIndex = 2;
-            this.button1.Text = "Login";
+            this.button1.Text = "로그인";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -93,6 +95,26 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "로그인 ";
             // 
+            // Find
+            // 
+            this.Find.Location = new System.Drawing.Point(277, 485);
+            this.Find.Name = "Find";
+            this.Find.Size = new System.Drawing.Size(116, 34);
+            this.Find.TabIndex = 2;
+            this.Find.Text = "ID/PW 찾기";
+            this.Find.UseVisualStyleBackColor = true;
+            this.Find.Click += new System.EventHandler(this.Find_Click);
+            // 
+            // New
+            // 
+            this.New.Location = new System.Drawing.Point(397, 485);
+            this.New.Name = "New";
+            this.New.Size = new System.Drawing.Size(116, 34);
+            this.New.TabIndex = 2;
+            this.New.Text = "회원가입";
+            this.New.UseVisualStyleBackColor = true;
+            this.New.Click += new System.EventHandler(this.New_Click);
+            // 
             // login_screen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -101,6 +123,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.PW);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.New);
+            this.Controls.Add(this.Find);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ID);
             this.Controls.Add(this.label1);
@@ -119,5 +143,7 @@
         private System.Windows.Forms.TextBox PW;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Find;
+        private System.Windows.Forms.Button New;
     }
 }
