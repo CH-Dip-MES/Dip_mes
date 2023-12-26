@@ -11,8 +11,7 @@ using System.Windows.Forms;
 namespace dip_mes
 {
     public partial class main_screen : Form
-    {
-        
+    {       
         private Boolean showpanelbase = false;
         private Boolean showpanelsale = false;
         private Boolean showpanelbuy = false;
@@ -26,6 +25,7 @@ namespace dip_mes
         product02 productSc2 = new product02();
         manage signSc1 = new manage();
         product01 productSc1 = new product01();
+
         public main_screen()
         {
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace dip_mes
         private void button7_Click_1(object sender, EventArgs e)
         {
             panel.Controls.Clear();
-            panel.Controls.Add(buySc1);
+            panel.Controls.Add(saleSc3);
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -168,7 +168,7 @@ namespace dip_mes
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
-
+        
         }
     }
 }

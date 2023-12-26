@@ -73,8 +73,9 @@ namespace dip_mes
                         MessageBox.Show("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
                         return; // 등록 중단
                     }
-
+                    
                     // 중복된 아이디가 없으면 회원가입 처리
+                    
                     string insertQuery = "INSERT INTO test (name, id, pwd, number, email, department) VALUES (@name, @id, @pwd, @number, @email, @department)";
                     MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
