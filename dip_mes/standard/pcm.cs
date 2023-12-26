@@ -45,7 +45,8 @@ namespace dip_mes.standard
 
             // 데이터그리드뷰에 데이터 테이블 연결
             dataGridView1.DataSource = dataTable;
-
+            dataGridView1.Columns["process_code"].HeaderText = "공정코드";
+            dataGridView1.Columns["process_name"].HeaderText = "공정명";
             // 모든 열에 대해 ReadOnly 속성 설정
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
@@ -179,6 +180,51 @@ namespace dip_mes.standard
             finally
             {
                 connection.Close();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection sConn = new MySqlConnection(connectionString))
+            {
+                sConn.Open();
+                string searchItemNo = textBox3.Text.Trim(); // 검색창 텍스트
+                string fItem = @"SELECT product.product_name,product.product_code,product_process.process_name,product_process.process_time
+                        FROM product
+                        JOIN product_process ON product_process.product_code = product.product_code
+                        WHERE product.product_name = @searchItemNo";
+                MySqlCommand cmd = new MySqlCommand(fItem, sConn);
+                cmd.Parameters.AddWithValue("@searchItemNo", searchItemNo); // 파라미터 추가
+
+                try
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        DataTable fManage = new DataTable();
+                        adapter.Fill(fManage);
+
+                        // Check if any rows are returned
+                        if (fManage.Rows.Count > 0)
+                        {
+                            // DataGridView에 데이터 설정
+                            dataGridView2.DataSource = fManage;
+
+                            // DataGridView 컬럼 헤더 텍스트 설정
+                            dataGridView2.Columns["product_name"].HeaderText = "제품명";
+                            dataGridView2.Columns["product_code"].HeaderText = "제품코드";
+                            dataGridView2.Columns["process_name"].HeaderText = "공정명";
+                            dataGridView2.Columns["process_time"].HeaderText = "공정시간";
+                        }
+                        else
+                        {
+                            MessageBox.Show("해당 품명의 데이터가 없습니다.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"오류 발생: {ex.Message}");
+                }
             }
         }
     }
