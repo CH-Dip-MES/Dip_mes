@@ -1,5 +1,5 @@
 ﻿
-namespace dip_mes.buy
+namespace dip_mes
 {
     partial class buy02
     {
