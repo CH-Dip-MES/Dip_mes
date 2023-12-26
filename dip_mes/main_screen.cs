@@ -170,5 +170,11 @@ namespace dip_mes
         {
         
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            panel.Controls.Clear();
+            panel.Controls.Add(productSc3);
+        }
     }
 }
