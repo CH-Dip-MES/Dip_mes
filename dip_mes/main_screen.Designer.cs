@@ -275,7 +275,6 @@ namespace dip_mes
             this.button6.TabIndex = 4;
             this.button6.Text = "회원정보";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -335,7 +334,6 @@ namespace dip_mes
             this.button7.TabIndex = 5;
             this.button7.Text = "구매관리2";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click_1);
             // 
             // panel
             // 
@@ -358,7 +356,6 @@ namespace dip_mes
             this.button8.TabIndex = 6;
             this.button8.Text = "자재투입";
             this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // main_screen
             // 
