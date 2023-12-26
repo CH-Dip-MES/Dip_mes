@@ -1,6 +1,6 @@
 namespace dip_mes
 {
-    partial class MainScreen
+    partial class main_screen
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -28,7 +28,11 @@ namespace dip_mes
         /// </summary>
         private void InitializeComponent()
         {
+<<<<<<< HEAD:dip_mes/MainScreen.Designer.cs
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
+=======
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main_screen));
+>>>>>>> parent of b3ecd65 (master rev1):dip_mes/main_screen.Designer.cs
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
