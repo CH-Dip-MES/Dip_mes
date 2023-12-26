@@ -1,5 +1,5 @@
 ﻿
-namespace dip_mes.goods
+namespace dip_mes
 {
     partial class AddClient
     {

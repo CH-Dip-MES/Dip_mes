@@ -70,14 +70,12 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
-            panel.Controls.Clear();
-            panel.Controls.Add(stanSc);
+            
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            panel.Controls.Clear();
-            panel.Controls.Add(stanSc2);
+            
         }
     }
 }

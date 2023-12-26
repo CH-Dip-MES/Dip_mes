@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
-namespace dip_mes.goods
+namespace dip_mes
 {
     public partial class Client : UserControl
     {
