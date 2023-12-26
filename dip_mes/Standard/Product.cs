@@ -140,7 +140,7 @@ namespace dip_mes
                 MessageBox.Show("중복된 품번입니다. 확인 부탁드립니다.");
                 return; // 중복이면 더 이상 진행하지 않음
             }
-
+            
             // 새로운 행 생성
             DataGridViewRow newRow = new DataGridViewRow();
 

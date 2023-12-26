@@ -50,7 +50,7 @@ namespace dip_mes
                 string.IsNullOrWhiteSpace(email.Text) ||
                 string.IsNullOrWhiteSpace(department.Text))
             {
-                MessageBox.Show("모든 필드를 입력하세요.");
+                MessageBox.Show("모든 정보를 입력하세요.");
                 return; // 등록 중단
             }
 

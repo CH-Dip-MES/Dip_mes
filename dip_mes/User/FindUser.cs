@@ -56,7 +56,8 @@ namespace dip_mes
                 {
                     MessageBox.Show("일치하는 사용자가 없습니다.");
                 }
-
+                textBox_name.Clear();
+                textBox_email.Clear();
             }
 
     
@@ -96,7 +97,9 @@ namespace dip_mes
                 {
                     MessageBox.Show("일치하는 사용자가 없습니다.");
                 }
-
+                textBox_name2.Clear();
+                textBox_ID.Clear();
+                textBox_number.Clear();
             }
 
 
