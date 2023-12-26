@@ -14,6 +14,7 @@ namespace dip_mes
     public partial class login_screen : Form
     {
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+
         public login_screen()
         {
             InitializeComponent();

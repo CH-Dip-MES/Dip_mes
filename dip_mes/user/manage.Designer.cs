@@ -1,6 +1,6 @@
-﻿namespace dip_mes.register
+﻿namespace dip_mes
 {
-    partial class signup
+    partial class manage
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -31,8 +31,8 @@
             this.serch_btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_name = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.JoinBtn = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -65,23 +65,25 @@
             this.textBox_name.Size = new System.Drawing.Size(217, 32);
             this.textBox_name.TabIndex = 2;
             // 
-            // button2
+            // JoinBtn
             // 
-            this.button2.Location = new System.Drawing.Point(1172, 77);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(128, 33);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "등록";
-            this.button2.UseVisualStyleBackColor = true;
+            this.JoinBtn.Location = new System.Drawing.Point(1172, 77);
+            this.JoinBtn.Name = "JoinBtn";
+            this.JoinBtn.Size = new System.Drawing.Size(128, 33);
+            this.JoinBtn.TabIndex = 3;
+            this.JoinBtn.Text = "등록";
+            this.JoinBtn.UseVisualStyleBackColor = true;
+            this.JoinBtn.Click += new System.EventHandler(this.JoinBtn_Click);
             // 
-            // button3
+            // btnDelete
             // 
-            this.button3.Location = new System.Drawing.Point(1322, 77);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(128, 33);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "삭제";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnDelete.Location = new System.Drawing.Point(1322, 77);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(128, 33);
+            this.btnDelete.TabIndex = 4;
+            this.btnDelete.Text = "삭제";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // dataGridView1
             // 
@@ -94,17 +96,17 @@
             this.dataGridView1.Size = new System.Drawing.Size(1378, 395);
             this.dataGridView1.TabIndex = 5;
             // 
-            // signup
+            // manage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.JoinBtn);
             this.Controls.Add(this.textBox_name);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.serch_btn);
-            this.Name = "signup";
+            this.Name = "manage";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -117,8 +119,8 @@
         private System.Windows.Forms.Button serch_btn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_name;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button JoinBtn;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
