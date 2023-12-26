@@ -28,11 +28,8 @@ namespace dip_mes
         /// </summary>
         private void InitializeComponent()
         {
-<<<<<<< HEAD:dip_mes/MainScreen.Designer.cs
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
-=======
+
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main_screen));
->>>>>>> parent of b3ecd65 (master rev1):dip_mes/main_screen.Designer.cs
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -413,7 +410,7 @@ namespace dip_mes
             this.buttonsale.TabIndex = 1;
             this.buttonsale.Text = "영업관리";
             this.buttonsale.UseVisualStyleBackColor = true;
-            this.buttonsale.Click += new System.EventHandler(this.button9_Click);
+            this.buttonsale.Click += new System.EventHandler(this.buttonsale_Click);
             // 
             // panelbase
             // 
@@ -537,7 +534,7 @@ namespace dip_mes
             this.button9.TabIndex = 4;
             this.button9.Text = "발주현황";
             this.button9.UseVisualStyleBackColor = false;
-            this.button9.Click += new System.EventHandler(this.button9_Click_1);
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button13
             // 

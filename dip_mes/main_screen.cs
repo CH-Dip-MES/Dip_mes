@@ -76,7 +76,7 @@ namespace dip_mes
 
         
 
-        private void button9_Click(object sender, EventArgs e)
+        private void buttonsale_Click(object sender, EventArgs e)
         {
             showpanelsale = !showpanelsale;
             toglepanels();
@@ -160,7 +160,7 @@ namespace dip_mes
             panel.Controls.Add(saleSc2);
         }
 
-        private void button9_Click_1(object sender, EventArgs e)
+        private void button9_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
             panel.Controls.Add(buySc2);
@@ -169,12 +169,6 @@ namespace dip_mes
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
         
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            panel.Controls.Clear();
-            panel.Controls.Add(productSc3);
         }
     }
 }
