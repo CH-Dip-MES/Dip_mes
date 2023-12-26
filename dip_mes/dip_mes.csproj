@@ -212,6 +212,12 @@
     <Compile Include="sale\sale02.Designer.cs">
       <DependentUpon>sale02.cs</DependentUpon>
     </Compile>
+    <Compile Include="sale\sale03.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="sale\sale03.Designer.cs">
+      <DependentUpon>sale03.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
@@ -274,6 +280,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="sale\sale02.resx">
       <DependentUpon>sale02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="sale\sale03.resx">
+      <DependentUpon>sale03.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
