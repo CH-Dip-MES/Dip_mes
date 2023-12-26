@@ -102,16 +102,178 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buy\MaterialOrder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Buy\MaterialOrder.Designer.cs">
+      <DependentUpon>MaterialOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Standard\AddClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Standard\AddClient.Designer.cs">
+      <DependentUpon>AddClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Standard\Product.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Standard\Product.Designer.cs">
+      <DependentUpon>Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Buy\OrderList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Buy\OrderList.Designer.cs">
+      <DependentUpon>OrderList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Standard\Client.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Standard\Client.Designer.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainScreen.Designer.cs">
       <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Manufacture\Lot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manufacture\Lot.Designer.cs">
+      <DependentUpon>Lot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manufacture\MfgResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Manufacture\MfgResult.Designer.cs">
+      <DependentUpon>MfgResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User\FindUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\FindUser.designer.cs">
+      <DependentUpon>FindUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User\Join.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\Join.designer.cs">
+      <DependentUpon>Join.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\Login.designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manufacture\AddOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manufacture\AddOrder.designer.cs">
+      <DependentUpon>AddOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manufacture\AddInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manufacture\AddInput.Designer.cs">
+      <DependentUpon>AddInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manufacture\Order.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Manufacture\Order.designer.cs">
+      <DependentUpon>Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manufacture\InputMaterial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Manufacture\InputMaterial.Designer.cs">
+      <DependentUpon>InputMaterial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\Manage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User\Manage.Designer.cs">
+      <DependentUpon>Manage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sale\Logistics.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sale\Logistics.designer.cs">
+      <DependentUpon>Logistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Standard\Process.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Standard\Process.Designer.cs">
+      <DependentUpon>Process.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Standard\Material.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Standard\Material.Designer.cs">
+      <DependentUpon>Material.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sale\Sale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sale\Sale.Designer.cs">
+      <DependentUpon>Sale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sale\SaleResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Sale\SaleResult.Designer.cs">
+      <DependentUpon>SaleResult.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Buy\MaterialOrder.resx">
+      <DependentUpon>MaterialOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Standard\AddClient.resx">
+      <DependentUpon>AddClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Standard\Product.resx">
+      <DependentUpon>Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buy\OrderList.resx">
+      <DependentUpon>OrderList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Standard\Client.resx">
+      <DependentUpon>Client.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\Lot.resx">
+      <DependentUpon>Lot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\MfgResult.resx">
+      <DependentUpon>MfgResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\FindUser.resx">
+      <DependentUpon>FindUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\Join.resx">
+      <DependentUpon>Join.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\AddOrder.resx">
+      <DependentUpon>AddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\AddInput.resx">
+      <DependentUpon>AddInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\Order.resx">
+      <DependentUpon>Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manufacture\InputMaterial.resx">
+      <DependentUpon>InputMaterial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,6 +284,24 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="User\Manage.resx">
+      <DependentUpon>Manage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sale\Logistics.resx">
+      <DependentUpon>Logistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Standard\Process.resx">
+      <DependentUpon>Process.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Standard\Material.resx">
+      <DependentUpon>Material.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sale\Sale.resx">
+      <DependentUpon>Sale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sale\SaleResult.resx">
+      <DependentUpon>SaleResult.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -139,5 +319,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,3 @@
-﻿
 namespace dip_mes
 {
     partial class MainScreen
