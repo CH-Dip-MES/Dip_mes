@@ -108,6 +108,11 @@
     <Compile Include="buy\buy01.Designer.cs">
       <DependentUpon>buy01.cs</DependentUpon>
     </Compile>
+    <Compile Include="goods\standard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="goods\standard.Designer.cs">
+      <DependentUpon>standard.cs</DependentUpon>
     <Compile Include="buy\buy02.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -185,6 +190,8 @@
     <EmbeddedResource Include="buy\buy01.resx">
       <DependentUpon>buy01.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="goods\standard.resx">
+      <DependentUpon>standard.cs</DependentUpon>
     <EmbeddedResource Include="buy\buy02.resx">
       <DependentUpon>buy02.cs</DependentUpon>
     </EmbeddedResource>

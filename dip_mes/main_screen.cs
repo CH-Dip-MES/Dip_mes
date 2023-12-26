@@ -66,6 +66,12 @@ namespace dip_mes
             panel.Controls.Clear();
             panel.Controls.Add(productSc2);
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panel.Controls.Clear();
+            panel.Controls.Add(stanSc);
+
         private void button6_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
@@ -86,6 +92,7 @@ namespace dip_mes
         {
             panel.Controls.Clear();
             panel.Controls.Add(productSc1);
+
         }
     }
 }
