@@ -72,7 +72,7 @@
             this.label5.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.Location = new System.Drawing.Point(860, 431);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 16);
+            this.label5.Size = new System.Drawing.Size(82, 16);
             this.label5.TabIndex = 37;
             this.label5.Text = "제품규격 :";
             // 
@@ -90,7 +90,7 @@
             this.label6.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.Location = new System.Drawing.Point(572, 430);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 16);
+            this.label6.Size = new System.Drawing.Size(82, 16);
             this.label6.TabIndex = 35;
             this.label6.Text = "제품구분 :";
             // 
@@ -101,6 +101,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(203, 26);
             this.textBox4.TabIndex = 34;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label4
             // 
@@ -108,7 +109,7 @@
             this.label4.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(308, 430);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 16);
+            this.label4.Size = new System.Drawing.Size(50, 16);
             this.label4.TabIndex = 33;
             this.label4.Text = "품명 :";
             // 
@@ -119,6 +120,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(203, 26);
             this.textBox3.TabIndex = 32;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label3
             // 
@@ -126,7 +128,7 @@
             this.label3.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.Location = new System.Drawing.Point(41, 430);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 16);
+            this.label3.Size = new System.Drawing.Size(50, 16);
             this.label3.TabIndex = 31;
             this.label3.Text = "품번 :";
             // 
@@ -137,6 +139,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(203, 26);
             this.textBox2.TabIndex = 30;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // btnRegister
             // 
@@ -179,6 +182,7 @@
             this.label2.Size = new System.Drawing.Size(66, 21);
             this.label2.TabIndex = 26;
             this.label2.Text = "품번 :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -189,6 +193,7 @@
             this.label1.Size = new System.Drawing.Size(120, 27);
             this.label1.TabIndex = 25;
             this.label1.Text = "제품관리";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox1
             // 
@@ -197,6 +202,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(203, 32);
             this.textBox1.TabIndex = 24;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
@@ -214,7 +220,7 @@
             this.label9.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label9.Location = new System.Drawing.Point(9, 536);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 16);
+            this.label9.Size = new System.Drawing.Size(50, 16);
             this.label9.TabIndex = 16;
             this.label9.Text = "공정 :";
             // 
@@ -224,7 +230,7 @@
             this.label8.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.Location = new System.Drawing.Point(222, 536);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(81, 16);
+            this.label8.Size = new System.Drawing.Size(82, 16);
             this.label8.TabIndex = 18;
             this.label8.Text = "리드타임 :";
             // 
@@ -291,7 +297,7 @@
             this.label11.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label11.Location = new System.Drawing.Point(469, 536);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(81, 16);
+            this.label11.Size = new System.Drawing.Size(82, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = "제품코드 :";
             // 
