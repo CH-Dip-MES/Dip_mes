@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace dip_mes
 {
-    public partial class main_screen : Form
+    public partial class MainScreen : Form
     {       
         private Boolean showpanelbase = false;
         private Boolean showpanelsale = false;
@@ -26,7 +26,7 @@ namespace dip_mes
         manage signSc1 = new manage();
         product01 productSc1 = new product01();
 
-        public main_screen()
+        public MainScreen()
         {
             InitializeComponent();
 

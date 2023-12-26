@@ -41,7 +41,7 @@ namespace dip_mes
                 if (result > 0)
                 {
                     // MainScreen 인스턴스를 생성합니다.
-                    main_screen mainScreen = new main_screen();
+                    MainScreen mainScreen = new MainScreen();
 
                     // 현재 로그인 폼을 숨깁니다. (또는 this.Close();를 사용해 닫을 수도 있습니다.)
                     this.Hide();

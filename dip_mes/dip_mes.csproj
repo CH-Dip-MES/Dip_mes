@@ -119,8 +119,8 @@
     </Compile>
     <Compile Include="goods\standard.Designer.cs">
       <DependentUpon>standard.cs</DependentUpon>
-	</Compile>
-	<Compile Include="buy\buy02.cs">
+    </Compile>
+    <Compile Include="buy\buy02.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="buy\buy02.Designer.cs">
@@ -132,11 +132,11 @@
     <Compile Include="goods\standard02.Designer.cs">
       <DependentUpon>standard02.cs</DependentUpon>
     </Compile>
-    <Compile Include="main_screen.cs">
+    <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="main_screen.Designer.cs">
-      <DependentUpon>main_screen.cs</DependentUpon>
+    <Compile Include="MainScreen.Designer.cs">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="user\find_screen.cs">
       <SubType>Form</SubType>
@@ -226,15 +226,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="goods\standard.resx">
       <DependentUpon>standard.cs</DependentUpon>
-	</EmbeddedResource>
-	<EmbeddedResource Include="buy\buy02.resx">
+    </EmbeddedResource>
+    <EmbeddedResource Include="buy\buy02.resx">
       <DependentUpon>buy02.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="goods\standard02.resx">
       <DependentUpon>standard02.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="main_screen.resx">
-      <DependentUpon>main_screen.cs</DependentUpon>
+    <EmbeddedResource Include="MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="user\find_screen.resx">
       <DependentUpon>find_screen.cs</DependentUpon>
