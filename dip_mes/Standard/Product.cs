@@ -140,7 +140,17 @@ namespace dip_mes
                 MessageBox.Show("중복된 품번입니다. 확인 부탁드립니다.");
                 return; // 중복이면 더 이상 진행하지 않음
             }
-            
+
+            // 각 텍스트 상자의 텍스트가 비어 있는지 확인
+            if (string.IsNullOrWhiteSpace(textBox2.Text) ||
+                string.IsNullOrWhiteSpace(textBox3.Text) ||
+                string.IsNullOrWhiteSpace(textBox4.Text) ||
+                string.IsNullOrWhiteSpace(textBox5.Text))
+            {
+                MessageBox.Show("빈 칸을 채워주세요.");
+                return; // 빈 칸이 있으면 더 이상 진행하지 않음
+            }
+
             // 새로운 행 생성
             DataGridViewRow newRow = new DataGridViewRow();
 
@@ -152,9 +162,8 @@ namespace dip_mes
 
             // MySQL에 데이터 삽입
             InsertDataIntoMySQL(productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
-
-           
         }
+
 
         private void InsertProductProcess(string processName, int processTime, string productCode)
         {

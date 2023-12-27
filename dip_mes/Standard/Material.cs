@@ -19,16 +19,20 @@ namespace dip_mes
             connection = new MySqlConnection(connectionString);
 
             // 등록 버튼 클릭 이벤트 핸들러 등록
-            RegisterButton1.Click += RegisterButton_Click;
+            RegisterButton1.Click += RegisterButton1_Click;
 
             // 조회 버튼 클릭 이벤트 핸들러 등록
-            SearchButton1.Click += SearchButton_Click;
+            SearchButton1.Click += SearchButton1_Click;
 
             // 삭제 버튼 클릭 이벤트 핸들러 등록
-            DeleteButton1.Click += DeleteButton_Click;
+            DeleteButton1.Click += DeleteButton1_Click;
 
             // 데이터그리드뷰 초기화
             InitializeDataGridView();
+
+            // DataGridView1 컬럼 헤더 텍스트 설정
+            dataGridView1.Columns["Material_code"].HeaderText = "자재코드";
+            dataGridView1.Columns["Material_name"].HeaderText = "자재명";
         }
 
         private void InitializeDataGridView()
@@ -57,7 +61,21 @@ namespace dip_mes
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
         }
 
-        private void RegisterButton_Click(object sender, EventArgs e)
+        // 중복 체크 함수
+        private bool IsMaterialCodeDuplicate(string materialCode)
+        {
+            string query = "SELECT COUNT(*) FROM Material WHERE Material_code = @materialCode";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@materialCode", materialCode);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+        }
+
+        // RegisterButton1_Click 이벤트 핸들러
+        private void RegisterButton1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -72,6 +90,13 @@ namespace dip_mes
                 {
                     MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return; // 등록 중단
+                }
+
+                // 중복 체크
+                if (IsMaterialCodeDuplicate(value1))
+                {
+                    MessageBox.Show("중복된 코드입니다. 다시 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return; // 중복이면 등록 중단
                 }
 
                 // SQL 쿼리를 작성하여 데이터베이스에 값을 삽입
@@ -111,9 +136,12 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            textBox1.Clear();
+            textBox2.Clear();
         }
 
-        private void SearchButton_Click(object sender, EventArgs e)
+
+        private void SearchButton1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -123,9 +151,28 @@ namespace dip_mes
                 dataTable.Clear();
 
                 // 등록된 데이터를 가져와서 데이터 테이블에 추가
-                string query = "SELECT Material_code, Material_name FROM Material";
+                string query;
+
+                if (string.IsNullOrWhiteSpace(textBox1.Text) && string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    // textBox1과 textBox2가 모두 비어 있으면 전체 조회
+                    query = "SELECT Material_code, Material_name FROM Material";
+                }
+                else
+                {
+                    // textBox1 또는 textBox2 중 하나라도 값이 있으면 해당 값으로 검색
+                    query = "SELECT Material_code, Material_name FROM Material WHERE Material_code = @value1 OR Material_name = @value2";
+                }
+
                 using (MySqlCommand cmd = new MySqlCommand(query, connection))
                 {
+                    // textBox1 또는 textBox2 중 하나라도 값이 있을 때만 검색어를 파라미터에 추가
+                    if (!string.IsNullOrWhiteSpace(textBox1.Text) || !string.IsNullOrWhiteSpace(textBox2.Text))
+                    {
+                        cmd.Parameters.AddWithValue("@value1", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@value2", textBox2.Text);
+                    }
+
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                     {
                         adapter.Fill(dataTable);
@@ -140,9 +187,15 @@ namespace dip_mes
             {
                 connection.Close();
             }
+
+            // 텍스트 박스 초기화
+            textBox1.Clear();
+            textBox2.Clear();
         }
 
-        private void DeleteButton_Click(object sender, EventArgs e)
+
+
+        private void DeleteButton1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -226,5 +279,7 @@ namespace dip_mes
                 }
             }
         }
+
+       
     }
 }
