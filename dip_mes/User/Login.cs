@@ -24,32 +24,35 @@ namespace dip_mes
         {
             string userID = ID.Text;
             string userPW = PW.Text;
+
             if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(userPW))
             {
                 MessageBox.Show("ID/PW를 입력해주세요");
                 return;
             }
+
             using (MySqlConnection conn = new MySqlConnection(jConn))
             {
                 conn.Open();
-                string log = "SELECT COUNT(*) FROM test WHERE id = @userID AND pwd = @userPW";
+                string log = "SELECT name FROM user WHERE id = @userID AND pwd = @userPW";
                 MySqlCommand cmd = new MySqlCommand(log, conn);
                 cmd.Parameters.AddWithValue("@userID", userID);
                 cmd.Parameters.AddWithValue("@userPW", userPW);
 
-                int result = Convert.ToInt32(cmd.ExecuteScalar());
-                if (result > 0)
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
                 {
-                    // MainScreen 인스턴스를 생성합니다.
-                    MainScreen mainScreen = new MainScreen();
+                    string userName = result.ToString();
 
-                    // 현재 로그인 폼을 숨깁니다. (또는 this.Close();를 사용해 닫을 수도 있습니다.)
+                    MainScreen mainScreen = new MainScreen
+                    {
+                        UserID = userID,
+                        UserName = userName
+                    };
+
                     this.Hide();
-
-                    // MainScreen 폼을 표시합니다.
                     mainScreen.ShowDialog();
-
-                    // MainScreen 폼이 닫히면 로그인 폼을 다시 표시합니다.
                     this.Show();
                 }
                 else

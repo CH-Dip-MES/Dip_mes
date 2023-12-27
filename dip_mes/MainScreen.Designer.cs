@@ -67,6 +67,10 @@ namespace dip_mes
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.button18 = new System.Windows.Forms.Button();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -74,6 +78,7 @@ namespace dip_mes
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.paneluser.SuspendLayout();
@@ -81,6 +86,7 @@ namespace dip_mes
             this.panelbuy.SuspendLayout();
             this.panelsale.SuspendLayout();
             this.panelbase.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -100,6 +106,7 @@ namespace dip_mes
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1904, 1001);
             this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
             // tableLayoutPanel2
             // 
@@ -110,7 +117,7 @@ namespace dip_mes
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1042F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel2, 4, 0);
@@ -129,13 +136,13 @@ namespace dip_mes
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(40, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(39, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.22222F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(472, 74);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(471, 74);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -145,7 +152,7 @@ namespace dip_mes
             this.label1.Font = new System.Drawing.Font("굴림", 30F);
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(466, 44);
+            this.label1.Size = new System.Drawing.Size(465, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "MES 구축 프로젝트";
             // 
@@ -154,7 +161,7 @@ namespace dip_mes
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(1560, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(1558, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.33333F));
@@ -197,7 +204,7 @@ namespace dip_mes
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(1740, 3);
+            this.panel2.Location = new System.Drawing.Point(1738, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(135, 74);
             this.panel2.TabIndex = 2;
@@ -235,6 +242,8 @@ namespace dip_mes
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.Controls.Add(this.button18);
+            this.panel3.Controls.Add(this.tabControl1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
@@ -295,7 +304,7 @@ namespace dip_mes
             this.paneluser.BackColor = System.Drawing.SystemColors.ControlLight;
             this.paneluser.Controls.Add(this.button17);
             this.paneluser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.paneluser.Location = new System.Drawing.Point(0, 488);
+            this.paneluser.Location = new System.Drawing.Point(0, 628);
             this.paneluser.Name = "paneluser";
             this.paneluser.Size = new System.Drawing.Size(185, 47);
             this.paneluser.TabIndex = 8;
@@ -316,7 +325,8 @@ namespace dip_mes
             // button12
             // 
             this.button12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button12.Location = new System.Drawing.Point(0, 442);
+            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
+            this.button12.Location = new System.Drawing.Point(0, 582);
             this.button12.Margin = new System.Windows.Forms.Padding(0);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(185, 46);
@@ -332,7 +342,7 @@ namespace dip_mes
             this.panelproduction.Controls.Add(this.button13);
             this.panelproduction.Controls.Add(this.button8);
             this.panelproduction.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelproduction.Location = new System.Drawing.Point(0, 305);
+            this.panelproduction.Location = new System.Drawing.Point(0, 445);
             this.panelproduction.Name = "panelproduction";
             this.panelproduction.Size = new System.Drawing.Size(185, 137);
             this.panelproduction.TabIndex = 6;
@@ -379,7 +389,8 @@ namespace dip_mes
             // button11
             // 
             this.button11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button11.Location = new System.Drawing.Point(0, 259);
+            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
+            this.button11.Location = new System.Drawing.Point(0, 399);
             this.button11.Margin = new System.Windows.Forms.Padding(0);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(185, 46);
@@ -394,7 +405,7 @@ namespace dip_mes
             this.panelbuy.Controls.Add(this.button9);
             this.panelbuy.Controls.Add(this.button7);
             this.panelbuy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelbuy.Location = new System.Drawing.Point(0, 230);
+            this.panelbuy.Location = new System.Drawing.Point(0, 370);
             this.panelbuy.Name = "panelbuy";
             this.panelbuy.Size = new System.Drawing.Size(185, 29);
             this.panelbuy.TabIndex = 4;
@@ -428,7 +439,8 @@ namespace dip_mes
             // button10
             // 
             this.button10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button10.Location = new System.Drawing.Point(0, 184);
+            this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
+            this.button10.Location = new System.Drawing.Point(0, 324);
             this.button10.Margin = new System.Windows.Forms.Padding(0);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(185, 46);
@@ -444,7 +456,7 @@ namespace dip_mes
             this.panelsale.Controls.Add(this.button14);
             this.panelsale.Controls.Add(this.Bsale);
             this.panelsale.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelsale.Location = new System.Drawing.Point(0, 136);
+            this.panelsale.Location = new System.Drawing.Point(0, 276);
             this.panelsale.Name = "panelsale";
             this.panelsale.Size = new System.Drawing.Size(185, 48);
             this.panelsale.TabIndex = 2;
@@ -491,7 +503,8 @@ namespace dip_mes
             // buttonsale
             // 
             this.buttonsale.Dock = System.Windows.Forms.DockStyle.Top;
-            this.buttonsale.Location = new System.Drawing.Point(0, 90);
+            this.buttonsale.Image = ((System.Drawing.Image)(resources.GetObject("buttonsale.Image")));
+            this.buttonsale.Location = new System.Drawing.Point(0, 230);
             this.buttonsale.Margin = new System.Windows.Forms.Padding(0);
             this.buttonsale.Name = "buttonsale";
             this.buttonsale.Size = new System.Drawing.Size(185, 46);
@@ -510,7 +523,7 @@ namespace dip_mes
             this.panelbase.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelbase.Location = new System.Drawing.Point(0, 46);
             this.panelbase.Name = "panelbase";
-            this.panelbase.Size = new System.Drawing.Size(185, 44);
+            this.panelbase.Size = new System.Drawing.Size(185, 184);
             this.panelbase.TabIndex = 0;
             // 
             // button4
@@ -578,6 +591,42 @@ namespace dip_mes
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(17, 10);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1722, 22);
+            this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(1742, 6);
+            this.button18.Margin = new System.Windows.Forms.Padding(0);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(129, 33);
+            this.button18.TabIndex = 1;
+            this.button18.Text = "닫기";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage1.BackgroundImage")));
+            this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1714, 0);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -595,6 +644,7 @@ namespace dip_mes
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.paneluser.ResumeLayout(false);
@@ -602,6 +652,7 @@ namespace dip_mes
             this.panelbuy.ResumeLayout(false);
             this.panelsale.ResumeLayout(false);
             this.panelbase.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -646,6 +697,10 @@ namespace dip_mes
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }
 
