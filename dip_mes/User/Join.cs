@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 namespace dip_mes
 {
     public partial class Join : Form
@@ -23,6 +24,13 @@ namespace dip_mes
         public Join()
         {
             InitializeComponent();
+            txtbox_name.TabIndex = 1;
+            txtbox_id.TabIndex = 2;
+            txtbox_pwd.TabIndex = 3;
+            number.TabIndex = 4;
+            email.TabIndex = 5;
+            department.TabIndex = 6;
+            button1.TabIndex = 7;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

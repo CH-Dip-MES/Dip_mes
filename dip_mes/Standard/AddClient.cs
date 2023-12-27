@@ -64,7 +64,7 @@ namespace dip_mes
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("데이터가 성공적으로 저장되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("협력사 등록이 완료 되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -117,7 +117,7 @@ namespace dip_mes
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("데이터가 성공적으로 저장되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("고객사 등록이 완료되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
