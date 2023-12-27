@@ -51,20 +51,32 @@ namespace dip_mes
         }
         private void RegButton1_Click(object sender, EventArgs e)
         {
-            if (saledate.Value == DateTimePicker.MinimumDateTime || salecode.Text != "" || buyername.SelectedItem != null)
+            if (saledate.Value != DateTimePicker.MinimumDateTime && salecode.Text != "" && buyername.SelectedItem != null)
             {
-                using (MySqlConnection iConn = new MySqlConnection(jConn))
+                string message = $"등록일자: {saledate.Value}\n판매번호: {salecode.Text}\n고객명: {buyername.SelectedItem}";
+                string caption = "등록 현황";
+                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
+                DialogResult result = MessageBox.Show(message, caption, buttons);
+                if (result == DialogResult.OK)
                 {
-                    iConn.Open();
-                    MySqlCommand msc = new MySqlCommand("insert into sale2(saledate, salecode, buyername) values(@saledate, @salecode, @buyername)", iConn);
-                    msc.Parameters.AddWithValue("@saledate", saledate.Value);
-                    msc.Parameters.AddWithValue("@salecode", salecode.Text);
-                    msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
-                    msc.ExecuteNonQuery();
+                    using (MySqlConnection iConn = new MySqlConnection(jConn))
+                    {
+                        iConn.Open();
+                        MySqlCommand msc = new MySqlCommand("insert into sale2(saledate, salecode, buyername) values(@saledate, @salecode, @buyername)", iConn);
+                        msc.Parameters.AddWithValue("@saledate", saledate.Value);
+                        msc.Parameters.AddWithValue("@salecode", salecode.Text);
+                        msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
+                        msc.ExecuteNonQuery();
 
-                    MySqlCommand msc3 = new MySqlCommand("insert into sale3(salecode) values(@salecode)", iConn);
-                    msc3.Parameters.AddWithValue("@salecode", salecode.Text);
-                    msc3.ExecuteNonQuery();
+                        MySqlCommand msc3 = new MySqlCommand("insert into sale3(salecode) values(@salecode)", iConn);
+                        msc3.Parameters.AddWithValue("@salecode", salecode.Text);
+                        msc3.ExecuteNonQuery();
+                        MessageBox.Show("성공적으로 등록되었습니다.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("등록이 취소되었습니다.");
                 }
             }
             else
@@ -138,7 +150,6 @@ namespace dip_mes
                             dataGridView1.Columns.Insert(4, comboColumnDeliStat);
 
                             dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
-
                         }
                         else
                         {
@@ -202,7 +213,7 @@ namespace dip_mes
                             MySqlCommand msc = new MySqlCommand("UPDATE sale2 SET procstat = @procstat, delistat = @delistat, delidate = @delidateValue WHERE salecode = @salecode", iConn);
                             msc.Parameters.AddWithValue("@procstat", currentProcStat);
                             msc.Parameters.AddWithValue("@delistat", currentDeliStat);
-                            msc.Parameters.AddWithValue("@delidateValue", DateTime.Now.ToString("yyyy-MM-dd"));
+                            msc.Parameters.AddWithValue("@delidateValue", DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
                             msc.Parameters.AddWithValue("@salecode", salecode);
 
                             msc.ExecuteNonQuery();
@@ -401,7 +412,7 @@ namespace dip_mes
             // 판매금액과 부가세의 총합 계산 및 레이블에 표시
             UpdateTotalSums();
         }
-        private void UpdateTotalSums()
+        private void UpdateTotalSums() //총금액,부가세 계산
         {
             int totalSellPrice = 0;
             int totalVat = 0;
@@ -424,7 +435,7 @@ namespace dip_mes
             label4.Text = $"{totalSellPrice}";
             label10.Text = $"{totalVat}";
         }
-        private void addRow_Click(object sender, EventArgs e)
+        private void addRow_Click(object sender, EventArgs e) //행추가
         {
             DataTable dt = dataGridView2.DataSource as DataTable;
             if (dt != null)
@@ -444,7 +455,7 @@ namespace dip_mes
                 ConvertCellToComboBoxCell(dataGridView2, "ItemNo", GetProductData("product_code"), newIndex);
             }
         }
-        private void ConvertCellToComboBoxCell(DataGridView dataGridView, string columnName, List<string> items, int rowIndex)
+        private void ConvertCellToComboBoxCell(DataGridView dataGridView, string columnName, List<string> items, int rowIndex) //행추가 시 셀 콤보박스 전환
         {
             int columnIndex = dataGridView.Columns[columnName].Index;
             DataGridViewComboBoxCell comboBoxCell = new DataGridViewComboBoxCell();
@@ -463,7 +474,7 @@ namespace dip_mes
 
             dataGridView.InvalidateColumn(columnIndex); // 해당 열을 다시 그립니다.
         }
-        private void delRow_Click(object sender, EventArgs e)
+        private void delRow_Click(object sender, EventArgs e) // 행삭제
         {
             DataTable dt = dataGridView2.DataSource as DataTable;
             if (dt != null)
@@ -487,43 +498,52 @@ namespace dip_mes
                 }
             }
         }
-        private void RegButton2_Click(object sender, EventArgs e)
+        private void RegButton2_Click(object sender, EventArgs e) // 거래 세부정보 등록
         {
-            using (MySqlConnection iConn = new MySqlConnection(jConn))
+            DialogResult result = MessageBox.Show("현재 정보를 등록하시겠습니까?","등록 확인",MessageBoxButtons.OKCancel);
+            if (result == DialogResult.OK)
             {
-                iConn.Open();
-
-                // 선택된 salecode에 해당하는 기존 행 삭제
-                string dConn = "DELETE FROM sale3 WHERE salecode = @salecode";
-                MySqlCommand deleteCmd = new MySqlCommand(dConn, iConn);
-                deleteCmd.Parameters.AddWithValue("@salecode", selectedSaleCode); // selectedSaleCode는 현재 선택된 salecode
-                deleteCmd.ExecuteNonQuery();
-
-                // DataGridView2의 모든 행을 sale3에 삽입
-                foreach (DataGridViewRow row in dataGridView2.Rows)
+                using (MySqlConnection iConn = new MySqlConnection(jConn))
                 {
-                    if (!row.IsNewRow)
+                    iConn.Open();
+
+                    // 선택된 salecode에 해당하는 기존 행 삭제
+                    string dConn = "DELETE FROM sale3 WHERE salecode = @salecode";
+                    MySqlCommand deleteCmd = new MySqlCommand(dConn, iConn);
+                    deleteCmd.Parameters.AddWithValue("@salecode", selectedSaleCode); // selectedSaleCode는 현재 선택된 salecode
+                    deleteCmd.ExecuteNonQuery();
+
+                    // DataGridView2의 모든 행을 sale3에 삽입
+                    foreach (DataGridViewRow row in dataGridView2.Rows)
                     {
-                        string itemNo = row.Cells["ItemNo"].Value?.ToString();
-                        string itemName = row.Cells["ItemName"].Value?.ToString();
-                        string planQ = row.Cells["planQ"].Value?.ToString();
-                        string itemPrice = row.Cells["itemprice"].Value?.ToString();
-                        string sellPrice = row.Cells["sellprice"].Value?.ToString();
-                        string vat = row.Cells["vat"].Value?.ToString();
+                        if (!row.IsNewRow)
+                        {
+                            string itemNo = row.Cells["ItemNo"].Value?.ToString();
+                            string itemName = row.Cells["ItemName"].Value?.ToString();
+                            string planQ = row.Cells["planQ"].Value?.ToString();
+                            string itemPrice = row.Cells["itemprice"].Value?.ToString();
+                            string sellPrice = row.Cells["sellprice"].Value?.ToString();
+                            string vat = row.Cells["vat"].Value?.ToString();
 
-                        string insertQuery = "INSERT INTO sale3 (salecode, ItemNo, ItemName, planQ, itemprice, sellprice, vat) VALUES (@salecode, @ItemNo, @ItemName, @planQ, @itemprice, @sellprice, @vat)";
-                        MySqlCommand insertCmd = new MySqlCommand(insertQuery, iConn);
-                        insertCmd.Parameters.AddWithValue("@salecode", selectedSaleCode);
-                        insertCmd.Parameters.AddWithValue("@ItemNo", itemNo);
-                        insertCmd.Parameters.AddWithValue("@ItemName", itemName);
-                        insertCmd.Parameters.AddWithValue("@planQ", planQ);
-                        insertCmd.Parameters.AddWithValue("@itemprice", itemPrice);
-                        insertCmd.Parameters.AddWithValue("@sellprice", sellPrice);
-                        insertCmd.Parameters.AddWithValue("@vat", vat);
+                            string insertQuery = "INSERT INTO sale3 (salecode, ItemNo, ItemName, planQ, itemprice, sellprice, vat) VALUES (@salecode, @ItemNo, @ItemName, @planQ, @itemprice, @sellprice, @vat)";
+                            MySqlCommand insertCmd = new MySqlCommand(insertQuery, iConn);
+                            insertCmd.Parameters.AddWithValue("@salecode", selectedSaleCode);
+                            insertCmd.Parameters.AddWithValue("@ItemNo", itemNo);
+                            insertCmd.Parameters.AddWithValue("@ItemName", itemName);
+                            insertCmd.Parameters.AddWithValue("@planQ", planQ);
+                            insertCmd.Parameters.AddWithValue("@itemprice", itemPrice);
+                            insertCmd.Parameters.AddWithValue("@sellprice", sellPrice);
+                            insertCmd.Parameters.AddWithValue("@vat", vat);
 
-                        insertCmd.ExecuteNonQuery();
+                            insertCmd.ExecuteNonQuery();
+                        }
                     }
                 }
+                MessageBox.Show("등록이 완료되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("등록을 취소하였습니다.");
             }
         }
     }

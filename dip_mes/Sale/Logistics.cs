@@ -16,7 +16,7 @@ namespace dip_mes
     {
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
-        private void LoadComboBoxItems()
+        private void LoadComboBoxItems() //품번 콤보박스 DB 연결
         {
             using (MySqlConnection conn = new MySqlConnection(jConn))
             {
@@ -45,7 +45,7 @@ namespace dip_mes
             InitializeComponent();
             LoadComboBoxItems();
         }
-        private string GetNameDB(string itemNo)
+        private string GetNameDB(string itemNo) //품명 자동입력을 위한 DB 연결
         {
             string itemName = "";
             using (MySqlConnection conn = new MySqlConnection(jConn))
@@ -65,7 +65,7 @@ namespace dip_mes
             }
             return itemName;
         }
-        private void ItemNoChanged(object sender, EventArgs e)
+        private void ItemNoChanged(object sender, EventArgs e) //품번 대응 품명 자동입력
         {
             if (ItemNo.SelectedItem != null)
             {
@@ -76,8 +76,7 @@ namespace dip_mes
         }
         private void button2_Click(object sender, EventArgs e) //Req5-2
         {
-            if (ItemStatus.SelectedItem != null && ItemNo.SelectedItem != null && ItemName.Text != "" &&
-        ItemAmount.Text != "" && RegistDate.Value != DateTimePicker.MinimumDateTime && Inven.SelectedItem != null)
+            if (ItemStatus.SelectedItem != null && ItemNo.SelectedItem != null && ItemName.Text != "" && ItemAmount.Text != "" && RegistDate.Value != DateTimePicker.MinimumDateTime && Inven.SelectedItem != null)
             {
                 // 입력된 데이터를 메시지박스에 표시
                 string message = $"상태: {ItemStatus.SelectedItem}\n품번: {ItemNo.SelectedItem}\n품명: {ItemName.Text}\n수량: {ItemAmount.Text}\n등록일자: {RegistDate.Value}\n창고: {Inven.SelectedItem}";
@@ -135,13 +134,12 @@ namespace dip_mes
                         DataTable fManage = new DataTable();
                         adapter.Fill(fManage);
 
-                        // Check if any rows are returned
                         if (fManage.Rows.Count > 0)
                         {
-                            // DataGridView에 데이터 설정
+                            //  데이터 설정
                             dataGridView1.DataSource = fManage;
 
-                            // DataGridView 컬럼 헤더 텍스트 설정
+                            // 컬럼 헤더 텍스트 설정
                             dataGridView1.Columns["ItemStat"].HeaderText = "상태";
                             dataGridView1.Columns["ItemNo"].HeaderText = "품번";
                             dataGridView1.Columns["ItemName"].HeaderText = "품명";
@@ -159,6 +157,7 @@ namespace dip_mes
                 {
                     MessageBox.Show($"오류 발생: {ex.Message}");
                 }
+
                 MySqlCommand cur = new MySqlCommand(camount, sConn);
                 using (MySqlDataAdapter cadapter = new MySqlDataAdapter(cur))
                 {
