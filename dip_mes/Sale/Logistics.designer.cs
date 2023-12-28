@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.RegistDate = new System.Windows.Forms.DateTimePicker();
             this.ItemAmount = new System.Windows.Forms.TextBox();
             this.Inven = new System.Windows.Forms.ComboBox();
-            this.ItemName = new System.Windows.Forms.ComboBox();
             this.ItemNo = new System.Windows.Forms.ComboBox();
             this.ItemStatus = new System.Windows.Forms.ComboBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -47,13 +48,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.Search = new System.Windows.Forms.TextBox();
+            this.ItemName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // RegistDate
             // 
+            this.RegistDate.CustomFormat = "yy-MM-dd HH:mm";
             this.RegistDate.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.RegistDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.RegistDate.Location = new System.Drawing.Point(620, 516);
             this.RegistDate.Name = "RegistDate";
             this.RegistDate.Size = new System.Drawing.Size(330, 35);
@@ -73,24 +77,14 @@
             this.Inven.FormattingEnabled = true;
             this.Inven.ItemHeight = 24;
             this.Inven.Items.AddRange(new object[] {
-            "입고창고1",
-            "입고창고2",
-            "출고창고1",
-            "출고창고2"});
+            "창고1",
+            "창고2",
+            "창고3",
+            "창고4"});
             this.Inven.Location = new System.Drawing.Point(1215, 512);
             this.Inven.Name = "Inven";
             this.Inven.Size = new System.Drawing.Size(177, 32);
             this.Inven.TabIndex = 21;
-            // 
-            // ItemName
-            // 
-            this.ItemName.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ItemName.FormattingEnabled = true;
-            this.ItemName.ItemHeight = 24;
-            this.ItemName.Location = new System.Drawing.Point(1215, 462);
-            this.ItemName.Name = "ItemName";
-            this.ItemName.Size = new System.Drawing.Size(227, 32);
-            this.ItemName.TabIndex = 20;
             // 
             // ItemNo
             // 
@@ -101,6 +95,7 @@
             this.ItemNo.Name = "ItemNo";
             this.ItemNo.Size = new System.Drawing.Size(227, 32);
             this.ItemNo.TabIndex = 19;
+            this.ItemNo.SelectedIndexChanged += new System.EventHandler(this.ItemNoChanged);
             // 
             // ItemStatus
             // 
@@ -118,16 +113,32 @@
             // dataGridView2
             // 
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Location = new System.Drawing.Point(17, 576);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(1643, 232);
+            this.dataGridView2.Size = new System.Drawing.Size(1643, 190);
             this.dataGridView2.TabIndex = 16;
             // 
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(17, 125);
             this.dataGridView1.Name = "dataGridView1";
@@ -245,15 +256,23 @@
             this.Search.Size = new System.Drawing.Size(121, 35);
             this.Search.TabIndex = 22;
             // 
+            // ItemName
+            // 
+            this.ItemName.Font = new System.Drawing.Font("굴림", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ItemName.Location = new System.Drawing.Point(1215, 462);
+            this.ItemName.Name = "ItemName";
+            this.ItemName.Size = new System.Drawing.Size(177, 35);
+            this.ItemName.TabIndex = 22;
+            // 
             // Logistics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.RegistDate);
             this.Controls.Add(this.Search);
+            this.Controls.Add(this.ItemName);
             this.Controls.Add(this.ItemAmount);
             this.Controls.Add(this.Inven);
-            this.Controls.Add(this.ItemName);
             this.Controls.Add(this.ItemNo);
             this.Controls.Add(this.ItemStatus);
             this.Controls.Add(this.dataGridView2);
@@ -282,7 +301,6 @@
         private System.Windows.Forms.DateTimePicker RegistDate;
         private System.Windows.Forms.TextBox ItemAmount;
         private System.Windows.Forms.ComboBox Inven;
-        private System.Windows.Forms.ComboBox ItemName;
         private System.Windows.Forms.ComboBox ItemNo;
         private System.Windows.Forms.ComboBox ItemStatus;
         private System.Windows.Forms.DataGridView dataGridView2;
@@ -298,5 +316,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox Search;
+        private System.Windows.Forms.TextBox ItemName;
     }
 }
