@@ -57,7 +57,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(138, 21);
             this.textBox1.TabIndex = 4;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
@@ -86,7 +85,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Order";
             this.Size = new System.Drawing.Size(1673, 826);
-            this.Load += new System.EventHandler(this.UserControl1_Load);
+            //this.Load += new System.EventHandler(this.UserControl1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

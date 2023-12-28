@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Tsp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +20,6 @@ namespace dip_mes
         private const string UpdateStatusQuery = "UPDATE manufacture SET Status = @newStatus WHERE No = @primaryKey";
         //private const string SaveStartTimeQuery = "UPDATE manufacture SET Timesave = CURRENT_TIMESTAMP WHERE No = @primaryKey";
         private const string SaveWorkTimeQuery = "UPDATE manufacture SET Worktime = TIMEDIFF(NOW(), Timesave) WHERE No = @primaryKey";
-        private const string SearchQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture WHERE Product LIKE @inputValue AND Status != '작업완료'";
 
         public Order()
         {
@@ -28,7 +28,6 @@ namespace dip_mes
             this.Load += UserControl1_Load;
             LoadDataToDataGridView1();
             textBox1.KeyDown += textBox1_KeyDown;
-
             // add_order 이벤트 핸들러 등록
             AddOrderForm = new AddOrder(this);
             AddOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
@@ -37,9 +36,6 @@ namespace dip_mes
         {
             // DataGridView1_CellValueChanged 이벤트 핸들러 등록
             dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
-            
-            // "작업상태" 열의 콤보박스 초기화
-            InitializeStatusComboBox();
 
             //폼 로드 시에 텍스트 박스 속성 설정
             SetDefaultText();
@@ -50,55 +46,7 @@ namespace dip_mes
 
             ShowAddOrderForm();
         }
-        public void InitializeStatusComboBox()
-        {
 
-            dataGridView1.Columns.Remove("작업상태");
-            // "작업상태" 열이 이미 추가되어 있는지 확인
-            if (!HasComboBoxColumn())
-            {
-                // "작업상태" 열의 데이터를 새로운 ComboBox 열로 복사
-                DataGridViewComboBoxColumn newComboColumn = new DataGridViewComboBoxColumn();
-
-                //dataGridView1.Columns.Insert(6, newComboColumn);
-                newComboColumn.HeaderText = "작업상태";
-                newComboColumn.Name = "작업상태";
-                //newComboColumn.Items.AddRange(new string[] { "작업대기", "작업시작", "작업완료" });
-                //newComboColumn.DefaultCellStyle.NullValue = "작업대기";
-
-                // ComboBox에 기본값으로 추가할 항목 설정
-                newComboColumn.Items.AddRange(GetDefaultStatusItems());
-
-                // DataGridView에 "작업상태" 열 추가
-                dataGridView1.Columns.Add(newComboColumn);
-
-            }
-            else
-            {
-                // "작업상태" 열이 이미 추가되어 있는 경우에는 열의 콤보박스 속성만 업데이트
-                DataGridViewComboBoxColumn comboColumn = (DataGridViewComboBoxColumn)dataGridView1.Columns["작업상태"];
-                comboColumn.Items.Clear();
-                comboColumn.Items.AddRange(new string[] { "작업대기", "작업시작", "작업완료" });
-                //comboColumn.DefaultCellStyle.NullValue = "작업대기";
-            }
-        }
-        private string[] GetDefaultStatusItems()
-        {
-            // "작업대기", "작업시작", "작업완료" 항목 반환
-            return new string[] { "작업대기", "작업시작", "작업완료" };
-        }
-        private bool HasComboBoxColumn()
-        {
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                if (column.Name == "작업상태" && column is DataGridViewComboBoxColumn)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-       
         private void AddOrderForm_Button2Clicked(object sender, EventArgs e)
         {
             LoadDataToDataGridView1();
@@ -111,9 +59,14 @@ namespace dip_mes
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = SelectQuery;
-
-                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection))
+                    string getValue = textBox1.Text.Trim();
+                    string selectQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
+                    if (!string.IsNullOrEmpty(getValue)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
+                    {
+                        selectQuery += $" WHERE Product = '{getValue}'";
+                        Console.WriteLine("Null확인 후 쿼리추가");
+                    }
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                     {
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
@@ -125,13 +78,26 @@ namespace dip_mes
                         // Duration 컬럼의 데이터를 포맷팅하여 표시
                         FormatDurationColumn();
 
-
                         // 데이터 바인딩 후 작업 완료 상태인 행을 제거
                         RemoveCompletedRows();
 
                         // "작업상태" 열에 대한 콤보박스 초기화
-                        InitializeStatusComboBox();
+                        if (dataGridView1.Columns.Contains("작업상태"))
+                        dataGridView1.Columns.Remove("작업상태");
 
+                        // "작업상태" 열이 이미 추가되어 있는지 확인
+                        // "작업상태" 열의 데이터를 새로운 ComboBox 열로 복사
+                        DataGridViewComboBoxColumn newComboColumn = new DataGridViewComboBoxColumn();
+                        newComboColumn.DataPropertyName = "작업상태";
+                        newComboColumn.HeaderText = "작업상태";
+                        newComboColumn.Name = "작업상태";
+
+                        newComboColumn.Items.Add("작업시작");
+                        newComboColumn.Items.Add("작업대기");
+                        newComboColumn.Items.Add("작업완료");
+
+                        // DataGridView에 "작업상태" 열 추가
+                        dataGridView1.Columns.Insert(6, newComboColumn);
                     }
                 }
             }
@@ -374,72 +340,18 @@ namespace dip_mes
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            // 텍스트 박스에서 입력된 값 가져오기
-            string inputValue = textBox1.Text.Trim();
-
-            // 텍스트 박스의 값에 따라 전체 데이터 또는 일부 데이터 조회
-            if (string.IsNullOrEmpty(inputValue))
-            {
-                // 텍스트 박스가 비어있으면 전체 데이터 조회
-                LoadDataToDataGridView1();
-            }
-            else
-            {
-                // 텍스트 박스에 값이 있으면 해당 값으로 조회
-                Showgird();
-            }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
+            Console.WriteLine("버튼1클릭");
+            LoadDataToDataGridView1();
             
-        }
-       private void Showgird()
-        {
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
+    }
 
-                    // 텍스트 박스에서 입력된 값 가져오기
-                    string inputValue = textBox1.Text.Trim();
-
-                    // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = SearchQuery;
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                    {
-                        // 매개변수 설정
-                        cmd.Parameters.AddWithValue("@inputValue", "%" + inputValue + "%");
-
-                        // 데이터를 담을 DataTable 생성
-                        DataTable dataTable = new DataTable();
-
-                        // MySQLDataAdapter를 사용하여 데이터 가져오기
-                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
-                        {
-                            adapter.Fill(dataTable); 
-                        }
-                        // DataGridView에 데이터 바인딩
-                        dataGridView1.DataSource = null;
-                        dataGridView1.DataSource = dataTable;
-
-                        InitializeStatusComboBox();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Showgird();
+                LoadDataToDataGridView1();
             }
+            Console.WriteLine("textbox1_키다운,엔터");
         }
 
     }

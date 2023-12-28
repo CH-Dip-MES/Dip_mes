@@ -129,8 +129,6 @@ namespace dip_mes
                         // 데이터그리드 최신화
                         ProductForm.LoadDataToDataGridView1();
 
-                        this.Close();
-
                     }
                 }
                 catch (Exception ex)
