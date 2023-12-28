@@ -20,6 +20,13 @@ namespace dip_mes
             InitializeComponent();
             LoadYearSalesData();
         }
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CheckButton1_Click(sender, e);
+            }
+        }
         private void CheckButton1_Click(object sender, EventArgs e)
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
@@ -67,6 +74,7 @@ namespace dip_mes
                     MessageBox.Show($"오류 발생: {ex.Message}");
                 }
             }
+            LoadYearSalesData();
         }
         private void LoadYearSalesData()
         {

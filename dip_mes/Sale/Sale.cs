@@ -53,30 +53,44 @@ namespace dip_mes
         {
             if (saledate.Value != DateTimePicker.MinimumDateTime && salecode.Text != "" && buyername.SelectedItem != null)
             {
-                string message = $"등록일자: {saledate.Value}\n판매번호: {salecode.Text}\n고객명: {buyername.SelectedItem}";
-                string caption = "등록 현황";
-                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
-                DialogResult result = MessageBox.Show(message, caption, buttons);
-                if (result == DialogResult.OK)
+                using (MySqlConnection iConn = new MySqlConnection(jConn))
                 {
-                    using (MySqlConnection iConn = new MySqlConnection(jConn))
-                    {
-                        iConn.Open();
-                        MySqlCommand msc = new MySqlCommand("insert into sale2(saledate, salecode, buyername) values(@saledate, @salecode, @buyername)", iConn);
-                        msc.Parameters.AddWithValue("@saledate", saledate.Value);
-                        msc.Parameters.AddWithValue("@salecode", salecode.Text);
-                        msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
-                        msc.ExecuteNonQuery();
+                    iConn.Open();
 
-                        MySqlCommand msc3 = new MySqlCommand("insert into sale3(salecode) values(@salecode)", iConn);
-                        msc3.Parameters.AddWithValue("@salecode", salecode.Text);
-                        msc3.ExecuteNonQuery();
-                        MessageBox.Show("성공적으로 등록되었습니다.");
+                    // 먼저 salecode의 중복 여부를 확인
+                    MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM sale2 WHERE salecode = @salecode", iConn);
+                    checkCmd.Parameters.AddWithValue("@salecode", salecode.Text);
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count == 0)
+                    {
+                        // 중복되지 않은 경우, 등록 여부를 묻는 메시지박스 표시
+                        string message = $"등록일자: {saledate.Value}\n판매번호: {salecode.Text}\n고객명: {buyername.SelectedItem}";
+                        string caption = "등록 현황";
+                        MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
+                        DialogResult result = MessageBox.Show(message, caption, buttons);
+
+                        if (result == DialogResult.OK)
+                        {
+                            // 사용자가 확인을 선택한 경우, 데이터 등록
+                            MySqlCommand msc = new MySqlCommand("insert into sale2(saledate, salecode, buyername) values(@saledate, @salecode, @buyername)", iConn);
+                            msc.Parameters.AddWithValue("@saledate", saledate.Value);
+                            msc.Parameters.AddWithValue("@salecode", salecode.Text);
+                            msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
+                            msc.ExecuteNonQuery();
+                            MessageBox.Show("성공적으로 등록되었습니다.");
+                            CheckButton1_Click(sender, e);
+                        }
+                        else
+                        {
+                            MessageBox.Show("등록이 취소되었습니다.");
+                        }
                     }
-                }
-                else
-                {
-                    MessageBox.Show("등록이 취소되었습니다.");
+                    else
+                    {
+                        // 중복된 경우, 경고 메시지 표시
+                        MessageBox.Show("중복되는 판매번호가 있습니다.");
+                    }
                 }
             }
             else
@@ -84,7 +98,13 @@ namespace dip_mes
                 MessageBox.Show("기입되지 않은 필수 항목이 있습니다");
             }
         }
-
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CheckButton1_Click(sender, e);
+            }
+        }
         private void CheckButton1_Click(object sender, EventArgs e)
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
@@ -168,62 +188,29 @@ namespace dip_mes
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 DataGridView dataGridView = (DataGridView)sender;
-                DataGridViewCell changedCell = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                string salecode = dataGridView.Rows[e.RowIndex].Cells["salecode"].Value.ToString();
+                string currentProcStat = dataGridView.Rows[e.RowIndex].Cells["procstat"].Value?.ToString() ?? "";
+                string currentDeliStat = dataGridView.Rows[e.RowIndex].Cells["delistat"].Value?.ToString() ?? "";
 
-                if (dataGridView.Columns[e.ColumnIndex].Name == "procstat" || dataGridView.Columns[e.ColumnIndex].Name == "delistat")
+                // 날짜 값 설정
+                object delidateValue = (currentProcStat == "완료" && currentDeliStat == "완료") ? (object)DateTime.Now : DBNull.Value;
+
+                using (MySqlConnection iConn = new MySqlConnection(jConn))
                 {
-                    bool isProcStatComplete = dataGridView.Rows[e.RowIndex].Cells["procstat"].Value != null && dataGridView.Rows[e.RowIndex].Cells["procstat"].Value.ToString() == "완료";
-                    bool isDeliStatComplete = dataGridView.Rows[e.RowIndex].Cells["delistat"].Value != null && dataGridView.Rows[e.RowIndex].Cells["delistat"].Value.ToString() == "완료";
+                    iConn.Open();
+                    string updateQuery = "UPDATE sale2 SET procstat = @procstat, delistat = @delistat, delidate = @delidateValue WHERE salecode = @salecode";
+                    MySqlCommand msc = new MySqlCommand(updateQuery, iConn);
 
-                    // 이전 값과 현재 값 가져오기
-                    string previousProcStat = dataGridView.Rows[e.RowIndex].Cells["procstat"].Tag?.ToString();
-                    string previousDeliStat = dataGridView.Rows[e.RowIndex].Cells["delistat"].Tag?.ToString();
-                    string currentProcStat = dataGridView.Rows[e.RowIndex].Cells["procstat"].Value?.ToString();
-                    string currentDeliStat = dataGridView.Rows[e.RowIndex].Cells["delistat"].Value?.ToString();
+                    msc.Parameters.AddWithValue("@procstat", currentProcStat);
+                    msc.Parameters.AddWithValue("@delistat", currentDeliStat);
+                    msc.Parameters.AddWithValue("@delidateValue", delidateValue);
+                    msc.Parameters.AddWithValue("@salecode", salecode);
 
-                    // "완료"에서 다른 값으로 변경하면 날짜를 다시 초기화하고 값을 현재 셀의 데이터로 만듭니다.
-                    if ((currentProcStat != null && currentProcStat != "완료") || (currentDeliStat != null && currentDeliStat != "완료"))
-                    {
-                        dataGridView.Rows[e.RowIndex].Cells["delidate"].Value = DBNull.Value;
-                        dataGridView.Rows[e.RowIndex].Cells["procstat"].Value = currentProcStat;
-                        dataGridView.Rows[e.RowIndex].Cells["delistat"].Value = currentDeliStat;
-
-                        string salecode = dataGridView.Rows[e.RowIndex].Cells["salecode"].Value.ToString();
-
-                        using (MySqlConnection iConn = new MySqlConnection(jConn))
-                        {
-                            iConn.Open();
-                            MySqlCommand msc = new MySqlCommand("UPDATE sale2 SET procstat = @procstat, delistat = @delistat, delidate = @delidateValue WHERE salecode = @salecode", iConn);
-                            msc.Parameters.AddWithValue("@procstat", currentProcStat);
-                            msc.Parameters.AddWithValue("@delistat", currentDeliStat);
-                            msc.Parameters.AddWithValue("@delidateValue", DBNull.Value); // 날짜를 초기화
-                            msc.Parameters.AddWithValue("@salecode", salecode);
-
-                            msc.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        // 변경된 값을 데이터베이스에 업데이트합니다.
-                        string salecode = dataGridView.Rows[e.RowIndex].Cells["salecode"].Value.ToString();
-
-                        using (MySqlConnection iConn = new MySqlConnection(jConn))
-                        {
-                            iConn.Open();
-                            MySqlCommand msc = new MySqlCommand("UPDATE sale2 SET procstat = @procstat, delistat = @delistat, delidate = @delidateValue WHERE salecode = @salecode", iConn);
-                            msc.Parameters.AddWithValue("@procstat", currentProcStat);
-                            msc.Parameters.AddWithValue("@delistat", currentDeliStat);
-                            msc.Parameters.AddWithValue("@delidateValue", DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                            msc.Parameters.AddWithValue("@salecode", salecode);
-
-                            msc.ExecuteNonQuery();
-                        }
-                    }
-
-                    // 이전 값을 현재 값으로 업데이트합니다.
-                    dataGridView.Rows[e.RowIndex].Cells["procstat"].Tag = currentProcStat;
-                    dataGridView.Rows[e.RowIndex].Cells["delistat"].Tag = currentDeliStat;
+                    msc.ExecuteNonQuery();
                 }
+
+                dataGridView.Rows[e.RowIndex].Cells["procstat"].Tag = currentProcStat;
+                dataGridView.Rows[e.RowIndex].Cells["delistat"].Tag = currentDeliStat;
             }
         }
 
@@ -233,6 +220,7 @@ namespace dip_mes
             dataGridView2.Visible = true;
             label2.Visible = true;
             label4.Visible = true;
+            label5.Visible = true;
             label9.Visible = true;
             label10.Visible = true;
             addRow.Visible = true;
@@ -540,6 +528,7 @@ namespace dip_mes
                     }
                 }
                 MessageBox.Show("등록이 완료되었습니다.");
+                LoadSaleDetails(selectedSaleCode);
             }
             else
             {
