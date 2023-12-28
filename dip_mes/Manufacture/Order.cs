@@ -54,23 +54,27 @@ namespace dip_mes
 
         public void LoadDataToDataGridView1()
         {
-            try
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                connection.Open();
+                string getValue = textBox1.Text.Trim();
+                string selectQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
+                if(textBox1.Text == "제품명을 입력해주세요")
                 {
-                    connection.Open();
-                    string getValue = textBox1.Text.Trim();
-                    string selectQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
-                    if (!string.IsNullOrEmpty(getValue)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
-                    {
-                        selectQuery += $" WHERE Product = '{getValue}'";
-                        Console.WriteLine("Null확인 후 쿼리추가");
-                    }
+
+                }
+                else if (!string.IsNullOrEmpty(getValue)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
+                {
+                    selectQuery += $" WHERE Product = '{getValue}'";
+                    Console.WriteLine("NOT NULL 쿼리추가");
+                }
+                try
+                {
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                     {
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
-                        
+
                         // DataGridView에 데이터 바인딩
                         dataGridView1.DataSource = null;
                         dataGridView1.DataSource = dataTable;
@@ -83,7 +87,7 @@ namespace dip_mes
 
                         // "작업상태" 열에 대한 콤보박스 초기화
                         if (dataGridView1.Columns.Contains("작업상태"))
-                        dataGridView1.Columns.Remove("작업상태");
+                            dataGridView1.Columns.Remove("작업상태");
 
                         // "작업상태" 열이 이미 추가되어 있는지 확인
                         // "작업상태" 열의 데이터를 새로운 ComboBox 열로 복사
@@ -100,14 +104,14 @@ namespace dip_mes
                         dataGridView1.Columns.Insert(6, newComboColumn);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
             }
         }
 
-        private void FormatDurationColumn()
+            private void FormatDurationColumn()
         {
             // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
             if (dataGridView1.Columns.Contains("지시일자") && dataGridView1.Columns["지시일자"] is DataGridViewTextBoxColumn durationColumn)
@@ -341,17 +345,16 @@ namespace dip_mes
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("버튼1클릭");
-            LoadDataToDataGridView1();
-            
-    }
+            LoadDataToDataGridView1(); 
+        }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                Console.WriteLine("textbox1_키다운,엔터");
                 LoadDataToDataGridView1();
             }
-            Console.WriteLine("textbox1_키다운,엔터");
         }
 
     }
