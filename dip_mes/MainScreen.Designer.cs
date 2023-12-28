@@ -41,6 +41,9 @@ namespace dip_mes
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button18 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.panel = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -67,10 +70,7 @@ namespace dip_mes
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.button18 = new System.Windows.Forms.Button();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -79,6 +79,7 @@ namespace dip_mes
             this.panel2.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.panel4.SuspendLayout();
             this.paneluser.SuspendLayout();
@@ -86,7 +87,6 @@ namespace dip_mes
             this.panelbuy.SuspendLayout();
             this.panelsale.SuspendLayout();
             this.panelbase.SuspendLayout();
-            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -117,7 +117,7 @@ namespace dip_mes
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1042F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel2, 4, 0);
@@ -142,7 +142,7 @@ namespace dip_mes
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.22222F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(471, 74);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(469, 74);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -152,7 +152,7 @@ namespace dip_mes
             this.label1.Font = new System.Drawing.Font("굴림", 30F);
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(465, 44);
+            this.label1.Size = new System.Drawing.Size(463, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "MES 구축 프로젝트";
             // 
@@ -161,7 +161,7 @@ namespace dip_mes
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(1558, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(1556, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.33333F));
@@ -204,7 +204,7 @@ namespace dip_mes
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(1738, 3);
+            this.panel2.Location = new System.Drawing.Point(1736, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(135, 74);
             this.panel2.TabIndex = 2;
@@ -251,6 +251,42 @@ namespace dip_mes
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1884, 45);
             this.panel3.TabIndex = 0;
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(1738, 8);
+            this.button18.Margin = new System.Windows.Forms.Padding(0);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(129, 33);
+            this.button18.TabIndex = 1;
+            this.button18.Text = "닫기";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(208, 10);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1516, 22);
+            this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage1.BackgroundImage")));
+            this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1508, 0);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
             // 
             // tableLayoutPanel6
             // 
@@ -305,7 +341,7 @@ namespace dip_mes
             this.paneluser.BackColor = System.Drawing.SystemColors.ControlLight;
             this.paneluser.Controls.Add(this.button17);
             this.paneluser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.paneluser.Location = new System.Drawing.Point(0, 628);
+            this.paneluser.Location = new System.Drawing.Point(0, 735);
             this.paneluser.Name = "paneluser";
             this.paneluser.Size = new System.Drawing.Size(185, 47);
             this.paneluser.TabIndex = 8;
@@ -327,12 +363,13 @@ namespace dip_mes
             // 
             this.button12.Dock = System.Windows.Forms.DockStyle.Top;
             this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.Location = new System.Drawing.Point(0, 582);
+            this.button12.Location = new System.Drawing.Point(0, 689);
             this.button12.Margin = new System.Windows.Forms.Padding(0);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(185, 46);
             this.button12.TabIndex = 7;
-            this.button12.Text = "회원관리";
+            this.button12.Text = "           회원관리";
+            this.button12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
@@ -343,7 +380,7 @@ namespace dip_mes
             this.panelproduction.Controls.Add(this.button13);
             this.panelproduction.Controls.Add(this.button8);
             this.panelproduction.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelproduction.Location = new System.Drawing.Point(0, 445);
+            this.panelproduction.Location = new System.Drawing.Point(0, 552);
             this.panelproduction.Name = "panelproduction";
             this.panelproduction.Size = new System.Drawing.Size(185, 137);
             this.panelproduction.TabIndex = 6;
@@ -391,12 +428,13 @@ namespace dip_mes
             // 
             this.button11.Dock = System.Windows.Forms.DockStyle.Top;
             this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Location = new System.Drawing.Point(0, 399);
+            this.button11.Location = new System.Drawing.Point(0, 506);
             this.button11.Margin = new System.Windows.Forms.Padding(0);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(185, 46);
             this.button11.TabIndex = 5;
-            this.button11.Text = "생산관리";
+            this.button11.Text = "           생산관리";
+            this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
@@ -408,7 +446,7 @@ namespace dip_mes
             this.panelbuy.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelbuy.Location = new System.Drawing.Point(0, 370);
             this.panelbuy.Name = "panelbuy";
-            this.panelbuy.Size = new System.Drawing.Size(185, 29);
+            this.panelbuy.Size = new System.Drawing.Size(185, 136);
             this.panelbuy.TabIndex = 4;
             // 
             // button9
@@ -446,7 +484,8 @@ namespace dip_mes
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(185, 46);
             this.button10.TabIndex = 3;
-            this.button10.Text = "구매관리";
+            this.button10.Text = "           구매관리";
+            this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
@@ -510,7 +549,8 @@ namespace dip_mes
             this.buttonsale.Name = "buttonsale";
             this.buttonsale.Size = new System.Drawing.Size(185, 46);
             this.buttonsale.TabIndex = 1;
-            this.buttonsale.Text = "영업관리";
+            this.buttonsale.Text = "           영업관리";
+            this.buttonsale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonsale.UseVisualStyleBackColor = true;
             this.buttonsale.Click += new System.EventHandler(this.buttonsale_Click);
             // 
@@ -536,7 +576,7 @@ namespace dip_mes
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(185, 47);
             this.button4.TabIndex = 5;
-            this.button4.Text = "거래처";
+            this.button4.Text = "거래처관리";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -575,7 +615,7 @@ namespace dip_mes
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(185, 46);
             this.button3.TabIndex = 1;
-            this.button3.Text = "   제품관리";
+            this.button3.Text = "제품관리";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -588,45 +628,10 @@ namespace dip_mes
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(185, 46);
             this.button2.TabIndex = 0;
-            this.button2.Text = "기준정보";
+            this.button2.Text = "           기준정보";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(17, 10);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1722, 22);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(1742, 6);
-            this.button18.Margin = new System.Windows.Forms.Padding(0);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(129, 33);
-            this.button18.TabIndex = 1;
-            this.button18.Text = "닫기";
-            this.button18.UseVisualStyleBackColor = true;
-            this.button18.Click += new System.EventHandler(this.button18_Click);
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage1.BackgroundImage")));
-            this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPage1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1714, 0);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
             // 
             // MainScreen
             // 
@@ -646,6 +651,7 @@ namespace dip_mes
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.paneluser.ResumeLayout(false);
@@ -653,7 +659,6 @@ namespace dip_mes
             this.panelbuy.ResumeLayout(false);
             this.panelsale.ResumeLayout(false);
             this.panelbase.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

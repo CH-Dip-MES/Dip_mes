@@ -19,6 +19,7 @@ namespace dip_mes
         public OrderList()
         {
             InitializeComponent();
+
         }
 
         private void OrderList_Load(object sender, EventArgs e)
@@ -26,6 +27,8 @@ namespace dip_mes
             LoadDataToDataGridView3();
             InitializeNumericUpDown();
             LoadDataToDataGridView1((int)numericUpDown1.Value);
+            LoadBusinessData();
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -47,11 +50,12 @@ namespace dip_mes
                 string selectQuery = @"
             SELECT 
                 ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
+                Deliverydate AS '납기일자',
                 companycode AS '업체코드', 
                 itemname AS '품명', 
                 itemnumber AS '품번', 
-                orderweight AS '발주중량', 
-                incomingweight AS '입고중량', 
+                orderweight AS '입고수량', 
+                incomingweight AS '출고수량', 
                 orderingcode AS '발주코드'
             FROM buy3
         ";
@@ -81,51 +85,53 @@ namespace dip_mes
             dataGridView3.DataSource = null;
             dataGridView3.Rows.Clear();
 
-            // 날짜 형식을 MySQL의 DATETIME 형식으로 변환
-            string deliveryDate = dateTimePicker1.Value.ToString("yyyyMMdd");
+            // 년월 형식을 MySQL의 DATE_FORMAT 함수에 맞게 변환
+            string deliveryYearMonth = dateTimePicker1.Value.ToString("yyyyMM");
 
             // MySQL 연결 및 명령어 생성
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // buy1 테이블에서 데이터 조회
+                // buy3 테이블에서 데이터 조회
                 string selectQuery;
                 MySqlCommand command;
 
                 if (string.IsNullOrEmpty(textBox1.Text))
                 {
-                    // TextBox3에 값이 없으면 DeliveryDate만 일치한 행들 조회
+                    // TextBox1에 값이 없으면 해당 년월의 행들 조회
                     selectQuery = @"
                 SELECT 
-                ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
-                companycode AS '업체코드', 
-                itemname AS '품명', 
-                itemnumber AS '품번', 
-                orderweight AS '발주중량', 
-                incomingweight AS '입고중량', 
-                orderingcode AS '발주코드'
-            FROM buy3
-                WHERE DeliveryDate = @DeliveryDate";
+                    ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
+                    Deliverydate AS '납기일자',
+                    companycode AS '업체코드', 
+                    itemname AS '품명', 
+                    itemnumber AS '품번', 
+                    orderweight AS '입고수량', 
+                    incomingweight AS '출고수량', 
+                    orderingcode AS '발주코드'
+                FROM buy3
+                WHERE DATE_FORMAT(DeliveryDate, '%Y%m') = @DeliveryYearMonth";
                     command = new MySqlCommand(selectQuery, connection);
-                    command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
+                    command.Parameters.AddWithValue("@DeliveryYearMonth", deliveryYearMonth);
                 }
                 else
                 {
-                    // TextBox3에 값이 있으면 code와 DeliveryDate가 일치한 행들 조회
+                    // TextBox1에 값이 있으면 해당 년월 및 companycode가 일치한 행들 조회
                     selectQuery = @"
                 SELECT 
-                ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
-                companycode AS '업체코드', 
-                itemname AS '품명', 
-                itemnumber AS '품번', 
-                orderweight AS '발주중량', 
-                incomingweight AS '입고중량', 
-                orderingcode AS '발주코드'
-            FROM buy3
-                WHERE DeliveryDate = @DeliveryDate AND companycode = @companycode";
+                    ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
+                    Deliverydate AS '납기일자',
+                    companycode AS '업체코드', 
+                    itemname AS '품명', 
+                    itemnumber AS '품번', 
+                    orderweight AS '입고수량', 
+                    incomingweight AS '출고수량', 
+                    orderingcode AS '발주코드'
+                FROM buy3
+                WHERE DATE_FORMAT(DeliveryDate, '%Y%m') = @DeliveryYearMonth AND companycode = @companycode";
                     command = new MySqlCommand(selectQuery, connection);
-                    command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
+                    command.Parameters.AddWithValue("@DeliveryYearMonth", deliveryYearMonth);
                     command.Parameters.AddWithValue("@companycode", textBox1.Text);
                 }
 
@@ -142,6 +148,7 @@ namespace dip_mes
                 connection.Close();
             }
         }
+
         private void InitializeNumericUpDown()
         {
             // 년도 범위 설정 (예: 2000년부터 현재 년도까지)
@@ -352,6 +359,85 @@ namespace dip_mes
 
                 connection.Close();
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // comboBox1에서 선택된 companycode 가져오기
+            string selectedCompanyCode = comboBox1.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCompanyCode))
+            {
+                // MySQL 연결 및 명령어 생성
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // 선택된 companycode에 해당하는 companyname 가져오기
+                    string selectQuery = "SELECT companyname FROM business WHERE companycode = @CompanyCode";
+
+                    using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@CompanyCode", selectedCompanyCode);
+
+                        // 결과 가져오기
+                        object result = command.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            // companyname을 textBox2에 표시
+                            textBox1.Text = result.ToString();
+                        }
+                        else
+                        {
+                            // 선택된 companycode에 해당하는 데이터가 없을 경우 textBox2를 초기화
+                            textBox1.Text = string.Empty;
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        private void LoadBusinessData()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // division이 '협력사'인 행들의 companycode를 선택
+                string selectQuery = "SELECT companycode FROM business WHERE division = '협력사'";
+
+                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        // comboBox1를 초기화
+                        comboBox1.Items.Clear();
+
+                        // 데이터를 comboBox1에 추가
+                        while (reader.Read())
+                        {
+                            // 각 행의 "companycode"를 가져와서 comboBox1에 추가
+                            string companyCode = reader["companycode"].ToString();
+                            comboBox1.Items.Add(companyCode);
+                        }
+                    }
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            LoadDataToDataGridView3();
+        }
+
+        private void dataGridView3_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
         }
     }
 }

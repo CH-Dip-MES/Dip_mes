@@ -13,6 +13,7 @@ namespace dip_mes
 
     public partial class MainScreen : Form
     {
+        
         private Boolean showpanelStandard = false;
         private Boolean showpanelSale = false;
         private Boolean showpanelBuy = false;
@@ -55,6 +56,8 @@ namespace dip_mes
 
         public string UserID { get; set; }
         public string UserName { get; set; }
+
+        
 
         public MainScreen()
         {
@@ -222,7 +225,7 @@ namespace dip_mes
             showpanelStandard = !showpanelStandard;
             toglepanels();
         }
-
+        
         private void toglepanels()
         {
             //슬라이드메뉴 설정
