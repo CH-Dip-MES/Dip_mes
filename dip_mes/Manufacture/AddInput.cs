@@ -173,11 +173,25 @@ namespace dip_mes
             RefreshData?.Invoke(this, EventArgs.Empty);
 
 
-            this.Close();
+            //176 현재 Inventory 값 가져오기
+            int currentInventory = GetCurrentInventory(textBox1Data);
 
+            // 텍스트박스4의 값이 Inventory보다 크면 경고창 표시하고 데이터 저장 방지
+            if (int.TryParse(textBox4Data, out int inputQuantity) && inputQuantity > currentInventory)
+            {
+                MessageBox.Show("입력 수량이 재고보다 큽니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+            }
+            this.Close();//186
         }
-        private void SaveDataToDatabase(string textBox1Data, string textBox4Data, string comboBoxSelectedValue)
+
+
+        private int GetCurrentInventory(string textBox1Data)
         {
+            int currentInventory = 0;
+
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -196,30 +210,11 @@ namespace dip_mes
                             if (reader.Read())
                             {
                                 // Inventory 값 가져오기
-                                int currentInventory = reader["Inventory"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Inventory"]);
-
-                                // 텍스트박스4의 값 만큼 Inventory에서 차감
-                                int updatedInventory = currentInventory - Convert.ToInt32(textBox4Data);
-
-                                // 반드시 DataReader를 사용한 후에는 닫아주어야 합니다.
-                                reader.Close();
-
-                                // 업데이트하는 SQL 쿼리 실행
-                                string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
-                                using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
-                                {
-                                    updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
-                                    updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
-                                    updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
-                                    updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
-
-                                    // 쿼리 실행
-                                    updateCmd.ExecuteNonQuery();
-                                }
+                                currentInventory = reader["Inventory"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Inventory"]);
                             }
                             else
                             {
-                                MessageBox.Show("No data found for the given No.");
+                                MessageBox.Show("지정된 No에 대한 데이터를 찾을 수 없습니다.");
                             }
                         }
                     }
@@ -227,9 +222,65 @@ namespace dip_mes
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("오류: " + ex.Message);
             }
-        }
 
+            return currentInventory;
+        }
+            private void SaveDataToDatabase(string textBox1Data, string textBox4Data, string comboBoxSelectedValue)
+            {
+                try
+                {
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        // 해당 No에 대한 Inventory 가져오는 SQL 쿼리
+                        string selectInventoryQuery = "SELECT Inventory FROM manufacture WHERE No = @TextBox1Data";
+
+                        using (MySqlCommand selectCmd = new MySqlCommand(selectInventoryQuery, connection))
+                        {
+                            selectCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
+
+                            using (MySqlDataReader reader = selectCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    // Inventory 값 가져오기
+                                    int currentInventory = reader["Inventory"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Inventory"]);
+
+                                    // 텍스트박스4의 값 만큼 Inventory에서 차감
+                                    int updatedInventory = currentInventory - Convert.ToInt32(textBox4Data);
+
+                                    // 반드시 DataReader를 사용한 후에는 닫아주어야 합니다.
+                                    reader.Close();
+
+                                    // 업데이트하는 SQL 쿼리 실행
+                                    string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
+                                    using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                                    {
+                                        updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
+                                        updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
+                                        updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
+                                        updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
+
+                                        // 쿼리 실행
+                                        updateCmd.ExecuteNonQuery();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No data found for the given No.");
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        
     }
 }
