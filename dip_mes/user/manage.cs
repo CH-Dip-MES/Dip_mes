@@ -28,7 +28,7 @@ namespace dip_mes
             {
                 sConn.Open();
                 string searchName = textBox_name.Text.Trim();
-                string findName = "select name,id,pwd,number,email,department from test";
+                string findName = "select name,id,pwd,number,email,department from user";
                 if (!string.IsNullOrEmpty(searchName))
                 {
                     findName += $" WHERE name = '{searchName}'";

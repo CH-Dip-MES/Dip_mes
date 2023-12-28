@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace dip_mes
 {
@@ -17,10 +19,19 @@ namespace dip_mes
             InitializeComponent();
             connection = new MySqlConnection(connectionString);
 
-         
-
             // 데이터그리드뷰 초기화
             InitializeDataGridView();
+            InitializeComboBox(); // comboBox1 초기화 추가
+
+            textBox1.TabIndex = 1;
+            textBox2.TabIndex = 2;
+            SearchButton.TabIndex = 3;
+            comboBox1.TabIndex = 4; 
+            button1.TabIndex = 5;
+
+            textBox1.KeyPress += textBox1_KeyPress;
+            textBox2.KeyPress += textBox2_KeyPress;
+            comboBox1.KeyPress += comboBox1_KeyPress; // comboBox1의 KeyPress 이벤트 추가
         }
 
         private void InitializeDataGridView()
@@ -49,7 +60,66 @@ namespace dip_mes
             // 특정 열에 대해 수정 가능하도록 예외적으로 설정
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
         }
+        private void InitializeComboBox()
+        {
+            // comboBox1에 데이터베이스에서 가져온 product_name 추가
+            string query = "SELECT product_name FROM product";
 
+            try
+            {
+                connection.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox1.Items.Add(reader["product_name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류: " + ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                SearchButton.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button2 클릭
+                SearchButton.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                button1.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
 
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -98,6 +168,13 @@ namespace dip_mes
                         adapter.Fill(dataTable);
                     }
                 }
+
+                // 검색 결과가 없을 때 메시지 표시
+                if (dataTable.Rows.Count == 0)
+                {
+                    string message = string.IsNullOrWhiteSpace(textBox2.Text) ? "정확한 코드을 입력해주세요." : "정확한 공정을 입력해주세요.";
+                    MessageBox.Show(message, "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -112,6 +189,10 @@ namespace dip_mes
             textBox1.Clear();
             textBox2.Clear();
         }
+       
+
+
+
 
 
 
@@ -162,7 +243,7 @@ namespace dip_mes
             using (MySqlConnection sConn = new MySqlConnection(connectionString))
             {
                 sConn.Open();
-                string searchItemNo = textBox3.Text.Trim(); // 검색창 텍스트
+                string searchItemNo = comboBox1.Text.Trim(); // 검색창 텍스트
                 string fItem = @"SELECT product.product_name,product.product_code,product_process.process_name,product_process.process_time
                         FROM product
                         JOIN product_process ON product_process.product_code = product.product_code
@@ -216,7 +297,7 @@ namespace dip_mes
                 if (string.IsNullOrWhiteSpace(value1) || string.IsNullOrWhiteSpace(value2))
                 {
                     MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                 }
                 else
                 {
@@ -249,7 +330,7 @@ namespace dip_mes
                         }
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -267,5 +348,3 @@ namespace dip_mes
         }
     }
 }
-
-

@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -15,7 +16,7 @@ namespace dip_mes
             InitializeComponent();
             InitializeDatabaseConnection();
             InitializeDataGridViewColumns();
-            LoadDataIntoComboBox1();
+            LoadDataIntocomboBox1();
             LoadDataIntoComboBox2();
             LoadDataIntoComboBox3(); // 추가된 부분
             dataGridView1.CellClick += dataGridView1_CellClick;
@@ -98,7 +99,7 @@ namespace dip_mes
             comboBox3.Items.Add("반제품");
         }
 
-        private void LoadDataIntoComboBox1()
+        private void LoadDataIntocomboBox1()
         {
             string query = "SELECT process_name FROM process";
             MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -106,6 +107,9 @@ namespace dip_mes
             try
             {
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                // 기존 아이템 클리어
+                comboBox1.Items.Clear();
 
                 while (dataReader.Read())
                 {
@@ -120,6 +124,7 @@ namespace dip_mes
             }
         }
 
+
         private void LoadDataIntoComboBox2()
         {
             string query = "SELECT Material_name FROM Material";
@@ -128,6 +133,9 @@ namespace dip_mes
             try
             {
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                // 기존 아이템 클리어
+                comboBox2.Items.Clear();
 
                 while (dataReader.Read())
                 {
@@ -186,6 +194,12 @@ namespace dip_mes
 
                 // MySQL에 데이터 삽입
                 InsertDataIntoMySQL(productCode, textBox3.Text, comboBox3.Text, textBox5.Text, ins_date);
+
+                // 텍스트 칸 비우기
+                textBox2.Clear();
+                textBox3.Clear();
+                comboBox3.Text = string.Empty;
+                textBox5.Clear();
             }
             // 사용자가 취소를 선택한 경우
             else if (result == DialogResult.Cancel)
@@ -193,6 +207,7 @@ namespace dip_mes
                 MessageBox.Show("데이터 등록이 취소되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
 
 
 
@@ -312,7 +327,7 @@ namespace dip_mes
                 if (isChecked)
                 {
                     // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
-                    string productCode = row.Cells["Field5Column"].Value.ToString();
+                    string productCode = row.Cells["Field2Column"].Value.ToString(); // 수정된 부분
                     DeleteRowFromDataGridView(row);
                     DeleteRowFromMySQL(productCode);
                 }
@@ -435,7 +450,7 @@ namespace dip_mes
                         string getProcessCode = reader.GetString("product_code");
                         string getProcessName = reader.GetString("process_name");
                         string getProcessTime = reader.GetString("process_time");
-                        
+
                         // 조회된 데이터를 DataGridView에 추가
                         DataGridViewRow newRow = new DataGridViewRow();
                         newRow.CreateCells(dataGridView2, false, getProcessCode, getProcessName, getProcessTime, getId);
@@ -511,7 +526,7 @@ namespace dip_mes
 
         private void btnRegister1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textbox6.Text)) 
+            if (string.IsNullOrEmpty(textbox6.Text))
             {
                 MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
             }
@@ -528,8 +543,15 @@ namespace dip_mes
                 int getTime = int.Parse(txtInput.Text);
                 InsertProductProcess(comboBox1.Text, getTime, textbox6.Text);
             }
+
+            // 텍스트 칸 비우기
+            comboBox1.Text = string.Empty;
+            txtInput.Clear();
+            
+
             SelectProductProcess(textbox6.Text);
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -550,8 +572,15 @@ namespace dip_mes
                 int getNumber = int.Parse(textBox8.Text);
                 InsertProductMaterial(comboBox2.Text, getNumber, textBox7.Text);
             }
+
+            // 텍스트 칸 비우기
+            comboBox2.Text = string.Empty;
+            textBox8.Clear();
+            
+
             SelectProductMaterial(textBox7.Text);
         }
+
 
         private void btnDelete1_Click(object sender, EventArgs e)
         {
@@ -659,5 +688,25 @@ namespace dip_mes
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Clear all text fields
+            textBox2.Clear();
+            textBox3.Clear();
+            comboBox3.Text = string.Empty;
+            textBox5.Clear();
+            textbox6.Clear();
+            comboBox1.Text = string.Empty;
+            txtInput.Clear();
+            textBox7.Clear();
+            comboBox2.Text = string.Empty;
+            textBox8.Clear();
+
+            // Load data into comboBox1 and comboBox2
+            LoadDataIntocomboBox1();
+            LoadDataIntoComboBox2();
+        }
+
     }
 }

@@ -37,9 +37,9 @@
             this.RegisterButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -47,7 +47,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox1.Location = new System.Drawing.Point(110, 115);
+            this.textBox1.Location = new System.Drawing.Point(115, 70);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(149, 29);
             this.textBox1.TabIndex = 0;
@@ -56,7 +56,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(12, 119);
+            this.label1.Location = new System.Drawing.Point(17, 74);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 19);
             this.label1.TabIndex = 1;
@@ -64,7 +64,7 @@
             // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(718, 113);
+            this.SearchButton.Location = new System.Drawing.Point(718, 120);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(101, 31);
             this.SearchButton.TabIndex = 2;
@@ -87,7 +87,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(265, 119);
+            this.label2.Location = new System.Drawing.Point(270, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 19);
             this.label2.TabIndex = 5;
@@ -96,16 +96,16 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox2.Location = new System.Drawing.Point(324, 115);
+            this.textBox2.Location = new System.Drawing.Point(329, 70);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(149, 29);
             this.textBox2.TabIndex = 4;
             // 
             // RegisterButton
             // 
-            this.RegisterButton.Location = new System.Drawing.Point(494, 113);
+            this.RegisterButton.Location = new System.Drawing.Point(492, 65);
             this.RegisterButton.Name = "RegisterButton";
-            this.RegisterButton.Size = new System.Drawing.Size(101, 31);
+            this.RegisterButton.Size = new System.Drawing.Size(140, 38);
             this.RegisterButton.TabIndex = 6;
             this.RegisterButton.Text = "등록";
             this.RegisterButton.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(606, 113);
+            this.DeleteButton.Location = new System.Drawing.Point(606, 120);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(101, 31);
             this.DeleteButton.TabIndex = 7;
@@ -131,14 +131,6 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "품명 :";
             // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox3.Location = new System.Drawing.Point(924, 87);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(149, 29);
-            this.textBox3.TabIndex = 8;
-            // 
             // dataGridView2
             // 
             this.dataGridView2.AllowUserToAddRows = false;
@@ -152,7 +144,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1080, 87);
+            this.button1.Location = new System.Drawing.Point(1092, 87);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(101, 31);
             this.button1.TabIndex = 11;
@@ -160,14 +152,23 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(923, 88);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(157, 27);
+            this.comboBox1.TabIndex = 12;
+            // 
             // Process
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.RegisterButton);
             this.Controls.Add(this.label2);
@@ -196,8 +197,8 @@
         private System.Windows.Forms.Button RegisterButton;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

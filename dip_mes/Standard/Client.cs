@@ -65,7 +65,7 @@ namespace dip_mes
 
                             // 나머지 열은 그대로 유지
                             dataGridView1.Columns.Add("division", "구분");
-                            dataGridView1.Columns.Add("companyname", "회사명");
+                            dataGridView1.Columns.Add("companyname", "업체명");
                             dataGridView1.Columns.Add("phonenumber", "전화번호");
                             dataGridView1.Columns.Add("address", "주소");
                             dataGridView1.Columns.Add("formattedDate", "등록일"); // 변경된 등록일

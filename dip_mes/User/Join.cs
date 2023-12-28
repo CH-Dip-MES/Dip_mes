@@ -31,6 +31,7 @@ namespace dip_mes
             email.TabIndex = 5;
             department.TabIndex = 6;
             button1.TabIndex = 7;
+            this.AcceptButton = button1;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -69,7 +70,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 아이디 중복 체크
-                    string checkIdQuery = "SELECT COUNT(*) FROM test WHERE id = @id";
+                    string checkIdQuery = "SELECT COUNT(*) FROM user WHERE id = @id";
                     MySqlCommand checkIdCommand = new MySqlCommand(checkIdQuery, connection);
                     checkIdCommand.Parameters.AddWithValue("@id", txtbox_id.Text);
 
@@ -84,7 +85,7 @@ namespace dip_mes
                     
                     // 중복된 아이디가 없으면 회원가입 처리
                     
-                    string insertQuery = "INSERT INTO test (name, id, pwd, number, email, department) VALUES (@name, @id, @pwd, @number, @email, @department)";
+                    string insertQuery = "INSERT INTO user (name, id, pwd, number, email, department) VALUES (@name, @id, @pwd, @number, @email, @department)";
                     MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
                     // 매개변수 추가
