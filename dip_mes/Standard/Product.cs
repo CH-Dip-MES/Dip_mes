@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
@@ -18,6 +17,7 @@ namespace dip_mes
             InitializeDataGridViewColumns();
             LoadDataIntoComboBox1();
             LoadDataIntoComboBox2();
+            LoadDataIntoComboBox3(); // 추가된 부분
             dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
@@ -74,14 +74,28 @@ namespace dip_mes
             comboBox1.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox1.SelectedIndex = 0;
             Controls.Add(comboBox1);  // 폼에 컨트롤 추가
+
             // ComboBox 추가
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox2.SelectedIndex = 0;
             Controls.Add(comboBox2);  // 폼에 컨트롤 추가
 
+            // ComboBox3 추가
+            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox3.Items.Add("선택하세요");  // 초기 선택 항목 추가
+            comboBox3.SelectedIndex = 0;
+            Controls.Add(comboBox3);  // 폼에 컨트롤 추가
+
             dataGridView2.Columns["Field5Column"].Visible = false;
             dataGridView3.Columns["Field5Column"].Visible = false;
+        }
+
+        private void LoadDataIntoComboBox3()
+        {
+            // ComboBox3에 아이템 추가
+            comboBox3.Items.Add("완제품");
+            comboBox3.Items.Add("반제품");
         }
 
         private void LoadDataIntoComboBox1()
@@ -105,6 +119,7 @@ namespace dip_mes
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
+
         private void LoadDataIntoComboBox2()
         {
             string query = "SELECT Material_name FROM Material";
@@ -141,20 +156,46 @@ namespace dip_mes
                 return; // 중복이면 더 이상 진행하지 않음
             }
 
-            // 새로운 행 생성
-            DataGridViewRow newRow = new DataGridViewRow();
+            // 각 텍스트 상자의 텍스트가 비어 있는지 확인
+            if (string.IsNullOrWhiteSpace(textBox2.Text) ||
+                string.IsNullOrWhiteSpace(textBox3.Text) ||
+                string.IsNullOrWhiteSpace(comboBox3.Text) ||
+                string.IsNullOrWhiteSpace(textBox5.Text))
+            {
+                MessageBox.Show("빈 칸을 채워주세요.");
+                return; // 빈 칸이 있으면 더 이상 진행하지 않음
+            }
 
-            // 행에 데이터 추가
-            newRow.CreateCells(dataGridView1, false, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+            // 등록할 데이터 메시지 생성
+            string registerMessage = $"품번: {textBox2.Text}\n이름: {textBox3.Text}\n가격: {comboBox3.Text}\n수량: {textBox5.Text}";
 
-            // 행을 데이터그리드뷰의 첫 번째 위치에 삽입
-            dataGridView1.Rows.Insert(0, newRow);
+            // 확인/취소 다이얼로그 표시
+            DialogResult result = MessageBox.Show($"{registerMessage}\n\n데이터를 등록하시겠습니까?", "확인", MessageBoxButtons.OKCancel);
 
-            // MySQL에 데이터 삽입
-            InsertDataIntoMySQL(productCode, textBox3.Text, textBox4.Text, textBox5.Text, ins_date);
+            // 사용자가 확인을 선택한 경우
+            if (result == DialogResult.OK)
+            {
+                // 새로운 행 생성
+                DataGridViewRow newRow = new DataGridViewRow();
 
-           
+                // 행에 데이터 추가
+                newRow.CreateCells(dataGridView1, false, textBox2.Text, textBox3.Text, comboBox3.Text, textBox5.Text, ins_date);
+
+                // 행을 데이터그리드뷰의 첫 번째 위치에 삽입
+                dataGridView1.Rows.Insert(0, newRow);
+
+                // MySQL에 데이터 삽입
+                InsertDataIntoMySQL(productCode, textBox3.Text, comboBox3.Text, textBox5.Text, ins_date);
+            }
+            // 사용자가 취소를 선택한 경우
+            else if (result == DialogResult.Cancel)
+            {
+                MessageBox.Show("데이터 등록이 취소되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
+
+
+
 
         private void InsertProductProcess(string processName, int processTime, string productCode)
         {

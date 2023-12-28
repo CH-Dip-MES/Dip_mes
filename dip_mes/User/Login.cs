@@ -12,13 +12,22 @@ using MySql.Data.MySqlClient;
 namespace dip_mes
 {
     public partial class Login : Form
-    {
-        string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+{
+    string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
-        public Login()
-        {
-            InitializeComponent();
-        }
+    public Login()
+    {
+        InitializeComponent();
+        // 이 코드는 로그인 폼의 생성자 또는 초기화 메서드에서 설정합니다.
+        this.AcceptButton = button1;
+
+        // 각 컨트롤의 TabIndex 설정
+        ID.TabIndex = 1;
+        PW.TabIndex = 2;
+        button1.TabIndex = 3;
+        Find.TabIndex = 4;
+        New.TabIndex = 5;
+    }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -53,7 +62,10 @@ namespace dip_mes
 
                     this.Hide();
                     mainScreen.ShowDialog();
-                    this.Show();
+                    this.Show();=======
+
+                    // MainScreen 폼이 닫히면 로그인 폼을 종료합니다.
+                    this.Close();
                 }
                 else
                 {
@@ -61,6 +73,7 @@ namespace dip_mes
                 }
             }
         }
+
         private void Find_Click(object sender, EventArgs e)
         {
             FindUser FindUser = new FindUser();

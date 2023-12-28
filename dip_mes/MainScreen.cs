@@ -692,5 +692,20 @@ namespace dip_mes
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 현재 폼을 숨김
+            this.Hide();
+
+            // 새로운 로그인 폼 인스턴스 생성
+            Login loginForm = new Login();
+
+            // 로그인 폼을 보여줌
+            loginForm.ShowDialog();
+
+            this.Close();
+        }
+
     }
 }

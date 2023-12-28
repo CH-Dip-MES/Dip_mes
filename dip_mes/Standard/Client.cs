@@ -228,6 +228,7 @@ namespace dip_mes
                     // 오류가 발생한 경우 메시지를 표시
                     MessageBox.Show("오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                textBox1.Clear();
             }
         }
 
