@@ -110,7 +110,7 @@ namespace dip_mes
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1042F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel2, 4, 0);
@@ -135,7 +135,7 @@ namespace dip_mes
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.22222F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(472, 74);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(471, 74);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -145,7 +145,7 @@ namespace dip_mes
             this.label1.Font = new System.Drawing.Font("굴림", 30F);
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(466, 44);
+            this.label1.Size = new System.Drawing.Size(465, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "MES 구축 프로젝트";
             // 
@@ -154,7 +154,7 @@ namespace dip_mes
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(1560, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(1559, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.33333F));
@@ -197,7 +197,7 @@ namespace dip_mes
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(1740, 3);
+            this.panel2.Location = new System.Drawing.Point(1739, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(135, 74);
             this.panel2.TabIndex = 2;
@@ -211,6 +211,7 @@ namespace dip_mes
             this.button1.TabIndex = 0;
             this.button1.Text = "로그아웃";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tableLayoutPanel5
             // 

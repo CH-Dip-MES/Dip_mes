@@ -12,13 +12,22 @@ using MySql.Data.MySqlClient;
 namespace dip_mes
 {
     public partial class Login : Form
-    {
-        string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+{
+    string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
 
-        public Login()
-        {
-            InitializeComponent();
-        }
+    public Login()
+    {
+        InitializeComponent();
+        // 이 코드는 로그인 폼의 생성자 또는 초기화 메서드에서 설정합니다.
+        this.AcceptButton = button1;
+
+        // 각 컨트롤의 TabIndex 설정
+        ID.TabIndex = 1;
+        PW.TabIndex = 2;
+        button1.TabIndex = 3;
+        Find.TabIndex = 4;
+        New.TabIndex = 5;
+    }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -32,7 +41,7 @@ namespace dip_mes
             using (MySqlConnection conn = new MySqlConnection(jConn))
             {
                 conn.Open();
-                string log = "SELECT COUNT(*) FROM test WHERE id = @userID AND pwd = @userPW";
+                string log = "SELECT COUNT(*) FROM user WHERE id = @userID AND pwd = @userPW";
                 MySqlCommand cmd = new MySqlCommand(log, conn);
                 cmd.Parameters.AddWithValue("@userID", userID);
                 cmd.Parameters.AddWithValue("@userPW", userPW);
@@ -43,14 +52,14 @@ namespace dip_mes
                     // MainScreen 인스턴스를 생성합니다.
                     MainScreen mainScreen = new MainScreen();
 
-                    // 현재 로그인 폼을 숨깁니다. (또는 this.Close();를 사용해 닫을 수도 있습니다.)
+                    // 현재 로그인 폼을 숨깁니다.
                     this.Hide();
 
                     // MainScreen 폼을 표시합니다.
                     mainScreen.ShowDialog();
 
-                    // MainScreen 폼이 닫히면 로그인 폼을 다시 표시합니다.
-                    this.Show();
+                    // MainScreen 폼이 닫히면 로그인 폼을 종료합니다.
+                    this.Close();
                 }
                 else
                 {
@@ -58,6 +67,7 @@ namespace dip_mes
                 }
             }
         }
+
         private void Find_Click(object sender, EventArgs e)
         {
             FindUser FindUser = new FindUser();

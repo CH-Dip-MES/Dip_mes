@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace dip_mes
 {
@@ -22,6 +23,13 @@ namespace dip_mes
         public FindUser()
         {
             InitializeComponent();
+            textBox_name.TabIndex = 1;
+            textBox_email.TabIndex = 2;
+            button1.TabIndex = 3;
+            textBox_name2.TabIndex = 4;
+            textBox_ID.TabIndex = 5;
+            textBox_number.TabIndex = 6;
+            button2.TabIndex = 7;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -56,7 +64,8 @@ namespace dip_mes
                 {
                     MessageBox.Show("일치하는 사용자가 없습니다.");
                 }
-
+                textBox_name.Clear();
+                textBox_email.Clear();
             }
 
     
@@ -96,7 +105,9 @@ namespace dip_mes
                 {
                     MessageBox.Show("일치하는 사용자가 없습니다.");
                 }
-
+                textBox_name2.Clear();
+                textBox_ID.Clear();
+                textBox_number.Clear();
             }
 
 

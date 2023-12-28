@@ -17,14 +17,7 @@ namespace dip_mes
             InitializeComponent();
             connection = new MySqlConnection(connectionString);
 
-            // 등록 버튼 클릭 이벤트 핸들러 등록
-            RegisterButton.Click += RegisterButton_Click;
-
-            // 조회 버튼 클릭 이벤트 핸들러 등록
-            SearchButton.Click += SearchButton_Click;
-
-            // 삭제 버튼 클릭 이벤트 핸들러 등록
-            DeleteButton.Click += DeleteButton_Click;
+         
 
             // 데이터그리드뷰 초기화
             InitializeDataGridView();
@@ -57,61 +50,7 @@ namespace dip_mes
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
         }
 
-        private void RegisterButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                connection.Open();
 
-                // 텍스트 박스에서 값을 가져옴
-                string value1 = textBox1.Text;
-                string value2 = textBox2.Text;
-
-                // 입력값이 비어있는지 확인
-                if (string.IsNullOrWhiteSpace(value1) || string.IsNullOrWhiteSpace(value2))
-                {
-                    MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return; // 등록 중단
-                }
-
-                // SQL 쿼리를 작성하여 데이터베이스에 값을 삽입
-                string query = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@value1", value1);
-                    cmd.Parameters.AddWithValue("@value2", value2);
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
-
-                        // 등록한 데이터를 데이터 테이블에 추가
-                        DataRow newRow = dataTable.NewRow();
-                        newRow["process_code"] = value1;
-                        newRow["process_name"] = value2;
-                        dataTable.Rows.Add(newRow);
-
-                        // 텍스트 박스 초기화
-                        textBox1.Text = string.Empty;
-                        textBox2.Text = string.Empty;
-                    }
-                    else
-                    {
-                        MessageBox.Show("데이터 등록에 실패했습니다.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("오류: " + ex.ToString());
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
@@ -123,9 +62,37 @@ namespace dip_mes
                 dataTable.Clear();
 
                 // 등록된 데이터를 가져와서 데이터 테이블에 추가
-                string query = "SELECT process_code, process_name FROM process";
+                string query;
+
+                if (string.IsNullOrWhiteSpace(textBox1.Text) && string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    // textBox1과 textBox2가 모두 비어 있으면 전체 조회
+                    query = "SELECT process_code, process_name FROM process";
+                }
+                else if (string.IsNullOrWhiteSpace(textBox1.Text) && !string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    // textBox1이 비어 있고 textBox2가 값이 있으면 해당 값으로 검색
+                    query = "SELECT process_code, process_name FROM process WHERE process_name = @value";
+                }
+                else if (!string.IsNullOrWhiteSpace(textBox1.Text) && string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    // textBox2가 비어 있고 textBox1이 값이 있으면 해당 값으로 검색
+                    query = "SELECT process_code, process_name FROM process WHERE process_code = @value";
+                }
+                else
+                {
+                    // textBox1과 textBox2가 모두 값이 있으면 OR 조건으로 검색
+                    query = "SELECT process_code, process_name FROM process WHERE process_code = @value OR process_name = @value";
+                }
+
                 using (MySqlCommand cmd = new MySqlCommand(query, connection))
                 {
+                    // textBox1이나 textBox2 중 하나라도 값이 있을 때만 검색어를 파라미터에 추가
+                    if (!string.IsNullOrWhiteSpace(textBox1.Text) || !string.IsNullOrWhiteSpace(textBox2.Text))
+                    {
+                        cmd.Parameters.AddWithValue("@value", !string.IsNullOrWhiteSpace(textBox1.Text) ? textBox1.Text : textBox2.Text);
+                    }
+
                     using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                     {
                         adapter.Fill(dataTable);
@@ -140,7 +107,14 @@ namespace dip_mes
             {
                 connection.Close();
             }
+
+            // 텍스트 박스 초기화
+            textBox1.Clear();
+            textBox2.Clear();
         }
+
+
+
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -227,5 +201,71 @@ namespace dip_mes
                 }
             }
         }
+
+        private void RegisterButton_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                connection.Open();
+
+                // 텍스트 박스에서 값을 가져옴
+                string value1 = textBox1.Text;
+                string value2 = textBox2.Text;
+
+                // 입력값이 비어있는지 확인
+                if (string.IsNullOrWhiteSpace(value1) || string.IsNullOrWhiteSpace(value2))
+                {
+                    MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                }
+                else
+                {
+                    // SQL 쿼리를 작성하여 데이터베이스에 값을 삽입
+                    string query = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@value1", value1);
+                        cmd.Parameters.AddWithValue("@value2", value2);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
+
+                            // 등록한 데이터를 데이터 테이블에 추가
+                            DataRow newRow = dataTable.NewRow();
+                            newRow["process_code"] = value1;
+                            newRow["process_name"] = value2;
+                            dataTable.Rows.Add(newRow);
+
+                            // 텍스트 박스 초기화
+                            textBox1.Text = string.Empty;
+                            textBox2.Text = string.Empty;
+                        }
+                        else
+                        {
+                            MessageBox.Show("데이터 등록에 실패했습니다.");
+                        }
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류: " + ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+
+

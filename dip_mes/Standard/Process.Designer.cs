@@ -70,6 +70,7 @@
             this.SearchButton.TabIndex = 2;
             this.SearchButton.Text = "조회";
             this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // dataGridView1
             // 
@@ -108,6 +109,7 @@
             this.RegisterButton.TabIndex = 6;
             this.RegisterButton.Text = "등록";
             this.RegisterButton.UseVisualStyleBackColor = true;
+            this.RegisterButton.Click += new System.EventHandler(this.RegisterButton_Click_1);
             // 
             // DeleteButton
             // 
@@ -117,6 +119,7 @@
             this.DeleteButton.TabIndex = 7;
             this.DeleteButton.Text = "삭제";
             this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // label3
             // 
@@ -157,7 +160,7 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // pcm
+            // Process
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -173,7 +176,7 @@
             this.Controls.Add(this.SearchButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
-            this.Name = "pcm";
+            this.Name = "Process";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();

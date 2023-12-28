@@ -138,6 +138,7 @@
             this.SearchButton1.TabIndex = 14;
             this.SearchButton1.Text = "조회";
             this.SearchButton1.UseVisualStyleBackColor = true;
+       
             // 
             // label1
             // 
@@ -157,7 +158,7 @@
             this.textBox1.Size = new System.Drawing.Size(149, 29);
             this.textBox1.TabIndex = 12;
             // 
-            // pmm
+            // Material
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -173,7 +174,7 @@
             this.Controls.Add(this.SearchButton1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
-            this.Name = "pmm";
+            this.Name = "Material";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
