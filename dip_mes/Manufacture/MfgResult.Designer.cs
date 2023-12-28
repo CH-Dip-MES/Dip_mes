@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,24 +44,6 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(378, 25);
             this.dateTimePicker1.TabIndex = 0;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(834, 160);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(263, 44);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Lot조회";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(574, 169);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(227, 26);
-            this.textBox1.TabIndex = 2;
             // 
             // dataGridView1
             // 
@@ -81,21 +61,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(1012, 381);
             this.dataGridView1.TabIndex = 3;
             // 
-            // panel1
+            // button1
             // 
-            this.panel1.Location = new System.Drawing.Point(1116, 246);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(600, 300);
-            this.panel1.TabIndex = 4;
+            this.button1.Location = new System.Drawing.Point(812, 149);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(228, 46);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "조회";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MfgResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.dateTimePicker1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "MfgResult";
@@ -103,16 +84,13 @@
             this.Load += new System.EventHandler(this.MfgResult_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
     }
 }

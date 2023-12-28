@@ -62,7 +62,7 @@ namespace dip_mes
 
                     this.Hide();
                     mainScreen.ShowDialog();
-                    this.Show();=======
+                    this.Show();
 
                     // MainScreen 폼이 닫히면 로그인 폼을 종료합니다.
                     this.Close();
@@ -83,6 +83,11 @@ namespace dip_mes
         {
             Join Join = new Join();
             Join.Show();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

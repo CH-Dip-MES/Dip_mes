@@ -16,6 +16,7 @@ namespace dip_mes
     {
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         //public event EventHandler RefreshData;
+        private AddInput addInputForm; // 클래스 레벨에서 선언
         public InputMaterial()
         {
             InitializeComponent();
@@ -27,7 +28,19 @@ namespace dip_mes
 
         private void InputMaterial_Load(object sender, EventArgs e)
         {
-            
+            //폼 로드 시에 텍스트 박스 속성 설정
+            SetDefaultText();
+
+            // 포커스 이벤트 핸들러 등록
+            textBox1.GotFocus += TextBox1_GotFocus;
+            textBox1.LostFocus += TextBox1_LostFocus;
+
+            // AddInput 폼 생성 및 설정
+            addInputForm = new AddInput();
+            addInputForm.TopLevel = false;
+            addInputForm.FormBorderStyle = FormBorderStyle.None;
+            panel1.Controls.Add(addInputForm);
+            addInputForm.Show();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -70,7 +83,6 @@ namespace dip_mes
             LoadDataForTextBox3(addInputForm, selectedRow);
 
         }
-
         private void LoadDataForTextBox3(AddInput addInputForm, DataGridViewRow selectedRow)
         {
             try
@@ -220,6 +232,35 @@ namespace dip_mes
         private void button1_Click(object sender, EventArgs e)
         {
             LoadDataToDataGridView();
+            if (!string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                SearchData();
+            }
+        }
+        private void SetDefaultText()
+        {
+            // 텍스트 박스에 기본값 설정
+            textBox1.Text = "No";
+            textBox1.ForeColor = Color.Gray;
+        }
+
+        private void TextBox1_GotFocus(object sender, EventArgs e)
+        {
+            // 포커스가 들어오면 텍스트 지우고 글씨 색 변경
+            if (textBox1.Text == "No")
+            {
+                textBox1.Text = "";
+                textBox1.ForeColor = Color.Black;
+            }
+        }
+
+        private void TextBox1_LostFocus(object sender, EventArgs e)
+        {
+            // 포커스를 잃으면 텍스트가 비어있으면 다시 기본값 설정
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                SetDefaultText();
+            }
         }
         private void FormatDurationColumn()
         {
