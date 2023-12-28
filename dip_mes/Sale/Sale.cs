@@ -361,6 +361,28 @@ namespace dip_mes
                 }
             }
         }
+        private void dataGridView2_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            var dataGridView = sender as DataGridView;
+
+            if (e.ColumnIndex == dataGridView.Columns["planQ"].Index || e.ColumnIndex == dataGridView.Columns["itemprice"].Index)
+            {
+                if (!int.TryParse(e.FormattedValue.ToString(), out _))
+                {
+                    MessageBox.Show("유효한 숫자를 입력해야 합니다.", "입력 오류");
+                    dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0; // 또는 적절한 기본값
+                    e.Cancel = false; // 셀의 포커스를 유지하지 않음
+                }
+            }
+        }
+        private void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridView2.Columns["planQ"].Index || e.ColumnIndex == dataGridView2.Columns["itemprice"].Index)
+            {
+                // 기본 오류 대화 상자 표시 방지
+                e.ThrowException = false;
+            }
+        }
         private void DataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == -1 || e.RowIndex == -1)
@@ -384,7 +406,7 @@ namespace dip_mes
             {
                 // 유효성 체크 및 숫자 변환
                 bool isValidPlanQ = int.TryParse(dataGridView.Rows[e.RowIndex].Cells["planQ"].Value?.ToString(), out int planQ);
-                bool isValidItemPrice = decimal.TryParse(dataGridView.Rows[e.RowIndex].Cells["itemprice"].Value?.ToString(), out decimal itemPrice);
+                bool isValidItemPrice = int.TryParse(dataGridView.Rows[e.RowIndex].Cells["itemprice"].Value?.ToString(), out int itemPrice);
 
                 if (isValidPlanQ && isValidItemPrice)
                 {
