@@ -52,7 +52,7 @@ namespace dip_mes
         }
         private void RegButton1_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth < 3)
+            if (Login.getAuth < 2)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -455,6 +455,11 @@ namespace dip_mes
         }
         private void addRow_Click(object sender, EventArgs e) //행추가
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             DataTable dt = dataGridView2.DataSource as DataTable;
             if (dt != null)
             {
@@ -494,6 +499,11 @@ namespace dip_mes
         }
         private void delRow_Click(object sender, EventArgs e) // 행삭제
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             DataTable dt = dataGridView2.DataSource as DataTable;
             if (dt != null)
             {
@@ -518,7 +528,7 @@ namespace dip_mes
         }
         private void RegButton2_Click(object sender, EventArgs e) // 거래 세부정보 등록
         {
-            if (Login.getAuth < 3)
+            if (Login.getAuth < 2)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;

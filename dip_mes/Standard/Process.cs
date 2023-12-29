@@ -118,6 +118,11 @@ namespace dip_mes
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             try
             {
                 connection.Open();
@@ -204,6 +209,11 @@ namespace dip_mes
 
         private void RegisterButton_Click_1(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             try
             {
                 connection.Open();

@@ -34,6 +34,11 @@ namespace dip_mes
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 날짜 형식을 MySQL의 DATETIME 형식으로 변환
             string orderDate = dateTimePicker1.Value.ToString("yyyyMMdd");
             string deliveryDate = dateTimePicker2.Value.ToString("yyyyMMdd");
@@ -293,6 +298,11 @@ namespace dip_mes
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 선택된 행의 발주코드 가져오기
             string selectedOrderingCode = textBox7.Text;
 

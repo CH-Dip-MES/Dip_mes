@@ -77,6 +77,11 @@ namespace dip_mes
         // RegisterButton1_Click 이벤트 핸들러
         private void RegisterButton1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             try
             {
                 connection.Open();
@@ -197,6 +202,11 @@ namespace dip_mes
 
         private void DeleteButton1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             try
             {
                 connection.Open();

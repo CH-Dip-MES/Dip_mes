@@ -435,6 +435,11 @@ namespace dip_mes
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             AddOrder myForm = new AddOrder(this);
             myForm.TopLevel = false; // 폼이 최상위 수준이 아닌 자식으로 설정
             myForm.FormBorderStyle = FormBorderStyle.None; // 테두리 제거

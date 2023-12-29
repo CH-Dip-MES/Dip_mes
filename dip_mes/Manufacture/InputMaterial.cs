@@ -41,6 +41,7 @@ namespace dip_mes
             // 필요한 데이터를 추출하는 예시 (실제로는 데이터 소스로부터 가져와야 함)
             string orderId = selectedRow.Cells["No"].Value.ToString();
             // AddInput 폼에 데이터 전달
+
             AddInput addInputForm = GetOrCreateAddInputForm(orderId);
 
             // 이벤트 핸들러 등록
@@ -57,7 +58,16 @@ namespace dip_mes
             panel1.Controls.Add(addInputForm);
 
             // 폼을 표시
-            addInputForm.Show();
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
+            else
+            {
+                addInputForm.Show();
+            }
+            
 
             // DataGridView에서 선택된 행의 데이터를 AddInput 폼의 TextBox에 표시
             addInputForm.DisplayDataInTextBox1(selectedRow.Cells["No"].Value.ToString());
@@ -114,6 +124,7 @@ namespace dip_mes
         }
         private AddInput GetOrCreateAddInputForm(string orderId)
         {
+
             var existingForm = panel1.Controls.OfType<AddInput>().FirstOrDefault();
 
             if (existingForm != null)

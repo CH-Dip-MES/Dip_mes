@@ -40,6 +40,11 @@ namespace dip_mes
         
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // textBox1의 값이 비어있지 않은 경우에만 폼을 열기
             if (!string.IsNullOrEmpty(textBox1.Text))
             {

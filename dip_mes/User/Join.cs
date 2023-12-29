@@ -78,17 +78,14 @@ namespace dip_mes
                     int authority;
                     if(txtbox_name.Text == "송상욱") // 특정 관리자 이름 일 시
                     {
-                        authority = 4;
+                        authority = 3;
                     }
                     else
                     {
                         switch(department.Text)
                         {
                             case "영업부":
-                                authority = 3;
-                                break;
-                            case "자재부":
-                                authority = 2; // 자재부 권한
+                                authority = 2;
                                 break;
                             case "생산부":
                                 authority = 1; // 생산부 권한

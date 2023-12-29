@@ -76,7 +76,7 @@ namespace dip_mes
         }
         private void button2_Click(object sender, EventArgs e) //Req5-2
         {
-            if (Login.getAuth < 3)
+            if (Login.getAuth < 2)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;

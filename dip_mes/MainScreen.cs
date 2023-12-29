@@ -527,6 +527,11 @@ namespace dip_mes
 
         private void button17_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 자재발주등록 탭이 이미 생성되었는지 확인
             if (IsTabAlreadyOpen("회원정보관리"))
             {
