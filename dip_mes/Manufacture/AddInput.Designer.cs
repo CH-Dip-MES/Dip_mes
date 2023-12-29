@@ -46,7 +46,7 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("굴림", 12F);
-            this.textBox1.Location = new System.Drawing.Point(128, 89);
+            this.textBox1.Location = new System.Drawing.Point(124, 89);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(311, 26);
             this.textBox1.TabIndex = 0;
@@ -94,11 +94,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(64, 83);
+            this.label1.Location = new System.Drawing.Point(21, 89);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 21);
+            this.label1.Size = new System.Drawing.Size(94, 21);
             this.label1.TabIndex = 5;
-            this.label1.Text = "No.";
+            this.label1.Text = "작업번호";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2

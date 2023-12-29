@@ -189,8 +189,8 @@ namespace dip_mes
         }
         private void clear()
         {
-            comboBox1.Items.Clear();
             comboBox1.SelectedIndex = -1;
+            comboBox1.Items.Clear();
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
@@ -264,18 +264,26 @@ namespace dip_mes
 
                                 // 반드시 DataReader를 사용한 후에는 닫아주어야 합니다.
                                 reader.Close();
-
-                                // 업데이트하는 SQL 쿼리 실행
-                                string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
-                                using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                                // 텍스트박스4의 값이 Inventory보다 큰 경우 저장하지 않음
+                                if (int.TryParse(textBox4Data, out int inputQuantity) && inputQuantity > currentInventory)
                                 {
-                                    updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
-                                    updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
-                                    updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
-                                    updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
+                                    MessageBox.Show("입력 수량이 재고보다 큽니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                else
+                                {
+                                    // 업데이트하는 SQL 쿼리 실행
+                                    string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
+                                    using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                                    {
+                                        updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
+                                        updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
+                                        updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
+                                        updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
 
-                                    // 쿼리 실행
-                                    updateCmd.ExecuteNonQuery();
+                                        // 쿼리 실행
+                                        updateCmd.ExecuteNonQuery();
+                                    }
+
                                 }
                             }
                             else

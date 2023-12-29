@@ -54,7 +54,7 @@ namespace dip_mes
             // 더블클릭된 행의 데이터를 얻기
             DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
             // 필요한 데이터를 추출하는 예시 (실제로는 데이터 소스로부터 가져와야 함)
-            string orderId = selectedRow.Cells["No"].Value.ToString();
+            string orderId = selectedRow.Cells["작업번호"].Value.ToString();
             // AddInput 폼에 데이터 전달
             AddInput addInputForm = GetOrCreateAddInputForm(orderId);
 
@@ -65,7 +65,7 @@ namespace dip_mes
 
 
             // DataGridView에서 선택된 행의 데이터를 AddInput 폼의 TextBox에 표시
-            addInputForm.DisplayDataInTextBox1(selectedRow.Cells["No"].Value.ToString());
+            addInputForm.DisplayDataInTextBox1(selectedRow.Cells["작업번호"].Value.ToString());
             addInputForm.DisplayDataInTextBox2(selectedRow.Cells["제품명"].Value.ToString());
 
             // 추가: 콤보박스 데이터 로드
@@ -89,7 +89,7 @@ namespace dip_mes
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 매개변수 설정
-                        cmd.Parameters.AddWithValue("@No", selectedRow.Cells["No"].Value.ToString());
+                        cmd.Parameters.AddWithValue("@No", selectedRow.Cells["작업번호"].Value.ToString());
                         cmd.Parameters.AddWithValue("@Product", selectedRow.Cells["제품명"].Value.ToString());
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -140,10 +140,10 @@ namespace dip_mes
                     connection.Open();
                     string getValue = textBox1.Text.Trim();
                     // MySQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No, Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE Status = '작업대기'";
-                    if (!string.IsNullOrEmpty(getValue) && getValue != "No를 입력해주세요")
+                    string query = "SELECT No AS '작업번호', Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE Status = '작업대기'";
+                    if (!string.IsNullOrEmpty(getValue) && getValue != "작업번호를 입력해주세요")
                     {
-                        query += $" AND No = '{getValue}'";
+                        query += $" AND 작업번호 = '{getValue}'";
                         Console.WriteLine("NOT NULL 쿼리추가");
                     }
                     else
@@ -192,14 +192,14 @@ namespace dip_mes
         private void SetDefaultText()
         {
             // 텍스트 박스에 기본값 설정
-            textBox1.Text = "No를 입력해주세요";
+            textBox1.Text = "작업번호를 입력해주세요";
             textBox1.ForeColor = Color.Gray;
         }
 
         private void TextBox1_GotFocus(object sender, EventArgs e)
         {
             // 포커스가 들어오면 텍스트 지우고 글씨 색 변경
-            if (textBox1.Text == "No를 입력해주세요")
+            if (textBox1.Text == "작업번호를 입력해주세요")
             {
                 textBox1.Text = "";
                 textBox1.ForeColor = Color.Black;
