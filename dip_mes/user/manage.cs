@@ -63,7 +63,10 @@ namespace dip_mes
                                     column.ReadOnly = true;
                                 }
                             }
-                        }
+                       
+                        dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                        dataGridView1.Columns[0].Width = 40;
+                    }
                         else
                         {
                             MessageBox.Show("해당 이름의 데이터가 없습니다.");
@@ -98,7 +101,7 @@ namespace dip_mes
 
                         // MySQL에서 해당 행 삭제
                         string idToDelete = row.Cells["id"].Value.ToString();
-                        string deleteQuery = $"DELETE FROM test WHERE id = '{idToDelete}'";
+                        string deleteQuery = $"DELETE FROM user WHERE id = '{idToDelete}'";
 
                         using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, sConn))
                         {

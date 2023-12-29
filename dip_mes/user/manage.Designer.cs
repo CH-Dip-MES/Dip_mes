@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.serch_btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_name = new System.Windows.Forms.TextBox();
@@ -40,7 +41,7 @@
             // 
             // serch_btn
             // 
-            this.serch_btn.Location = new System.Drawing.Point(329, 105);
+            this.serch_btn.Location = new System.Drawing.Point(1379, 105);
             this.serch_btn.Name = "serch_btn";
             this.serch_btn.Size = new System.Drawing.Size(136, 34);
             this.serch_btn.TabIndex = 0;
@@ -52,7 +53,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 16F);
-            this.label1.Location = new System.Drawing.Point(6, 110);
+            this.label1.Location = new System.Drawing.Point(1066, 110);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 22);
             this.label1.TabIndex = 1;
@@ -61,14 +62,14 @@
             // textBox_name
             // 
             this.textBox_name.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_name.Location = new System.Drawing.Point(88, 105);
+            this.textBox_name.Location = new System.Drawing.Point(1141, 105);
             this.textBox_name.Name = "textBox_name";
             this.textBox_name.Size = new System.Drawing.Size(217, 32);
             this.textBox_name.TabIndex = 2;
             // 
             // JoinBtn
             // 
-            this.JoinBtn.Location = new System.Drawing.Point(1384, 105);
+            this.JoinBtn.Location = new System.Drawing.Point(16, 103);
             this.JoinBtn.Name = "JoinBtn";
             this.JoinBtn.Size = new System.Drawing.Size(136, 34);
             this.JoinBtn.TabIndex = 3;
@@ -78,7 +79,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(1534, 105);
+            this.btnDelete.Location = new System.Drawing.Point(1521, 105);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(136, 34);
             this.btnDelete.TabIndex = 4;
@@ -90,20 +91,28 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 145);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 145);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1673, 562);
+            this.dataGridView1.Size = new System.Drawing.Size(1641, 562);
             this.dataGridView1.TabIndex = 5;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 20F);
-            this.label2.Location = new System.Drawing.Point(3, 3);
+            this.label2.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(16, 16);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 27);
+            this.label2.Size = new System.Drawing.Size(180, 27);
             this.label2.TabIndex = 6;
             this.label2.Text = "회원정보관리";
             // 

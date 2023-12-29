@@ -49,19 +49,34 @@ namespace dip_mes
 
         private void InitializeDataGridViewColumns()
         {
-            // 체크박스 컬럼 추가
+            // DataGridView에 사용자 정의 체크박스 컬럼 추가
             DataGridViewCheckBoxColumn checkBoxColumn1 = new DataGridViewCheckBoxColumn();
-            DataGridViewCheckBoxColumn checkBoxColumn2 = new DataGridViewCheckBoxColumn();
-            DataGridViewCheckBoxColumn checkBoxColumn3 = new DataGridViewCheckBoxColumn();
-            checkBoxColumn1.Name = "checkBoxColumn";
+            checkBoxColumn1.Name = "checkBoxColumn1";
             checkBoxColumn1.HeaderText = "체크";
-            checkBoxColumn2.Name = "checkBoxColumn";
+            dataGridView1.Columns.Insert(0, checkBoxColumn1); // 첫 번째 열에 추가
+
+            // DateGridView2에 사용자 정의 체크박스 컬럼 추가
+            DataGridViewCheckBoxColumn checkBoxColumn2 = new DataGridViewCheckBoxColumn();
+            checkBoxColumn2.Name = "checkBoxColumn2";
             checkBoxColumn2.HeaderText = "체크";
-            checkBoxColumn3.Name = "checkBoxColumn";
+            dataGridView2.Columns.Insert(0, checkBoxColumn2); // 첫 번째 열에 추가
+
+            // DateGridView3에 사용자 정의 체크박스 컬럼 추가
+            DataGridViewCheckBoxColumn checkBoxColumn3 = new DataGridViewCheckBoxColumn();
+            checkBoxColumn3.Name = "checkBoxColumn3";
             checkBoxColumn3.HeaderText = "체크";
-            dataGridView1.Columns.Add(checkBoxColumn1);
-            dataGridView2.Columns.Add(checkBoxColumn2);
-            dataGridView3.Columns.Add(checkBoxColumn3);
+            dataGridView3.Columns.Insert(0, checkBoxColumn3); // 첫 번째 열에 추가
+
+            // 체크박스 컬럼의 크기 설정
+            dataGridView1.Columns["checkBoxColumn1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridView1.Columns["checkBoxColumn1"].Width = 50;
+
+            dataGridView2.Columns["checkBoxColumn2"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridView2.Columns["checkBoxColumn2"].Width = 50;
+
+            dataGridView3.Columns["checkBoxColumn3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridView3.Columns["checkBoxColumn3"].Width = 50;
+
 
             // DataGridView에 컬럼 추가
             dataGridView1.Columns.Add("Field2Column", "품번");

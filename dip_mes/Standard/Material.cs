@@ -104,7 +104,11 @@ namespace dip_mes
 
             // 특정 열에 대해 수정 가능하도록 예외적으로 설정
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
+
+            // 체크박스 열의 너비 설정
+            dataGridView1.Columns["CheckBoxColumn"].Width = 50; // 여기서 너비를 조절합니다.
         }
+
         private void InitializeComboBox()
         {
             // comboBox1에 데이터베이스에서 가져온 product_name 추가

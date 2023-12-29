@@ -51,6 +51,13 @@ namespace dip_mes
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["process_code"].HeaderText = "공정코드";
             dataGridView1.Columns["process_name"].HeaderText = "공정명";
+
+            // 체크박스 열의 너비 설정
+            dataGridView1.Columns["CheckBoxColumn"].Width = 40;
+
+            // 체크박스 열의 크기 조절을 위해 Padding 속성 사용
+            dataGridView1.Columns["CheckBoxColumn"].DefaultCellStyle.Padding = new Padding(5, 0, 5, 0);
+
             // 모든 열에 대해 ReadOnly 속성 설정
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
@@ -60,6 +67,7 @@ namespace dip_mes
             // 특정 열에 대해 수정 가능하도록 예외적으로 설정
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
         }
+
         private void InitializeComboBox()
         {
             // comboBox1에 데이터베이스에서 가져온 product_name 추가
