@@ -20,6 +20,8 @@ namespace dip_mes
         public Client()
         {
             InitializeComponent();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
         }
 
         private void Client_Load(object sender, EventArgs e)
@@ -186,6 +188,13 @@ namespace dip_mes
                             DataTable dataTable = new DataTable();
                             adapter.Fill(dataTable);
 
+                            // 검색된 데이터가 없으면 메시지 박스 표시
+                            if (dataTable.Rows.Count == 0)
+                            {
+                                MessageBox.Show("없는 업체명입니다. 다시 확인해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+
                             // DataGridView 초기화
                             dataGridView1.Columns.Clear();
 
@@ -238,9 +247,13 @@ namespace dip_mes
                     // 오류가 발생한 경우 메시지를 표시
                     MessageBox.Show("오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                textBox1.Clear();
+                finally
+                {
+                    textBox1.Clear(); // 예외 발생 여부와 관계없이 textBox1 초기화
+                }
             }
         }
+
 
         private void button4_Click(object sender, EventArgs e)
         {

@@ -63,10 +63,10 @@ namespace dip_mes
                                     column.ReadOnly = true;
                                 }
                             }
-                       
-                        dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                        dataGridView1.Columns[0].Width = 40;
-                    }
+
+                            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                            dataGridView1.Columns[0].Width = 50;
+                        }
                         else
                         {
                             MessageBox.Show("해당 이름의 데이터가 없습니다.");

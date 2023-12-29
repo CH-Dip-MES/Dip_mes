@@ -53,7 +53,7 @@ namespace dip_mes
             dataGridView1.Columns["process_name"].HeaderText = "공정명";
 
             // 체크박스 열의 너비 설정
-            dataGridView1.Columns["CheckBoxColumn"].Width = 40;
+            dataGridView1.Columns["CheckBoxColumn"].Width = 50;
 
             // 체크박스 열의 크기 조절을 위해 Padding 속성 사용
             dataGridView1.Columns["CheckBoxColumn"].DefaultCellStyle.Padding = new Padding(5, 0, 5, 0);
