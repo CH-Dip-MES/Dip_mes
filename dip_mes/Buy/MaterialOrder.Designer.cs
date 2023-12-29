@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -64,21 +68,21 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label1.Font = new System.Drawing.Font("굴림", 20F);
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.Font = new System.Drawing.Font("굴림", 20F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(16, 16);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(174, 27);
+            this.label1.Size = new System.Drawing.Size(180, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "자재발주등록";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("굴림", 16F);
-            this.label3.Location = new System.Drawing.Point(420, 71);
+            this.label3.Location = new System.Drawing.Point(436, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 22);
             this.label3.TabIndex = 2;
@@ -88,9 +92,9 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label4.BackColor = System.Drawing.Color.White;
             this.label4.Font = new System.Drawing.Font("굴림", 16F);
-            this.label4.Location = new System.Drawing.Point(420, 118);
+            this.label4.Location = new System.Drawing.Point(436, 115);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(98, 22);
             this.label4.TabIndex = 3;
@@ -100,9 +104,9 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label5.BackColor = System.Drawing.Color.White;
             this.label5.Font = new System.Drawing.Font("굴림", 16F);
-            this.label5.Location = new System.Drawing.Point(0, 68);
+            this.label5.Location = new System.Drawing.Point(16, 65);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(98, 22);
             this.label5.TabIndex = 4;
@@ -112,7 +116,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("굴림", 16F);
-            this.textBox1.Location = new System.Drawing.Point(124, 67);
+            this.textBox1.Location = new System.Drawing.Point(140, 64);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(280, 32);
             this.textBox1.TabIndex = 5;
@@ -121,7 +125,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Font = new System.Drawing.Font("굴림", 15F);
-            this.dateTimePicker1.Location = new System.Drawing.Point(536, 114);
+            this.dateTimePicker1.Location = new System.Drawing.Point(552, 111);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(280, 30);
             this.dateTimePicker1.TabIndex = 9;
@@ -130,7 +134,7 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Font = new System.Drawing.Font("굴림", 15F);
-            this.dateTimePicker2.Location = new System.Drawing.Point(124, 114);
+            this.dateTimePicker2.Location = new System.Drawing.Point(140, 111);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(280, 30);
             this.dateTimePicker2.TabIndex = 10;
@@ -139,7 +143,7 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("굴림", 16F);
-            this.textBox2.Location = new System.Drawing.Point(826, 65);
+            this.textBox2.Location = new System.Drawing.Point(842, 62);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(132, 32);
             this.textBox2.TabIndex = 11;
@@ -148,7 +152,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("굴림", 16F);
-            this.button1.Location = new System.Drawing.Point(971, 63);
+            this.button1.Location = new System.Drawing.Point(987, 60);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 34);
             this.button1.TabIndex = 12;
@@ -159,9 +163,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("굴림", 16F);
-            this.label2.Location = new System.Drawing.Point(0, 115);
+            this.label2.Location = new System.Drawing.Point(16, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 22);
             this.label2.TabIndex = 1;
@@ -171,9 +175,9 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.SystemColors.Control;
+            this.label6.BackColor = System.Drawing.Color.White;
             this.label6.Font = new System.Drawing.Font("굴림", 16F);
-            this.label6.Location = new System.Drawing.Point(-1, 164);
+            this.label6.Location = new System.Drawing.Point(15, 161);
             this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(98, 22);
@@ -183,7 +187,7 @@
             // dateTimePicker3
             // 
             this.dateTimePicker3.Font = new System.Drawing.Font("굴림", 15F);
-            this.dateTimePicker3.Location = new System.Drawing.Point(124, 164);
+            this.dateTimePicker3.Location = new System.Drawing.Point(140, 161);
             this.dateTimePicker3.Name = "dateTimePicker3";
             this.dateTimePicker3.Size = new System.Drawing.Size(280, 30);
             this.dateTimePicker3.TabIndex = 14;
@@ -191,7 +195,7 @@
             // textBox3
             // 
             this.textBox3.Font = new System.Drawing.Font("굴림", 16F);
-            this.textBox3.Location = new System.Drawing.Point(536, 161);
+            this.textBox3.Location = new System.Drawing.Point(552, 158);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(280, 32);
             this.textBox3.TabIndex = 16;
@@ -200,7 +204,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("굴림", 16F);
-            this.label7.Location = new System.Drawing.Point(420, 167);
+            this.label7.Location = new System.Drawing.Point(436, 164);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 22);
             this.label7.TabIndex = 15;
@@ -209,7 +213,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("굴림", 16F);
-            this.button2.Location = new System.Drawing.Point(822, 160);
+            this.button2.Location = new System.Drawing.Point(838, 157);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(136, 34);
             this.button2.TabIndex = 17;
@@ -219,14 +223,34 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 211);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1.ColumnHeadersHeight = 35;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.EnableHeadersVisualStyles = false;
+            this.dataGridView1.Location = new System.Drawing.Point(16, 201);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1673, 222);
+            this.dataGridView1.Size = new System.Drawing.Size(1641, 222);
             this.dataGridView1.TabIndex = 19;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -272,11 +296,31 @@
             // dataGridView2
             // 
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 528);
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("나눔고딕 ExtraBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridView2.ColumnHeadersHeight = 35;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("나눔고딕", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridView2.EnableHeadersVisualStyles = false;
+            this.dataGridView2.Location = new System.Drawing.Point(16, 528);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(1673, 298);
+            this.dataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView2.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView2.RowTemplate.Height = 25;
+            this.dataGridView2.Size = new System.Drawing.Size(1641, 283);
             this.dataGridView2.TabIndex = 24;
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             this.dataGridView2.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellEndEdit);
@@ -284,7 +328,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("굴림", 16F);
-            this.button4.Location = new System.Drawing.Point(1391, 471);
+            this.button4.Location = new System.Drawing.Point(1377, 471);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(136, 34);
             this.button4.TabIndex = 25;
@@ -295,7 +339,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("굴림", 16F);
-            this.button5.Location = new System.Drawing.Point(1535, 470);
+            this.button5.Location = new System.Drawing.Point(1521, 470);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(136, 34);
             this.button5.TabIndex = 26;
@@ -322,7 +366,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("굴림", 16F);
-            this.label10.Location = new System.Drawing.Point(3, 474);
+            this.label10.Location = new System.Drawing.Point(16, 477);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(98, 22);
             this.label10.TabIndex = 29;
@@ -331,7 +375,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("굴림", 16F);
-            this.button6.Location = new System.Drawing.Point(1535, 155);
+            this.button6.Location = new System.Drawing.Point(1521, 155);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(136, 34);
             this.button6.TabIndex = 30;
@@ -343,7 +387,7 @@
             // 
             this.comboBox1.Font = new System.Drawing.Font("굴림", 16F);
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(536, 67);
+            this.comboBox1.Location = new System.Drawing.Point(552, 64);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(280, 29);
             this.comboBox1.TabIndex = 31;
@@ -352,7 +396,7 @@
             // button7
             // 
             this.button7.Font = new System.Drawing.Font("굴림", 16F);
-            this.button7.Location = new System.Drawing.Point(971, 161);
+            this.button7.Location = new System.Drawing.Point(987, 158);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(136, 34);
             this.button7.TabIndex = 32;
@@ -364,6 +408,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.button7);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button6);

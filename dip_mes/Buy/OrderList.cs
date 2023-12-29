@@ -92,46 +92,35 @@ namespace dip_mes
             {
                 connection.Open();
 
-                // buy3 테이블에서 데이터 조회
-                string selectQuery;
+                // buy1, buy2 테이블에서 데이터 조회
+                string selectQuery = @"
+            SELECT 
+                buy1.Deliverydate AS '납기일자',
+                buy1.code AS '업체코드',
+                buy1.Companyname AS '업체명',
+                buy2.itemname AS '품명',
+                buy2.itemnumber AS '품번',
+                buy2.weight AS '입고수량',
+                buy1.orderingcode AS '발주코드'
+            FROM buy1
+            INNER JOIN buy2 ON buy1.orderingcode = buy2.orderingcode";
+
                 MySqlCommand command;
 
                 if (string.IsNullOrEmpty(textBox1.Text))
                 {
                     // TextBox1에 값이 없으면 해당 년월의 행들 조회
-                    selectQuery = @"
-                SELECT 
-                    ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
-                    Deliverydate AS '납기일자',
-                    companycode AS '업체코드', 
-                    itemname AS '품명', 
-                    itemnumber AS '품번', 
-                    orderweight AS '입고수량', 
-                    incomingweight AS '출고수량', 
-                    orderingcode AS '발주코드'
-                FROM buy3
-                WHERE DATE_FORMAT(DeliveryDate, '%Y%m') = @DeliveryYearMonth";
+                    selectQuery += " WHERE DATE_FORMAT(buy1.DeliveryDate, '%Y%m') = @DeliveryYearMonth";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryYearMonth", deliveryYearMonth);
                 }
                 else
                 {
                     // TextBox1에 값이 있으면 해당 년월 및 companycode가 일치한 행들 조회
-                    selectQuery = @"
-                SELECT 
-                    ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
-                    Deliverydate AS '납기일자',
-                    companycode AS '업체코드', 
-                    itemname AS '품명', 
-                    itemnumber AS '품번', 
-                    orderweight AS '입고수량', 
-                    incomingweight AS '출고수량', 
-                    orderingcode AS '발주코드'
-                FROM buy3
-                WHERE DATE_FORMAT(DeliveryDate, '%Y%m') = @DeliveryYearMonth AND companycode = @companycode";
+                    selectQuery += " WHERE DATE_FORMAT(buy1.DeliveryDate, '%Y%m') = @DeliveryYearMonth AND buy1.code = @code";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryYearMonth", deliveryYearMonth);
-                    command.Parameters.AddWithValue("@companycode", textBox1.Text);
+                    command.Parameters.AddWithValue("@code", textBox1.Text);
                 }
 
                 // 데이터 가져오기
@@ -305,16 +294,15 @@ namespace dip_mes
 
                 // buy4 테이블에서 데이터 조회
                 string selectQuery = @"
-                    SELECT 
-                        1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
-                        3Deliveryquantity, 3Enterquantity, 4Deliveryquantity, 4Enterquantity,
-                        5Deliveryquantity, 5Enterquantity, 6Deliveryquantity, 6Enterquantity,
-                        7Deliveryquantity, 7Enterquantity, 8Deliveryquantity, 8Enterquantity,
-                        9Deliveryquantity, 9Enterquantity, 10Deliveryquantity, 10Enterquantity,
-                        11Deliveryquantity, 11Enterquantity, 12Deliveryquantity, 12Enterquantity
-                    FROM buy4
-                    WHERE year = @Year
-                ";
+            SELECT 
+                1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
+                3Enterquantity, 3Deliveryquantity, 4Enterquantity, 4Deliveryquantity,
+                5Enterquantity, 5Deliveryquantity, 6Enterquantity, 6Deliveryquantity,
+                7Enterquantity, 7Deliveryquantity, 8Enterquantity, 8Deliveryquantity,
+                9Enterquantity, 9Deliveryquantity, 10Enterquantity, 10Deliveryquantity,
+                11Enterquantity, 11Deliveryquantity, 12Enterquantity, 12Deliveryquantity
+            FROM buy4
+            WHERE year = @Year";
 
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
@@ -328,10 +316,12 @@ namespace dip_mes
                         // "입고내역" 시리즈 생성 및 설정
                         Series enterSeries = new Series("입고내역");
                         enterSeries.ChartType = SeriesChartType.Column;
+                        enterSeries.Color = Color.FromArgb(9, 4, 58); // Set custom color
 
                         // "출고내역" 시리즈 생성 및 설정
                         Series deliverySeries = new Series("출고내역");
                         deliverySeries.ChartType = SeriesChartType.Column;
+                        deliverySeries.Color = Color.FromArgb(108, 189, 182); // Set custom color
 
                         // 데이터 바인딩
                         if (reader.Read())
@@ -500,6 +490,11 @@ namespace dip_mes
                 MySqlCommand command = new MySqlCommand(updateQuery, connection);
                 command.ExecuteNonQuery();
             }
+        }
+
+        private void chart2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

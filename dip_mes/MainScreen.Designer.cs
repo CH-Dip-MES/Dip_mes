@@ -235,12 +235,12 @@ namespace dip_mes
             this.tableLayoutPanel5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.tableLayoutPanel5.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 90);
-            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0, 10, 20, 20);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1884, 891);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1904, 911);
             this.tableLayoutPanel5.TabIndex = 1;
             this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
@@ -253,7 +253,7 @@ namespace dip_mes
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1884, 45);
+            this.panel3.Size = new System.Drawing.Size(1904, 45);
             this.panel3.TabIndex = 0;
             // 
             // button18
@@ -297,6 +297,7 @@ namespace dip_mes
             // 
             // tableLayoutPanel6
             // 
+            this.tableLayoutPanel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.tableLayoutPanel6.ColumnCount = 2;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -309,13 +310,12 @@ namespace dip_mes
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1884, 836);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1904, 856);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
             // panel
             // 
             this.panel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel.Location = new System.Drawing.Point(208, 10);
             this.panel.Margin = new System.Windows.Forms.Padding(23, 10, 3, 0);
             this.panel.Name = "panel";
@@ -339,7 +339,7 @@ namespace dip_mes
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(185, 836);
+            this.panel4.Size = new System.Drawing.Size(185, 856);
             this.panel4.TabIndex = 2;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
@@ -370,6 +370,7 @@ namespace dip_mes
             // 
             // button12
             // 
+            this.button12.BackColor = System.Drawing.Color.White;
             this.button12.Dock = System.Windows.Forms.DockStyle.Top;
             this.button12.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -381,7 +382,7 @@ namespace dip_mes
             this.button12.TabIndex = 7;
             this.button12.Text = "           회원관리";
             this.button12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button12.UseVisualStyleBackColor = true;
+            this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // panelproduction
@@ -443,6 +444,7 @@ namespace dip_mes
             // 
             // button11
             // 
+            this.button11.BackColor = System.Drawing.Color.White;
             this.button11.Dock = System.Windows.Forms.DockStyle.Top;
             this.button11.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -454,7 +456,7 @@ namespace dip_mes
             this.button11.TabIndex = 5;
             this.button11.Text = "           생산관리";
             this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button11.UseVisualStyleBackColor = true;
+            this.button11.UseVisualStyleBackColor = false;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // panelbuy
@@ -575,6 +577,7 @@ namespace dip_mes
             // 
             // buttonsale
             // 
+            this.buttonsale.BackColor = System.Drawing.Color.White;
             this.buttonsale.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonsale.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.buttonsale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -586,7 +589,7 @@ namespace dip_mes
             this.buttonsale.TabIndex = 1;
             this.buttonsale.Text = "           영업관리";
             this.buttonsale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonsale.UseVisualStyleBackColor = true;
+            this.buttonsale.UseVisualStyleBackColor = false;
             this.buttonsale.Click += new System.EventHandler(this.buttonsale_Click);
             // 
             // panelbase
@@ -665,6 +668,7 @@ namespace dip_mes
             // 
             // button2
             // 
+            this.button2.BackColor = System.Drawing.Color.White;
             this.button2.Dock = System.Windows.Forms.DockStyle.Top;
             this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -678,7 +682,7 @@ namespace dip_mes
             this.button2.TabIndex = 0;
             this.button2.Text = "           기준정보";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // MainScreen
