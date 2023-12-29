@@ -297,40 +297,56 @@ namespace dip_mes
                 if (string.IsNullOrWhiteSpace(value1) || string.IsNullOrWhiteSpace(value2))
                 {
                     MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 else
                 {
-                    // SQL 쿼리를 작성하여 데이터베이스에 값을 삽입
-                    string query = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
+                    // SQL 쿼리를 작성하여 데이터베이스에 중복 여부 확인
+                    string checkDuplicateQuery = "SELECT COUNT(*) FROM process WHERE process_code = @value1 OR process_name = @value2";
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    using (MySqlCommand checkDuplicateCmd = new MySqlCommand(checkDuplicateQuery, connection))
                     {
-                        cmd.Parameters.AddWithValue("@value1", value1);
-                        cmd.Parameters.AddWithValue("@value2", value2);
+                        checkDuplicateCmd.Parameters.AddWithValue("@value1", value1);
+                        checkDuplicateCmd.Parameters.AddWithValue("@value2", value2);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
+                        int duplicateCount = Convert.ToInt32(checkDuplicateCmd.ExecuteScalar());
+
+                        if (duplicateCount > 0)
                         {
-                            MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
-
-                            // 등록한 데이터를 데이터 테이블에 추가
-                            DataRow newRow = dataTable.NewRow();
-                            newRow["process_code"] = value1;
-                            newRow["process_name"] = value2;
-                            dataTable.Rows.Add(newRow);
-
-                            // 텍스트 박스 초기화
-                            textBox1.Text = string.Empty;
-                            textBox2.Text = string.Empty;
+                            MessageBox.Show("중복된 코드입니다. 확인해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {
-                            MessageBox.Show("데이터 등록에 실패했습니다.");
+                            // 중복이 아닌 경우에만 등록 수행
+                            string insertQuery = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
+
+                            using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@value1", value1);
+                                cmd.Parameters.AddWithValue("@value2", value2);
+
+                                int rowsAffected = cmd.ExecuteNonQuery();
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
+
+                                    // 등록한 데이터를 데이터 테이블에 추가
+                                    DataRow newRow = dataTable.NewRow();
+                                    newRow["process_code"] = value1;
+                                    newRow["process_name"] = value2;
+                                    dataTable.Rows.Add(newRow);
+
+                                    // 텍스트 박스 초기화
+                                    textBox1.Text = string.Empty;
+                                    textBox2.Text = string.Empty;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("데이터 등록에 실패했습니다.");
+                                }
+                            }
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -341,6 +357,7 @@ namespace dip_mes
                 connection.Close();
             }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
