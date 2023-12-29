@@ -121,6 +121,7 @@ namespace dip_mes
                 string fSellNo = findNo.Text.Trim(); // 검색창 텍스트
                 string sInfo = "select saledate,salecode,buyername,procstat,delistat,delidate from sale2";
 
+                
                 if (!string.IsNullOrEmpty(fSellNo)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
                 {
                     sInfo += $" WHERE salecode = '{fSellNo}'";
