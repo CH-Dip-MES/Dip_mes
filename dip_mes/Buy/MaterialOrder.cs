@@ -34,6 +34,8 @@ namespace dip_mes
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+
             // 날짜 형식을 MySQL의 DATETIME 형식으로 변환
             string orderDate = dateTimePicker1.Value.ToString("yyyyMMdd");
             string deliveryDate = dateTimePicker2.Value.ToString("yyyyMMdd");
@@ -50,7 +52,7 @@ namespace dip_mes
                 textBox1.Text = orderingCode;
 
                 // buy1 테이블에 데이터 삽입
-                string insertQuery = "INSERT INTO buy1 (DeliveryDate, Code, OrderDate, Orderingcode, Companyname) VALUES (@DeliveryDate, @Code, @OrderDate, @OrderingCode, @Companyname)";
+                string insertQuery = "INSERT INTO buy1 (DeliveryDate, Code, OrderDate, Orderingcode, Companyname, Writer) VALUES (@DeliveryDate, @Code, @OrderDate, @OrderingCode, @Companyname, @Writer)";
 
                 using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                 {
@@ -59,6 +61,7 @@ namespace dip_mes
                     command.Parameters.AddWithValue("@OrderDate", orderDate);
                     command.Parameters.AddWithValue("@OrderingCode", orderingCode);
                     command.Parameters.AddWithValue("@Companyname", textBox2.Text);
+                    command.Parameters.AddWithValue("@Writer", MainScreen.label2Text);
 
                     command.ExecuteNonQuery();
                 }
@@ -750,6 +753,31 @@ namespace dip_mes
         private void button7_Click(object sender, EventArgs e)
         {
             LoadDataToDataGridView1();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

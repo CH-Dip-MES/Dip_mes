@@ -110,7 +110,7 @@ namespace dip_mes
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(4)))), ((int)(((byte)(58)))));
             this.tableLayoutPanel2.ColumnCount = 6;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.19697F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 92.80303F));
@@ -129,6 +129,7 @@ namespace dip_mes
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1904, 80);
             this.tableLayoutPanel2.TabIndex = 0;
+            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
             // tableLayoutPanel3
             // 
@@ -150,11 +151,12 @@ namespace dip_mes
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("굴림", 30F);
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(463, 44);
             this.label1.TabIndex = 0;
-            this.label1.Text = "MES 구축 프로젝트";
+            this.label1.Text = "Dip Cop";
             // 
             // tableLayoutPanel4
             // 
@@ -183,6 +185,7 @@ namespace dip_mes
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 15F);
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label3.Location = new System.Drawing.Point(49, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(116, 20);
@@ -194,6 +197,7 @@ namespace dip_mes
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 15F);
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(-2, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(25, 20);
@@ -242,7 +246,7 @@ namespace dip_mes
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.panel3.Controls.Add(this.button18);
             this.panel3.Controls.Add(this.tabControl1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -254,19 +258,22 @@ namespace dip_mes
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(1738, 8);
+            this.button18.BackColor = System.Drawing.Color.White;
+            this.button18.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button18.Location = new System.Drawing.Point(1742, 0);
             this.button18.Margin = new System.Windows.Forms.Padding(0);
             this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(129, 33);
+            this.button18.Size = new System.Drawing.Size(142, 45);
             this.button18.TabIndex = 1;
             this.button18.Text = "닫기";
-            this.button18.UseVisualStyleBackColor = true;
+            this.button18.UseVisualStyleBackColor = false;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(208, 10);
+            this.tabControl1.Location = new System.Drawing.Point(208, 11);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -341,15 +348,17 @@ namespace dip_mes
             this.paneluser.BackColor = System.Drawing.SystemColors.ControlLight;
             this.paneluser.Controls.Add(this.button17);
             this.paneluser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.paneluser.Location = new System.Drawing.Point(0, 735);
+            this.paneluser.Location = new System.Drawing.Point(0, 785);
             this.paneluser.Name = "paneluser";
             this.paneluser.Size = new System.Drawing.Size(185, 47);
             this.paneluser.TabIndex = 8;
             // 
             // button17
             // 
-            this.button17.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button17.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button17.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button17.Location = new System.Drawing.Point(0, 0);
             this.button17.Margin = new System.Windows.Forms.Padding(0);
             this.button17.Name = "button17";
@@ -362,8 +371,10 @@ namespace dip_mes
             // button12
             // 
             this.button12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button12.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.Location = new System.Drawing.Point(0, 689);
+            this.button12.Location = new System.Drawing.Point(0, 739);
             this.button12.Margin = new System.Windows.Forms.Padding(0);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(185, 46);
@@ -380,15 +391,17 @@ namespace dip_mes
             this.panelproduction.Controls.Add(this.button13);
             this.panelproduction.Controls.Add(this.button8);
             this.panelproduction.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelproduction.Location = new System.Drawing.Point(0, 552);
+            this.panelproduction.Location = new System.Drawing.Point(0, 602);
             this.panelproduction.Name = "panelproduction";
             this.panelproduction.Size = new System.Drawing.Size(185, 137);
             this.panelproduction.TabIndex = 6;
             // 
             // button16
             // 
-            this.button16.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button16.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button16.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button16.Location = new System.Drawing.Point(0, 92);
             this.button16.Margin = new System.Windows.Forms.Padding(0);
             this.button16.Name = "button16";
@@ -400,8 +413,10 @@ namespace dip_mes
             // 
             // button13
             // 
-            this.button13.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button13.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button13.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button13.Location = new System.Drawing.Point(0, 46);
             this.button13.Margin = new System.Windows.Forms.Padding(0);
             this.button13.Name = "button13";
@@ -413,8 +428,10 @@ namespace dip_mes
             // 
             // button8
             // 
-            this.button8.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button8.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Location = new System.Drawing.Point(0, 0);
             this.button8.Margin = new System.Windows.Forms.Padding(0);
             this.button8.Name = "button8";
@@ -427,8 +444,10 @@ namespace dip_mes
             // button11
             // 
             this.button11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button11.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Location = new System.Drawing.Point(0, 506);
+            this.button11.Location = new System.Drawing.Point(0, 556);
             this.button11.Margin = new System.Windows.Forms.Padding(0);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(185, 46);
@@ -444,15 +463,17 @@ namespace dip_mes
             this.panelbuy.Controls.Add(this.button9);
             this.panelbuy.Controls.Add(this.button7);
             this.panelbuy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelbuy.Location = new System.Drawing.Point(0, 370);
+            this.panelbuy.Location = new System.Drawing.Point(0, 462);
             this.panelbuy.Name = "panelbuy";
-            this.panelbuy.Size = new System.Drawing.Size(185, 136);
+            this.panelbuy.Size = new System.Drawing.Size(185, 94);
             this.panelbuy.TabIndex = 4;
             // 
             // button9
             // 
-            this.button9.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button9.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button9.Location = new System.Drawing.Point(0, 46);
             this.button9.Margin = new System.Windows.Forms.Padding(0);
             this.button9.Name = "button9";
@@ -464,8 +485,10 @@ namespace dip_mes
             // 
             // button7
             // 
-            this.button7.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Location = new System.Drawing.Point(0, 0);
             this.button7.Margin = new System.Windows.Forms.Padding(0);
             this.button7.Name = "button7";
@@ -477,16 +500,19 @@ namespace dip_mes
             // 
             // button10
             // 
+            this.button10.BackColor = System.Drawing.Color.White;
             this.button10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button10.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button10.Image = ((System.Drawing.Image)(resources.GetObject("button10.Image")));
-            this.button10.Location = new System.Drawing.Point(0, 324);
+            this.button10.Location = new System.Drawing.Point(0, 416);
             this.button10.Margin = new System.Windows.Forms.Padding(0);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(185, 46);
             this.button10.TabIndex = 3;
             this.button10.Text = "           구매관리";
             this.button10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button10.UseVisualStyleBackColor = true;
+            this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // panelsale
@@ -498,13 +524,15 @@ namespace dip_mes
             this.panelsale.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelsale.Location = new System.Drawing.Point(0, 276);
             this.panelsale.Name = "panelsale";
-            this.panelsale.Size = new System.Drawing.Size(185, 48);
+            this.panelsale.Size = new System.Drawing.Size(185, 140);
             this.panelsale.TabIndex = 2;
             // 
             // button15
             // 
-            this.button15.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button15.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button15.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button15.Location = new System.Drawing.Point(0, 92);
             this.button15.Margin = new System.Windows.Forms.Padding(0);
             this.button15.Name = "button15";
@@ -516,8 +544,10 @@ namespace dip_mes
             // 
             // button14
             // 
-            this.button14.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button14.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button14.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button14.Location = new System.Drawing.Point(0, 46);
             this.button14.Margin = new System.Windows.Forms.Padding(0);
             this.button14.Name = "button14";
@@ -529,8 +559,11 @@ namespace dip_mes
             // 
             // Bsale
             // 
-            this.Bsale.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Bsale.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.Bsale.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Bsale.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.Bsale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bsale.ForeColor = System.Drawing.Color.Black;
             this.Bsale.Location = new System.Drawing.Point(0, 0);
             this.Bsale.Margin = new System.Windows.Forms.Padding(0);
             this.Bsale.Name = "Bsale";
@@ -543,6 +576,8 @@ namespace dip_mes
             // buttonsale
             // 
             this.buttonsale.Dock = System.Windows.Forms.DockStyle.Top;
+            this.buttonsale.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.buttonsale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonsale.Image = ((System.Drawing.Image)(resources.GetObject("buttonsale.Image")));
             this.buttonsale.Location = new System.Drawing.Point(0, 230);
             this.buttonsale.Margin = new System.Windows.Forms.Padding(0);
@@ -556,7 +591,7 @@ namespace dip_mes
             // 
             // panelbase
             // 
-            this.panelbase.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panelbase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.panelbase.Controls.Add(this.button4);
             this.panelbase.Controls.Add(this.button6);
             this.panelbase.Controls.Add(this.button5);
@@ -569,8 +604,10 @@ namespace dip_mes
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Location = new System.Drawing.Point(0, 138);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
@@ -582,8 +619,10 @@ namespace dip_mes
             // 
             // button6
             // 
-            this.button6.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Location = new System.Drawing.Point(0, 92);
             this.button6.Margin = new System.Windows.Forms.Padding(0);
             this.button6.Name = "button6";
@@ -595,8 +634,10 @@ namespace dip_mes
             // 
             // button5
             // 
-            this.button5.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Location = new System.Drawing.Point(0, 46);
             this.button5.Margin = new System.Windows.Forms.Padding(0);
             this.button5.Name = "button5";
@@ -608,8 +649,11 @@ namespace dip_mes
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
             this.button3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(239)))), ((int)(((byte)(244)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(0, 0);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
@@ -622,6 +666,10 @@ namespace dip_mes
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("굴림체", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.Location = new System.Drawing.Point(0, 0);
             this.button2.Margin = new System.Windows.Forms.Padding(0);

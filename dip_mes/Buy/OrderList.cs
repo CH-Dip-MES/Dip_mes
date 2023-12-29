@@ -48,17 +48,16 @@ namespace dip_mes
 
                 // buy3 테이블에서 데이터 조회
                 string selectQuery = @"
-            SELECT 
-                ROW_NUMBER() OVER (ORDER BY nb DESC) as 'No.', 
-                Deliverydate AS '납기일자',
-                companycode AS '업체코드', 
-                itemname AS '품명', 
-                itemnumber AS '품번', 
-                orderweight AS '입고수량', 
-                incomingweight AS '출고수량', 
-                orderingcode AS '발주코드'
-            FROM buy3
-        ";
+                SELECT 
+                buy1.Deliverydate AS '납기일자',
+                buy1.code AS '업체코드',
+                buy1.Companyname AS '업체명',
+                buy2.itemname AS '품명',
+                buy2.itemnumber AS '품번',
+                buy2.weight AS '입고수량',
+                buy1.orderingcode AS '발주코드'
+                FROM buy1
+                INNER JOIN buy2 ON buy1.orderingcode = buy2.orderingcode";
 
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                 {
@@ -438,6 +437,69 @@ namespace dip_mes
         private void dataGridView3_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // 납기일자 열에서 년도와 월을 추출
+            DateTime deliveryDate;
+            try
+            {
+                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[1].Value.ToString());
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            int year = deliveryDate.Year;
+            int month = deliveryDate.Month;
+
+
+            // DB에서 year 칼럼 업데이트
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // SQL 쿼리 생성
+                string updateQuery = $"UPDATE buy4 SET year = {year} WHERE year = {dataGridView1.Rows[0].Cells[1].Value.ToString()}";
+
+                // 쿼리 실행
+                MySqlCommand command = new MySqlCommand(updateQuery, connection);
+                command.ExecuteNonQuery();
+            }
+
+            // DB에서 입고수량 칼럼 업데이트
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // SQL 쿼리 생성
+                string updateQuery = $"UPDATE buy4 SET {month + 1}Deliveryquantity = (SELECT SUM(quantity) FROM buy4 WHERE year = {year} AND month = {month}) WHERE year = {year} AND month = {month}";
+
+                // 쿼리 실행
+                MySqlCommand command = new MySqlCommand(updateQuery, connection);
+                command.ExecuteNonQuery();
+            }
+
+            // 데이터그리드에서 입고수량 열의 값을 가져와서 합산
+            int totalQuantity = 0;
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                totalQuantity += Convert.ToInt32(dataGridView1.Rows[i].Cells[2].Value.ToString());
+            }
+
+            // DB에서 입고수량 칼럼 업데이트
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // SQL 쿼리 생성
+                string updateQuery = $"UPDATE buy4 SET {month + 1}Deliveryquantity = {totalQuantity} WHERE year = {year} AND month = {month}";
+
+                // 쿼리 실행
+                MySqlCommand command = new MySqlCommand(updateQuery, connection);
+                command.ExecuteNonQuery();
+            }
         }
     }
 }
