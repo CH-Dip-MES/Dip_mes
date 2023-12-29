@@ -70,7 +70,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 입력된 제품명을 기반으로 데이터 조회
-                    string query = "SELECT DISTINCT Material FROM manufacture WHERE Product = @productName";
+                    string query = "SELECT DISTINCT Material FROM manufacture WHERE product_name = @productName";
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@productName", data);
@@ -110,7 +110,7 @@ namespace dip_mes
                     connection.Open();
 
                     // 텍스트박스1, 텍스트박스2에 해당하는 행을 조회하는 SQL 쿼리
-                    string query = "SELECT Planned, standard FROM manufacture WHERE No = @textBox1Value AND Product = @textBox2Value";
+                    string query = "SELECT PlannedQty, standard FROM manufacture WHERE No = @textBox1Value AND product_name = @textBox2Value";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {

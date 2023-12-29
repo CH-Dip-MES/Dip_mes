@@ -84,19 +84,19 @@ namespace dip_mes
                     connection.Open();
 
                     // 텍스트박스1, 텍스트박스2에 해당하는 행을 조회하는 SQL 쿼리
-                    string query = "SELECT Planned, Standard FROM manufacture WHERE No = @No AND Product = @Product";
+                    string query = "SELECT PlannedQty, Standard FROM manufacture WHERE No = @No AND product_name = @product_name";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 매개변수 설정
                         cmd.Parameters.AddWithValue("@No", selectedRow.Cells["작업번호"].Value.ToString());
-                        cmd.Parameters.AddWithValue("@Product", selectedRow.Cells["제품명"].Value.ToString());
+                        cmd.Parameters.AddWithValue("@product_name", selectedRow.Cells["제품명"].Value.ToString());
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
                                 // Planned 및 standard 컬럼 값 가져오기
-                                int plannedValue = reader["Planned"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Planned"]);
+                                int plannedValue = reader["PlannedQty"] == DBNull.Value ? 0 : Convert.ToInt32(reader["PlannedQty"]);
                                 double standardValue = reader["Standard"] == DBNull.Value ? 0 : Convert.ToDouble(reader["Standard"]);
 
                                 // 텍스트박스3에 표시할 값 계산
@@ -140,15 +140,15 @@ namespace dip_mes
                     connection.Open();
                     string getValue = textBox1.Text.Trim();
                     // MySQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No AS '작업번호', Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE Status = '작업대기'";
+                    string query = "SELECT No AS '작업번호', product_name AS '제품명', Selected AS '자재명', PlannedQty AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE WorkStatus = '작업대기'";
                     if (!string.IsNullOrEmpty(getValue) && getValue != "작업번호를 입력해주세요")
                     {
-                        query += $" AND 작업번호 = '{getValue}'";
+                        query += $" AND No = '{getValue}'";
                         Console.WriteLine("NOT NULL 쿼리추가");
                     }
                     else
                     {   
-                        query += " AND Status = '작업대기'";
+                        query += " AND WorkStatus = '작업대기'";
                     }
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {

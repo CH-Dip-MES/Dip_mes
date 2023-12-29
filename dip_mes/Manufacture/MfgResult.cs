@@ -40,7 +40,7 @@ namespace dip_mes
                     connection.Open();
 
                     // My   SQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No AS '작업번호', Product AS '제품명', Planned AS '계획수량', Actual AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE Status = '작업완료'";
+                    string query = "SELECT No AS '작업번호', product_name AS '제품명', PlannedQty AS '계획수량', ActualQty AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE WorkStatus = '작업완료'";
 
                     // 선택한 날짜가 있는 경우에만 날짜 조건을 추가
                     if (dateTimePicker1.Checked)
@@ -85,7 +85,7 @@ namespace dip_mes
                     connection.Open();
 
                     // My   SQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No AS '작업번호', Product AS '제품명', Planned AS '계획수량', Actual AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE Status = '작업완료'";
+                    string query = "SELECT No AS '작업번호', product_name AS '제품명', PlannedQty AS '계획수량', ActualQty AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE WorkStatus = '작업완료'";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {

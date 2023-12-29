@@ -14,13 +14,13 @@ namespace dip_mes
 {
     public partial class AddOrder : Form
     {
-        private Order ProductForm;
+        private Order OrderForm;
         private int orderCount = 0; // 주문 번호 카운터
-        public AddOrder(Order productForm)
+        public AddOrder(Order orderForm)
         {
             InitializeComponent();
             textBox3.Leave += textBox3_Leave;
-            ProductForm = productForm;
+            OrderForm = orderForm;
             LoadProductNames();
             this.comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
         }
@@ -77,30 +77,57 @@ namespace dip_mes
                     string lotNumber = GenerateLotNumber(connection, comboBox2Value);
 
                     // 데이터베이스에 데이터 추가하는 SQL 쿼리
-                    string query = "INSERT INTO manufacture (No, Product, Process, Planned, Estimated, Status, Lot) " +
+                    string query = "INSERT INTO manufacture (No, product_name, process_name, PlannedQty, EstTime, WorkStatus, Lot) " +
                             "VALUES (@textBox1, @comboBox2, @comboBox1, @textBox3, @textBox4, '작업대기', @lotNumber )"; // '작업대기'로 추가
 
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    if (textBox1Value == null)
                     {
-                        // 매개변수 설정
-                        cmd.Parameters.AddWithValue("@textBox1", textBox1Value);
-                        cmd.Parameters.AddWithValue("@comboBox2", comboBox2Value);
-                        cmd.Parameters.AddWithValue("@comboBox1", comboBox1Value);
-                        cmd.Parameters.AddWithValue("@textBox3", textBox3Value);
-                        cmd.Parameters.AddWithValue("@textBox4", textBox4Value);
-                        cmd.Parameters.AddWithValue("@lotNumber", lotNumber);
-
-                        OnButton2Clicked(EventArgs.Empty);
-
-                        // 쿼리 실행
-                        cmd.ExecuteNonQuery();
-
-                        // 데이터그리드 최신화
-                        ProductForm.LoadDataToDataGridView1();
+                        MessageBox.Show("작업지시번호를 입력해주세요");
+                    }
+                    else if (comboBox2Value == null)
+                    {
+                        MessageBox.Show("제품을 선택해주세요");
 
                     }
-                    clear();
+                    else if (comboBox2Value == null)
+                    {
+                        MessageBox.Show("공정을 선택해주세요");
+                    }
+                    else if (textBox3Value == null)
+                    {
+                        MessageBox.Show("목표수량을 입력해주세요");
+                    }
+                    else
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                        {
+                            // 매개변수 설정
+                            cmd.Parameters.AddWithValue("@textBox1", textBox1Value);
+                            cmd.Parameters.AddWithValue("@comboBox2", comboBox2Value);
+                            cmd.Parameters.AddWithValue("@comboBox1", comboBox1Value);
+                            cmd.Parameters.AddWithValue("@textBox3", textBox3Value);
+                            cmd.Parameters.AddWithValue("@textBox4", textBox4Value);
+                            cmd.Parameters.AddWithValue("@lotNumber", lotNumber);
+
+                            OnButton2Clicked(EventArgs.Empty);
+
+                            // 쿼리 실행
+                            cmd.ExecuteNonQuery();
+
+                            // 데이터그리드 최신화
+                            OrderForm.LoadDataToDataGridView1();
+
+                        }
+                    }
+
+                    comboBox1.SelectedIndex = -1;
+                    comboBox1.Items.Clear();
+                    comboBox2.SelectedIndex = -1;
+                    comboBox2.Items.Clear();
+                    textBox1.Clear();
+                    textBox3.Clear();
+                    textBox4.Clear();
+
                 }
                 catch (Exception ex)
                 {
@@ -108,25 +135,12 @@ namespace dip_mes
                 }
             }
         }
-        private void clear()
-        {
-            comboBox1.SelectedIndex = -1;
-            comboBox1.Items.Clear();
-            textBox1.Clear();
-            comboBox2.Items.Clear();
-            textBox3.Clear();
-            textBox4.Clear();
-        }
         // 이벤트 호출 메서드
         protected virtual void OnButton2Clicked(EventArgs e)
         {
             Button2Clicked?.Invoke(this, e);
         }
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void textBox3_Leave(object sender, EventArgs e)
         {
             // 텍스트박스3에서 입력된 숫자 가져오기
