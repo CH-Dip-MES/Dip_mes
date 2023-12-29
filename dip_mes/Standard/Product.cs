@@ -10,9 +10,11 @@ namespace dip_mes
     {
         private MySqlConnection connection;
         private string connectionString = "Server=222.108.180.36; Database=mes_2; User ID=EDU_STUDENT; Password=1234;";
+        public static Product staticProduct;
 
         public Product()
         {
+            staticProduct = this;
             InitializeComponent();
             InitializeDatabaseConnection();
             InitializeDataGridViewColumns();
@@ -21,7 +23,6 @@ namespace dip_mes
             LoadDataIntoComboBox3(); // 추가된 부분
             dataGridView1.CellClick += dataGridView1_CellClick;
             textBox1.KeyDown += textBox1_KeyDown;
-
         }
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -110,7 +111,7 @@ namespace dip_mes
             comboBox3.Items.Add("반제품");
         }
 
-        private void LoadDataIntocomboBox1()
+        public void LoadDataIntocomboBox1()
         {
             string query = "SELECT process_name FROM process";
             MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -136,7 +137,7 @@ namespace dip_mes
         }
 
 
-        private void LoadDataIntoComboBox2()
+        public void LoadDataIntoComboBox2()
         {
             string query = "SELECT Material_name FROM Material";
             MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -521,6 +522,7 @@ namespace dip_mes
                 SelectProductProcess(productCode);
                 SelectProductMaterial(productCode);
                 LoadDataIntocomboBox1();
+                LoadDataIntoComboBox2();
             }
         }
 

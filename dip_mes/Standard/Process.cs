@@ -236,6 +236,7 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntocomboBox1();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -283,7 +284,7 @@ namespace dip_mes
             }
         }
 
-        private void RegisterButton_Click_1(object sender, EventArgs e)
+        public void RegisterButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -356,6 +357,7 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntocomboBox1();
         }
 
 
