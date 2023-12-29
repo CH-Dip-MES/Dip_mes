@@ -184,9 +184,19 @@ namespace dip_mes
             else
             {
             }
-            this.Close();//186
-        }
 
+            clear();
+        }
+        private void clear()
+        {
+            comboBox1.Items.Clear();
+            comboBox1.SelectedIndex = -1;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+
+        }
 
         private int GetCurrentInventory(string textBox1Data)
         {
@@ -227,60 +237,60 @@ namespace dip_mes
 
             return currentInventory;
         }
-            private void SaveDataToDatabase(string textBox1Data, string textBox4Data, string comboBoxSelectedValue)
+        private void SaveDataToDatabase(string textBox1Data, string textBox4Data, string comboBoxSelectedValue)
+        {
+            try
             {
-                try
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    connection.Open();
+
+                    // 해당 No에 대한 Inventory 가져오는 SQL 쿼리
+                    string selectInventoryQuery = "SELECT Inventory FROM manufacture WHERE No = @TextBox1Data";
+
+                    using (MySqlCommand selectCmd = new MySqlCommand(selectInventoryQuery, connection))
                     {
-                        connection.Open();
+                        selectCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
 
-                        // 해당 No에 대한 Inventory 가져오는 SQL 쿼리
-                        string selectInventoryQuery = "SELECT Inventory FROM manufacture WHERE No = @TextBox1Data";
-
-                        using (MySqlCommand selectCmd = new MySqlCommand(selectInventoryQuery, connection))
+                        using (MySqlDataReader reader = selectCmd.ExecuteReader())
                         {
-                            selectCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
-
-                            using (MySqlDataReader reader = selectCmd.ExecuteReader())
+                            if (reader.Read())
                             {
-                                if (reader.Read())
+                                // Inventory 값 가져오기
+                                int currentInventory = reader["Inventory"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Inventory"]);
+
+                                // 텍스트박스4의 값 만큼 Inventory에서 차감
+                                int updatedInventory = currentInventory - Convert.ToInt32(textBox4Data);
+
+                                // 반드시 DataReader를 사용한 후에는 닫아주어야 합니다.
+                                reader.Close();
+
+                                // 업데이트하는 SQL 쿼리 실행
+                                string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
+                                using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                                 {
-                                    // Inventory 값 가져오기
-                                    int currentInventory = reader["Inventory"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Inventory"]);
+                                    updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
+                                    updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
+                                    updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
+                                    updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
 
-                                    // 텍스트박스4의 값 만큼 Inventory에서 차감
-                                    int updatedInventory = currentInventory - Convert.ToInt32(textBox4Data);
-
-                                    // 반드시 DataReader를 사용한 후에는 닫아주어야 합니다.
-                                    reader.Close();
-
-                                    // 업데이트하는 SQL 쿼리 실행
-                                    string updateQuery = "UPDATE manufacture SET Input = @TextBox4Data, Inventory = @UpdatedInventory, Selected = @ComboBoxValue WHERE No = @TextBox1Data";
-                                    using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
-                                    {
-                                        updateCmd.Parameters.AddWithValue("@TextBox4Data", textBox4Data);
-                                        updateCmd.Parameters.AddWithValue("@UpdatedInventory", updatedInventory);
-                                        updateCmd.Parameters.AddWithValue("@TextBox1Data", textBox1Data);
-                                        updateCmd.Parameters.AddWithValue("@ComboBoxValue", comboBoxSelectedValue);
-
-                                        // 쿼리 실행
-                                        updateCmd.ExecuteNonQuery();
-                                    }
+                                    // 쿼리 실행
+                                    updateCmd.ExecuteNonQuery();
                                 }
-                                else
-                                {
-                                    MessageBox.Show("No data found for the given No.");
-                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("No data found for the given No.");
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
             }
-        
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
     }
 }

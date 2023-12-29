@@ -32,6 +32,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,26 +44,28 @@
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(75, 132);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 125);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(787, 416);
+            this.dataGridView1.Size = new System.Drawing.Size(1092, 584);
             this.dataGridView1.TabIndex = 0;
             // 
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(503, 72);
+            this.textBox1.Font = new System.Drawing.Font("굴림", 16F);
+            this.textBox1.Location = new System.Drawing.Point(0, 70);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(138, 21);
+            this.textBox1.Size = new System.Drawing.Size(283, 32);
             this.textBox1.TabIndex = 4;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(692, 64);
+            this.button1.Font = new System.Drawing.Font("굴림", 16F);
+            this.button1.Location = new System.Drawing.Point(956, 65);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 33);
+            this.button1.Size = new System.Drawing.Size(136, 34);
             this.button1.TabIndex = 3;
             this.button1.Text = "조회";
             this.button1.UseVisualStyleBackColor = true;
@@ -70,22 +73,34 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(906, 55);
+            this.panel1.Location = new System.Drawing.Point(1098, 25);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(600, 900);
             this.panel1.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.label2.Font = new System.Drawing.Font("굴림", 20F);
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(120, 27);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "작업지시";
             // 
             // Order
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Name = "Order";
             this.Size = new System.Drawing.Size(1673, 826);
-            //this.Load += new System.EventHandler(this.UserControl1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -98,5 +113,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label2;
     }
 }
