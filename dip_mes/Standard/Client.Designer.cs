@@ -55,7 +55,7 @@ namespace dip_mes
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1534, 62);
+            this.button3.Location = new System.Drawing.Point(1537, 79);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(136, 34);
             this.button3.TabIndex = 39;
@@ -66,10 +66,10 @@ namespace dip_mes
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(4, 67);
+            this.label2.Font = new System.Drawing.Font("굴림", 16F);
+            this.label2.Location = new System.Drawing.Point(3, 84);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 21);
+            this.label2.Size = new System.Drawing.Size(89, 22);
             this.label2.TabIndex = 38;
             this.label2.Text = "업체명 :";
             // 
@@ -86,14 +86,14 @@ namespace dip_mes
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox1.Location = new System.Drawing.Point(97, 64);
+            this.textBox1.Location = new System.Drawing.Point(98, 81);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(203, 32);
             this.textBox1.TabIndex = 36;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(316, 62);
+            this.button1.Location = new System.Drawing.Point(317, 79);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 34);
             this.button1.TabIndex = 35;
@@ -103,7 +103,7 @@ namespace dip_mes
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1380, 62);
+            this.button2.Location = new System.Drawing.Point(1383, 79);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(136, 34);
             this.button2.TabIndex = 41;

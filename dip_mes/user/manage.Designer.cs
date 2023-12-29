@@ -34,14 +34,15 @@
             this.JoinBtn = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // serch_btn
             // 
-            this.serch_btn.Location = new System.Drawing.Point(404, 72);
+            this.serch_btn.Location = new System.Drawing.Point(329, 105);
             this.serch_btn.Name = "serch_btn";
-            this.serch_btn.Size = new System.Drawing.Size(128, 33);
+            this.serch_btn.Size = new System.Drawing.Size(136, 34);
             this.serch_btn.TabIndex = 0;
             this.serch_btn.Text = "조회";
             this.serch_btn.UseVisualStyleBackColor = true;
@@ -50,26 +51,26 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(81, 77);
+            this.label1.Font = new System.Drawing.Font("굴림", 16F);
+            this.label1.Location = new System.Drawing.Point(6, 110);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 21);
+            this.label1.Size = new System.Drawing.Size(67, 22);
             this.label1.TabIndex = 1;
             this.label1.Text = "이름 :";
             // 
             // textBox_name
             // 
             this.textBox_name.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_name.Location = new System.Drawing.Point(163, 72);
+            this.textBox_name.Location = new System.Drawing.Point(88, 105);
             this.textBox_name.Name = "textBox_name";
             this.textBox_name.Size = new System.Drawing.Size(217, 32);
             this.textBox_name.TabIndex = 2;
             // 
             // JoinBtn
             // 
-            this.JoinBtn.Location = new System.Drawing.Point(1172, 77);
+            this.JoinBtn.Location = new System.Drawing.Point(1384, 105);
             this.JoinBtn.Name = "JoinBtn";
-            this.JoinBtn.Size = new System.Drawing.Size(128, 33);
+            this.JoinBtn.Size = new System.Drawing.Size(136, 34);
             this.JoinBtn.TabIndex = 3;
             this.JoinBtn.Text = "등록";
             this.JoinBtn.UseVisualStyleBackColor = true;
@@ -77,9 +78,9 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(1322, 77);
+            this.btnDelete.Location = new System.Drawing.Point(1534, 105);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(128, 33);
+            this.btnDelete.Size = new System.Drawing.Size(136, 34);
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "삭제";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -90,23 +91,34 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(96, 145);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 145);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1378, 395);
+            this.dataGridView1.Size = new System.Drawing.Size(1673, 562);
             this.dataGridView1.TabIndex = 5;
             // 
-            // manage
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("굴림", 20F);
+            this.label2.Location = new System.Drawing.Point(3, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(174, 27);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "회원정보관리";
+            // 
+            // Manage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.JoinBtn);
             this.Controls.Add(this.textBox_name);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.serch_btn);
-            this.Name = "manage";
+            this.Name = "Manage";
             this.Size = new System.Drawing.Size(1673, 826);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -122,5 +134,6 @@
         private System.Windows.Forms.Button JoinBtn;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label2;
     }
 }
