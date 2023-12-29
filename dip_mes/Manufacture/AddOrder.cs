@@ -113,7 +113,7 @@ namespace dip_mes
             comboBox1.SelectedIndex = -1;
             comboBox1.Items.Clear();
             textBox1.Clear();
-            textBox2.Clear();
+            comboBox2.Items.Clear();
             textBox3.Clear();
             textBox4.Clear();
         }
