@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace dip_mes
@@ -61,16 +63,6 @@ namespace dip_mes
 
             addInputForm.Tag = orderId;
 
-            // 폼 설정
-            addInputForm.TopLevel = false;
-            addInputForm.FormBorderStyle = FormBorderStyle.None;
-
-            // 패널1에 폼 추가
-            panel1.Controls.Clear(); // 패널을 초기화하고 기존의 컨트롤들을 제거
-            panel1.Controls.Add(addInputForm);
-
-            // 폼을 표시
-            addInputForm.Show();
 
             // DataGridView에서 선택된 행의 데이터를 AddInput 폼의 TextBox에 표시
             addInputForm.DisplayDataInTextBox1(selectedRow.Cells["No"].Value.ToString());
@@ -92,21 +84,20 @@ namespace dip_mes
                     connection.Open();
 
                     // 텍스트박스1, 텍스트박스2에 해당하는 행을 조회하는 SQL 쿼리
-                    string query = "SELECT Planned, standard FROM manufacture WHERE No = @No AND Product = @Product";
+                    string query = "SELECT Planned, Standard FROM manufacture WHERE No = @No AND Product = @Product";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 매개변수 설정
                         cmd.Parameters.AddWithValue("@No", selectedRow.Cells["No"].Value.ToString());
                         cmd.Parameters.AddWithValue("@Product", selectedRow.Cells["제품명"].Value.ToString());
-
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
                                 // Planned 및 standard 컬럼 값 가져오기
                                 int plannedValue = reader["Planned"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Planned"]);
-                                double standardValue = reader["standard"] == DBNull.Value ? 0 : Convert.ToDouble(reader["standard"]);
+                                double standardValue = reader["Standard"] == DBNull.Value ? 0 : Convert.ToDouble(reader["Standard"]);
 
                                 // 텍스트박스3에 표시할 값 계산
                                 double result = plannedValue * standardValue;
@@ -114,8 +105,7 @@ namespace dip_mes
                                 // 텍스트박스3에 결과 표시
                                 addInputForm.DisplayDataInTextBox3(result.ToString());
                             }
-                            reader.Close();
-                        } // using 블록을 벗어나면서 자동으로 reader.Close() 호출
+                        } 
                     }
                 }
             }
@@ -148,10 +138,18 @@ namespace dip_mes
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-
+                    string getValue = textBox1.Text.Trim();
                     // MySQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
                     string query = "SELECT No, Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE Status = '작업대기'";
-
+                    if (!string.IsNullOrEmpty(getValue) && getValue != "No를 입력해주세요")
+                    {
+                        query += $" AND No = '{getValue}'";
+                        Console.WriteLine("NOT NULL 쿼리추가");
+                    }
+                    else
+                    {   
+                        query += " AND Status = '작업대기'";
+                    }
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 데이터를 담을 DataTable 생성
@@ -183,71 +181,25 @@ namespace dip_mes
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // 엔터 키가 눌렸을 때의 동작 수행
-                SearchData();
+                LoadDataToDataGridView();
             }
         }
-        private void SearchData()
-        {
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    // 텍스트 박스에서 입력된 값 가져오기
-                    string inputValue = textBox1.Text.Trim();
-
-                    // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = "SELECT No, Product AS '제품명', Selected AS '자재명', Planned AS '계획수량', Input AS '투입자재', Inventory AS '남은 자재', Duration AS '지시일자' FROM manufacture WHERE No LIKE @inputValue AND Status = '작업대기'";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                    {
-                        // 매개변수 설정
-                        cmd.Parameters.AddWithValue("@inputValue", inputValue);
-
-                        // 데이터를 담을 DataTable 생성
-                        DataTable dataTable = new DataTable();
-
-                        // MySQLDataAdapter를 사용하여 데이터 가져오기
-                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
-                        {
-                            adapter.Fill(dataTable);
-                        }
-
-                        // DataGridView에 데이터 바인딩
-                        dataGridView1.DataSource = null;
-                        dataGridView1.DataSource = dataTable;
-
-                        // Duration 컬럼의 데이터를 포맷팅하여 표시
-                        FormatDurationColumn();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             LoadDataToDataGridView();
-            if (!string.IsNullOrWhiteSpace(textBox1.Text))
-            {
-                SearchData();
-            }
         }
         private void SetDefaultText()
         {
             // 텍스트 박스에 기본값 설정
-            textBox1.Text = "No";
+            textBox1.Text = "No를 입력해주세요";
             textBox1.ForeColor = Color.Gray;
         }
 
         private void TextBox1_GotFocus(object sender, EventArgs e)
         {
             // 포커스가 들어오면 텍스트 지우고 글씨 색 변경
-            if (textBox1.Text == "No")
+            if (textBox1.Text == "No를 입력해주세요")
             {
                 textBox1.Text = "";
                 textBox1.ForeColor = Color.Black;
