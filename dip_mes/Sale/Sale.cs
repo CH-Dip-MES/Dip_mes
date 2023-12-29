@@ -16,6 +16,7 @@ namespace dip_mes
     public partial class Sale : UserControl
     {
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+        
         public Sale()
         {
             InitializeComponent();
@@ -51,6 +52,13 @@ namespace dip_mes
         }
         private void RegButton1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
+                
+            Console.WriteLine(Login.getAuth);
             if (saledate.Value != DateTimePicker.MinimumDateTime && salecode.Text != "" && buyername.SelectedItem != null)
             {
                 using (MySqlConnection iConn = new MySqlConnection(jConn))
@@ -510,6 +518,11 @@ namespace dip_mes
         }
         private void RegButton2_Click(object sender, EventArgs e) // 거래 세부정보 등록
         {
+            if (Login.getAuth < 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             DialogResult result = MessageBox.Show("현재 정보를 등록하시겠습니까?","등록 확인",MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
             {

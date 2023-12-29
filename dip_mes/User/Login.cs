@@ -12,10 +12,12 @@ using MySql.Data.MySqlClient;
 namespace dip_mes
 {
     public partial class Login : Form
-{
-    string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+    {
+        public static int getAuth;
+        string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+        public event Action<int> UserAuthStock;
 
-    public Login()
+        public Login()
     {
         InitializeComponent();
         // 이 코드는 로그인 폼의 생성자 또는 초기화 메서드에서 설정합니다.
@@ -28,7 +30,31 @@ namespace dip_mes
         Find.TabIndex = 4;
         New.TabIndex = 5;
     }
+        public class UserAuthCheck //권한 조회
+        {
+            private static string jConn = "Server=222.108.180.36; Database=mes_2; Uid=EDU_STUDENT; Pwd=1234;";
 
+            public static int GetUserAuth(string userID)
+            {
+                int userAuth = 0;
+
+                using (MySqlConnection connection = new MySqlConnection(jConn))
+                {
+                    connection.Open();
+                    string query = "SELECT authority FROM user WHERE id = @id";
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", userID);
+
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        userAuth = Convert.ToInt32(result);
+                    }
+                }
+
+                return userAuth;
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string userID = ID.Text;
@@ -53,13 +79,15 @@ namespace dip_mes
                 if (result != null)
                 {
                     string userName = result.ToString();
-
+                    int userAuth = UserAuthCheck.GetUserAuth(userID);
+                    getAuth = userAuth;
+                    UserAuthStock?.Invoke(userAuth);
+                    Console.WriteLine(userAuth);
                     MainScreen mainScreen = new MainScreen
                     {
                         UserID = userID,
                         UserName = userName
                     };
-
                     this.Hide();
                     mainScreen.ShowDialog();
                     this.Show();

@@ -76,6 +76,11 @@ namespace dip_mes
         }
         private void button2_Click(object sender, EventArgs e) //Req5-2
         {
+            if (Login.getAuth < 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (ItemStatus.SelectedItem != null && ItemNo.SelectedItem != null && ItemName.Text != "" && ItemAmount.Text != "" && RegistDate.Value != DateTimePicker.MinimumDateTime && Inven.SelectedItem != null)
             {
                 int currentStockAmount = 0; // 현재 재고 수량
