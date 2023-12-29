@@ -20,7 +20,18 @@ namespace dip_mes
             LoadDataIntoComboBox2();
             LoadDataIntoComboBox3(); // 추가된 부분
             dataGridView1.CellClick += dataGridView1_CellClick;
+            textBox1.KeyDown += textBox1_KeyDown;
+
         }
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Enter 키가 눌렸을 때, button1 클릭 이벤트를 호출합니다.
+                button1.PerformClick();
+            }
+        }
+
 
         private void InitializeDatabaseConnection()
         {
@@ -303,11 +314,18 @@ namespace dip_mes
             {
                 // 해당 품번에 대한 조회
                 RetrieveDataByProductCode(textBox1.Text);
+
+                // 검색 결과가 없는 경우 메시지 표시
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    MessageBox.Show("입력한 품명과 일치하는 데이터가 없습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
 
             // textbox1 초기화
             textBox1.Clear();
         }
+
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
@@ -433,10 +451,8 @@ namespace dip_mes
         }
         private void SelectProductProcess(string productCode)
         {
-            // 데이터그리드뷰 초기화
             dataGridView2.Rows.Clear();
 
-            // MySQL에서 해당 품번 데이터 조회
             string query = "SELECT * FROM product_process WHERE product_code = @product_code";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
@@ -451,11 +467,9 @@ namespace dip_mes
                         string getProcessName = reader.GetString("process_name");
                         string getProcessTime = reader.GetString("process_time");
 
-                        // 조회된 데이터를 DataGridView에 추가
                         DataGridViewRow newRow = new DataGridViewRow();
                         newRow.CreateCells(dataGridView2, false, getProcessCode, getProcessName, getProcessTime, getId);
 
-                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
                         for (int i = 1; i < newRow.Cells.Count; i++)
                         {
                             newRow.Cells[i].ReadOnly = true;
@@ -469,10 +483,8 @@ namespace dip_mes
 
         private void SelectProductMaterial(string productCode)
         {
-            // 데이터그리드뷰 초기화
             dataGridView3.Rows.Clear();
 
-            // MySQL에서 해당 품번 데이터 조회
             string query = "SELECT * FROM product_Material WHERE product_code = @product_code";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
@@ -486,12 +498,8 @@ namespace dip_mes
                         string getProcessCode = reader.GetString("product_code");
                         string getMaterialName = reader.GetString("Material_name");
                         string getMaterialNumber = reader.GetString("Material_number");
-
-                        // 조회된 데이터를 DataGridView에 추가
                         DataGridViewRow newRow = new DataGridViewRow();
                         newRow.CreateCells(dataGridView3, false, getProcessCode, getMaterialName, getMaterialNumber, getId);
-
-                        // 체크박스를 제외한 나머지 셀들을 읽기 전용으로 설정
                         for (int i = 1; i < newRow.Cells.Count; i++)
                         {
                             newRow.Cells[i].ReadOnly = true;
@@ -505,17 +513,14 @@ namespace dip_mes
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 유효한 행이 클릭되었는지 확인 (헤더나 빈 행이 아닌 경우)
             if (e.RowIndex >= 0)
             {
-                // 클릭된 행에서 product_code의 값을 가져옵니다.
                 string productCode = dataGridView1.Rows[e.RowIndex].Cells["Field2Column"].Value.ToString();
-
-                // product_code의 값을 textbox6에 설정합니다.
                 textbox6.Text = productCode;
                 textBox7.Text = productCode;
                 SelectProductProcess(productCode);
                 SelectProductMaterial(productCode);
+                LoadDataIntocomboBox1();
             }
         }
 
@@ -543,8 +548,6 @@ namespace dip_mes
                 int getTime = int.Parse(txtInput.Text);
                 InsertProductProcess(comboBox1.Text, getTime, textbox6.Text);
             }
-
-            // 텍스트 칸 비우기
             comboBox1.Text = string.Empty;
             txtInput.Clear();
 
@@ -573,7 +576,6 @@ namespace dip_mes
                 InsertProductMaterial(comboBox2.Text, getNumber, textBox7.Text);
             }
 
-            // 텍스트 칸 비우기
             comboBox2.Text = string.Empty;
             textBox8.Clear();
 
@@ -584,16 +586,13 @@ namespace dip_mes
 
         private void btnDelete1_Click(object sender, EventArgs e)
         {
-            // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                // 체크된 항목인지 확인
                 DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
                 bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
                 if (isChecked)
                 {
-                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
                     string getid = row.Cells["Field5Column"].Value.ToString();
                     int id = int.Parse(getid);
 
@@ -620,16 +619,13 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView3.Rows)
             {
-                // 체크된 항목인지 확인
                 DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
                 bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
                 if (isChecked)
                 {
-                    // 체크된 경우, 데이터 그리드와 MySQL에서 삭제
                     string getid = row.Cells["Field5Column"].Value.ToString();
                     int id = int.Parse(getid);
 
@@ -691,15 +687,11 @@ namespace dip_mes
 
         private void button4_Click(object sender, EventArgs e)
         {
-            // 모든 텍스트 필드 지우기
+       
             textbox6.Clear();
-            textBox7.Clear();
-
-            // dataGridView2와 dataGridView3 내용 지우기
+            textBox7.Clear();    
             dataGridView2.Rows.Clear();
             dataGridView3.Rows.Clear();
-
-            // comboBox1과 comboBox2에 데이터 로드
             LoadDataIntocomboBox1();
             LoadDataIntoComboBox2();
         }
