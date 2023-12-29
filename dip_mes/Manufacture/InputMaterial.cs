@@ -60,7 +60,6 @@ namespace dip_mes
             // 폼을 표시
             if (Login.getAuth != 1 || Login.getAuth != 3)
             {
-                MessageBox.Show("권한이 없습니다.");
                 return;
             }
             else

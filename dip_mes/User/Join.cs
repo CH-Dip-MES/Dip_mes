@@ -29,7 +29,7 @@ namespace dip_mes
             txtbox_pwd.TabIndex = 3;
             number.TabIndex = 4;
             email.TabIndex = 5;
-            department.TabIndex = 6;
+            Department.TabIndex = 6;
             button1.TabIndex = 7;
         }
         
@@ -48,7 +48,7 @@ namespace dip_mes
                 string.IsNullOrWhiteSpace(txtbox_pwd.Text) ||
                 string.IsNullOrWhiteSpace(number.Text) ||
                 string.IsNullOrWhiteSpace(email.Text) ||
-                string.IsNullOrWhiteSpace(department.Text))
+                string.IsNullOrWhiteSpace(Department.Text))
             {
                 MessageBox.Show("모든 정보를 입력하세요.");
                 return; // 등록 중단
@@ -82,7 +82,7 @@ namespace dip_mes
                     }
                     else
                     {
-                        switch(department.Text)
+                        switch(Department.Text)
                         {
                             case "영업부":
                                 authority = 2;
@@ -104,7 +104,7 @@ namespace dip_mes
                     command.Parameters.AddWithValue("@pwd", txtbox_pwd.Text);
                     command.Parameters.AddWithValue("@number", number.Text);
                     command.Parameters.AddWithValue("@email", email.Text);
-                    command.Parameters.AddWithValue("@department", department.Text);
+                    command.Parameters.AddWithValue("@department", Department.Text);
                     command.Parameters.AddWithValue("@authority", authority);
 
                     if (command.ExecuteNonQuery() == 1)
