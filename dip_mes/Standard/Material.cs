@@ -201,6 +201,7 @@ namespace dip_mes
                         MessageBox.Show("데이터 등록에 실패했습니다.");
                     }
                 }
+                Product.staticProduct.LoadDataIntoComboBox2();
             }
             catch (Exception ex)
             {
@@ -321,6 +322,7 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntoComboBox2();
         }
 
         private void button1_Click(object sender, EventArgs e)

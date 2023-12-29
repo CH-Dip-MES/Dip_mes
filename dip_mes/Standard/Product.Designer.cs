@@ -467,12 +467,10 @@
         private System.Windows.Forms.Button btnRegister1;
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Button btnDelete1;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox textbox6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Button button3;
@@ -481,5 +479,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Button button4;
+        public System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.ComboBox comboBox2;
     }
 }
