@@ -65,6 +65,7 @@
             // textBox3
             // 
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox3.Enabled = false;
             this.textBox3.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.textBox3.Location = new System.Drawing.Point(121, 337);
             this.textBox3.Name = "textBox3";
