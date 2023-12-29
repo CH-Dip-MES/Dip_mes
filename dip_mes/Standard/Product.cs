@@ -547,7 +547,7 @@ namespace dip_mes
             // 텍스트 칸 비우기
             comboBox1.Text = string.Empty;
             txtInput.Clear();
-            
+
 
             SelectProductProcess(textbox6.Text);
         }
@@ -576,7 +576,7 @@ namespace dip_mes
             // 텍스트 칸 비우기
             comboBox2.Text = string.Empty;
             textBox8.Clear();
-            
+
 
             SelectProductMaterial(textBox7.Text);
         }
@@ -691,19 +691,15 @@ namespace dip_mes
 
         private void button4_Click(object sender, EventArgs e)
         {
-            // Clear all text fields
-            textBox2.Clear();
-            textBox3.Clear();
-            comboBox3.Text = string.Empty;
-            textBox5.Clear();
+            // 모든 텍스트 필드 지우기
             textbox6.Clear();
-            comboBox1.Text = string.Empty;
-            txtInput.Clear();
             textBox7.Clear();
-            comboBox2.Text = string.Empty;
-            textBox8.Clear();
 
-            // Load data into comboBox1 and comboBox2
+            // dataGridView2와 dataGridView3 내용 지우기
+            dataGridView2.Rows.Clear();
+            dataGridView3.Rows.Clear();
+
+            // comboBox1과 comboBox2에 데이터 로드
             LoadDataIntocomboBox1();
             LoadDataIntoComboBox2();
         }
