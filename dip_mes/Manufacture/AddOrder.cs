@@ -100,6 +100,7 @@ namespace dip_mes
                         ProductForm.LoadDataToDataGridView1();
 
                     }
+                    clear();
                 }
                 catch (Exception ex)
                 {
@@ -107,7 +108,15 @@ namespace dip_mes
                 }
             }
         }
-       
+        private void clear()
+        {
+            comboBox1.SelectedIndex = -1;
+            comboBox1.Items.Clear();
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+        }
         // 이벤트 호출 메서드
         protected virtual void OnButton2Clicked(EventArgs e)
         {

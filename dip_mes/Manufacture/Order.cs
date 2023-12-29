@@ -16,7 +16,7 @@ namespace dip_mes
         //private DataGridViewComboBoxColumn statusComboColumn;
         private AddOrder AddOrderForm;
         private DateTime? startTime; // 작업시 작 상태의 시간을 저장할 변수
-        private const string SelectQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
+        private const string SelectQuery = "SELECT No AS '작업번호', Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
         private const string UpdateStatusQuery = "UPDATE manufacture SET Status = @newStatus WHERE No = @primaryKey";
         //private const string SaveStartTimeQuery = "UPDATE manufacture SET Timesave = CURRENT_TIMESTAMP WHERE No = @primaryKey";
         private const string SaveWorkTimeQuery = "UPDATE manufacture SET Worktime = TIMEDIFF(NOW(), Timesave) WHERE No = @primaryKey";
@@ -58,7 +58,7 @@ namespace dip_mes
             {
                 connection.Open();
                 string getValue = textBox1.Text.Trim();
-                string selectQuery = "SELECT No, Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
+                string selectQuery = "SELECT No AS '작업번호', Product AS '제품명', Process AS '공정명', Planned AS '계획수량', Duration AS '지시일자', Estimated AS '예상시간', Status AS '작업상태' FROM manufacture";
                 if(textBox1.Text == "제품명을 입력해주세요")
                 {
 
@@ -133,7 +133,7 @@ namespace dip_mes
                         return;
                     }
 
-                    string primaryKeyValue = dataGridView1.Rows[e.RowIndex].Cells["No"].Value.ToString();
+                    string primaryKeyValue = dataGridView1.Rows[e.RowIndex].Cells["작업번호"].Value.ToString();
 
                     if (newStatusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
                     {
@@ -282,7 +282,7 @@ namespace dip_mes
             if (rowIndex >= 0)
             {
                 // 행을 제거하기 전에 필요한 데이터를 추출
-                string removedNoValue = dataGridView1.Rows[rowIndex].Cells["No"].Value.ToString();
+                string removedNoValue = dataGridView1.Rows[rowIndex].Cells["작업번호"].Value.ToString();
 
                 // 행 제거
                 dataGridView1.Rows.RemoveAt(rowIndex);
@@ -357,5 +357,9 @@ namespace dip_mes
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
