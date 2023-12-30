@@ -55,7 +55,7 @@ namespace dip_mes
 
         // 이벤트 정의
         public event EventHandler Button2Clicked;
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)  // 작업지시 등록 이벤트
         {
             // 데이터베이스 연결 문자열
             string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;"; //테이블 변경과 패스워드 설정
@@ -80,20 +80,20 @@ namespace dip_mes
                     string query = "INSERT INTO manufacture (No, product_name, process_name, PlannedQty, EstTime, WorkStatus, Lot) " +
                             "VALUES (@textBox1, @comboBox2, @comboBox1, @textBox3, @textBox4, '작업대기', @lotNumber )"; // '작업대기'로 추가
 
-                    if (textBox1Value == null)
+                    if (textBox1Value == "")
                     {
                         MessageBox.Show("작업지시번호를 입력해주세요");
                     }
-                    else if (comboBox2Value == null)
+                    else if (comboBox2Value == "")
                     {
                         MessageBox.Show("제품을 선택해주세요");
 
                     }
-                    else if (comboBox2Value == null)
+                    else if (comboBox2Value == "")
                     {
                         MessageBox.Show("공정을 선택해주세요");
                     }
-                    else if (textBox3Value == null)
+                    else if (textBox3Value == "")
                     {
                         MessageBox.Show("목표수량을 입력해주세요");
                     }
@@ -127,7 +127,7 @@ namespace dip_mes
                     textBox1.Clear();
                     textBox3.Clear();
                     textBox4.Clear();
-
+                    LoadProductNames();
                 }
                 catch (Exception ex)
                 {
@@ -141,7 +141,7 @@ namespace dip_mes
             Button2Clicked?.Invoke(this, e);
         }
 
-        private void textBox3_Leave(object sender, EventArgs e)
+        private void textBox3_Leave(object sender, EventArgs e) //목표수량을 입력후 포커스를 잃어버릴때 이벤트
         {
             // 텍스트박스3에서 입력된 숫자 가져오기
             if (!int.TryParse(textBox3.Text, out int textBox3Value))
@@ -191,7 +191,7 @@ namespace dip_mes
                         // DB에서 불러온 데이터 dataTable 객체의 값을 int형으로 변환하여 저장
                         int processTime = Convert.ToInt32(dataTable.Rows[0]["process_time"]);
 
-                        // 텍스트박스4에 결과 표시
+                        // 목표수량과 DB정보를 곱해 예상시간을 계산
                         textBox4.Text = (textBox3Value * processTime).ToString();
                     }
                 }
@@ -201,7 +201,7 @@ namespace dip_mes
                 }
             }
         }
-        private string GenerateLotNumber(MySqlConnection connection, string product)
+        private string GenerateLotNumber(MySqlConnection connection, string product)    //Lot넘버 생성
         {
             string today = DateTime.Now.ToString("yyMMdd");
 
@@ -230,13 +230,13 @@ namespace dip_mes
             return $"{today}-{product}-0001";
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) //제품 콤보박스에서 항목선택시 이벤트
         {
             string columnName = comboBox2.Text;
             LoadDataToComboBoxForColumn(columnName);
         }
 
-        private void LoadDataToComboBoxForColumn(string columnName)
+        private void LoadDataToComboBoxForColumn(string columnName) //제품선택시 공정 콤보박스 리스트업 메서드
         {
             // 콤보박스 초기화
             comboBox1.Items.Clear();
