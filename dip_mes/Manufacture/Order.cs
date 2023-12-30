@@ -15,22 +15,18 @@ namespace dip_mes
         private string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         //private DataGridViewComboBoxColumn statusComboColumn;
         private AddOrder AddOrderForm;
-        private DateTime? startTime; // 작업시 작 상태의 시간을 저장할 변수
-        private const string UpdateStatusQuery = "UPDATE manufacture SET WorkStatus = @newStatus WHERE No = @primaryKey";
-        //private const string SaveStartTimeQuery = "UPDATE manufacture SET Timesave = CURRENT_TIMESTAMP WHERE No = @primaryKey";
-        private const string SaveWorkTimeQuery = "UPDATE manufacture SET Worktime = TIMEDIFF(NOW(), Timesave) WHERE No = @primaryKey";
+        private DateTime? startTime; // 작업시작 상태의 시간을 저장할 변수
 
         public Order()
         {
             InitializeComponent();
+            //AddOrderForm = new AddOrder(this);  //작업지시등록 폼클래스의 객체 인스턴스화, 해당객체 포함
             // Form_Load 이벤트 핸들러 등록
             this.Load += UserControl1_Load;
             LoadDataToDataGridView1();
             textBox1.KeyDown += textBox1_KeyDown;
-            // add_order 이벤트 핸들러 등록
-            AddOrderForm = new AddOrder(this);
-            AddOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;
         }
+
         private void UserControl1_Load(object sender, EventArgs e)
         {
             // DataGridView1_CellValueChanged 이벤트 핸들러 등록
@@ -39,29 +35,75 @@ namespace dip_mes
             //폼 로드 시에 텍스트 박스 속성 설정
             SetDefaultText();
 
-            // 포커스 이벤트 핸들러 등록
+            // 텍스트박스 포커스 이벤트
             textBox1.GotFocus += TextBox1_GotFocus;
             textBox1.LostFocus += TextBox1_LostFocus;
 
-            ShowAddOrderForm();
+            // 작업지시등록 객체를 화면에 표시
+            AddOrder addOrder = new AddOrder(this);
+            AddOrderForm = addOrder;
+            AddOrderForm.TopLevel = false;                                  // 작업등록폼을 하위 수준으로
+            AddOrderForm.FormBorderStyle = FormBorderStyle.None;            // 폼테두리 제거
+            panel1.Controls.Add(AddOrderForm);                              // 패널영역에 폼 추가
+            AddOrderForm.Show(); 
+            AddOrderForm.Button2Clicked += AddOrderForm_Button2Clicked;     // 등록폼의 이벤트
         }
 
+        // 작업지시등록 폼클래스의 등록버튼을 누를면 발생하는 이벤트
         private void AddOrderForm_Button2Clicked(object sender, EventArgs e)
         {
             LoadDataToDataGridView1();
         }
 
+
+
+
+        // ------------------- 텍스트 박스 포커스 기능 --------------------- 
+        private void SetDefaultText()
+        {
+            // 텍스트 박스에 기본값 설정
+            textBox1.Text = "제품명을 입력해주세요";
+            textBox1.ForeColor = Color.Gray;
+        }
+
+        private void TextBox1_GotFocus(object sender, EventArgs e)
+        {
+            // 포커스가 들어오면 텍스트 지우고 글씨 색 변경
+            if (textBox1.Text == "제품명을 입력해주세요")
+            {
+                textBox1.Text = "";
+                textBox1.ForeColor = Color.Black;
+            }
+        }
+
+        private void TextBox1_LostFocus(object sender, EventArgs e)
+        {
+            // 포커스를 잃으면 텍스트가 비어있으면 다시 기본값 설정
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                SetDefaultText();
+            }
+        }
+        // ----------------------------------------------------------------- 
+
+
+
+
+        // --------------------------------------- 데이터그리드 관련 메서드 ---------------------------------------------
+        // DB의 데이터를 불러와 데이터그리드에 표시하는 기능
         public void LoadDataToDataGridView1()
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 string getProduct = textBox1.Text.Trim();
-                string selectQuery = "SELECT No AS '작업번호', product_name AS '제품명', process_name AS '공정명', PlannedQty AS '계획수량', Duration AS '지시일자', EstTime AS '예상시간', WorkStatus AS '작업상태' FROM manufacture";
-                if (!string.IsNullOrEmpty(getProduct) && textBox1.Text != "제품명을 입력해주세요") // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
+                string selectQuery = @"SELECT OrderNo AS '작업번호', product_name AS '제품명', process_name AS '공정명', PlannedQty AS '생산수량', 
+                                     Duration AS '작업지시일자', StartTime AS '작업시작시간', EstTime AS '완료예상시간(분)', WorkStatus AS '작업상태' FROM manufacture";
+
+                // 검색창에 입력한 문자가 있을 때 쿼리문에 조건 추가, 없으면 전체 조회
+                if (!string.IsNullOrEmpty(getProduct) && textBox1.Text != "제품명을 입력해주세요")
                 {
                     selectQuery += $" WHERE product_name = '{getProduct}'";
-                    //Console.WriteLine("NOT NULL 쿼리추가");
                 }
                 try
                 {
@@ -75,7 +117,15 @@ namespace dip_mes
                         dataGridView1.DataSource = dataTable;
 
                         // Duration 컬럼의 데이터를 포맷팅하여 표시
-                        FormatDurationColumn();
+                        if (dataGridView1.Columns.Contains("작업지시일자") && dataGridView1.Columns["작업지시일자"] is DataGridViewTextBoxColumn durationColumn)
+                        {
+                            durationColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
+                        }
+
+                        if (dataGridView1.Columns.Contains("작업시작시간") && dataGridView1.Columns["작업시작시간"] is DataGridViewTextBoxColumn startTimeColumn)
+                        {
+                            startTimeColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
+                        }
 
                         // 데이터 바인딩 후 작업 완료 상태인 행을 제거
                         RemoveCompletedRows();
@@ -106,54 +156,64 @@ namespace dip_mes
             }
         }
 
-            private void FormatDurationColumn()
+        // 작업상태가 완료로 변경되면 해당 행을 데이터그리드에서 지우는 기능
+        private void RemoveCompletedRows()
         {
-            // Duration 컬럼이 존재하면서 DateTime 형식으로 변환 가능한 경우
-            if (dataGridView1.Columns.Contains("지시일자") && dataGridView1.Columns["지시일자"] is DataGridViewTextBoxColumn durationColumn)
+            List<DataGridViewRow> rowBuffer = new List<DataGridViewRow>();
+
+            foreach (DataGridViewRow completedRow in dataGridView1.Rows)
             {
-                durationColumn.DefaultCellStyle.Format = "M월 d일 HH:mm";
+                if (completedRow.Cells["작업상태"].Value?.ToString() == "작업완료")
+                {
+                    rowBuffer.Add(completedRow);
+                }
+            }
+            foreach (DataGridViewRow deleteRow in rowBuffer)
+            {
+                if (!deleteRow.IsNewRow)
+                {   // 입력중인 데이터행은 제외, 데이터 무결성 유지
+                    dataGridView1.Rows.RemoveAt(deleteRow.Index);
+                }
             }
         }
 
-        private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        // 데이터그리드의 셀 값이 변경될 때 발생하는 이벤트 메서드
+        public void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
+                string startTime = "UPDATE manufacture SET StartTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
+                string finishTime = "UPDATE manufacture SET FinishTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
+                // 헤더행이 아닌 작업상태 컬럼을 선택했을 때
                 if (e.ColumnIndex == dataGridView1.Columns["작업상태"].Index && e.RowIndex >= 0)
                 {
-                    string newStatusValue = dataGridView1.Rows[e.RowIndex].Cells["작업상태"].Value?.ToString();
+                    // 선택된 행의 작업 번호와 작업상태 저장
+                    string orderNo = dataGridView1.Rows[e.RowIndex].Cells["작업번호"].Value.ToString();
+                    string workStatus = dataGridView1.Rows[e.RowIndex].Cells["작업상태"].Value?.ToString();
 
-                    if (string.IsNullOrEmpty(newStatusValue))
+                    if (string.IsNullOrEmpty(workStatus))   //작업상태 값이 없다면 메서드 종료
                     {
                         return;
                     }
 
-                    string primaryKeyValue = dataGridView1.Rows[e.RowIndex].Cells["작업번호"].Value.ToString();
-
-                    if (newStatusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
-                    {
-                        // 작업 완료 상태에서 작업 시작 시간 저장 및 작업 시간 저장
-                        HandleWorkCompleteStatus(primaryKeyValue, e.RowIndex);
-
-                        // DB에 상태 업데이트
-                        UpdateStatusInDatabase(primaryKeyValue, newStatusValue, UpdateStatusQuery);
-
-                        // 그 후에 행 삭제
-                        RemoveCompletedRow(e.RowIndex);
+                    if (workStatus.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
+                    {   
+                        // 작업상태가 "작업완료" 일 때
+                        SaveTime(orderNo, finishTime);
+                        // 데이터그리드에서 행 삭제
+                        dataGridView1.Rows.RemoveAt(e.RowIndex);
+                        MessageBox.Show($" 작업지시번호 : {orderNo}이 완료 처리되어 목록에서 사라집니다.");
+                        WorkTime(orderNo);
                     }
-                    else if (newStatusValue.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
-                    {
-                        // 작업 시작 상태에서 현재 시간 저장
-                        SaveStartTimeInDatabase(primaryKeyValue);
-
-                        // DB에 상태 업데이트
-                        UpdateStatusInDatabase(primaryKeyValue, newStatusValue, UpdateStatusQuery);
+                    else if (workStatus.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
+                    {   
+                        // 작업상태가 "작업시작" 일 때
+                        SaveTime(orderNo, startTime);
+                        MessageBox.Show($"작업지시번호 : {orderNo}의 상태가 '작업시작'으로 변경되었습니다.");
                     }
-                    else
-                    {
-                        // 다른 상태의 경우에는 상태만 업데이트
-                        UpdateStatusInDatabase(primaryKeyValue, newStatusValue, UpdateStatusQuery);
-                    }
+                    // DB에 상태 업데이트
+                    UpdateStatus(orderNo, workStatus);
+                    LoadDataToDataGridView1();
                 }
             }
             catch (Exception ex)
@@ -161,8 +221,56 @@ namespace dip_mes
                 MessageBox.Show($"Error in DataGridView1_CellValueChanged: {ex.Message}");
             }
         }
+        // ----------------------------------------------------------------- 
 
-        private void SaveStartTimeInDatabase(string primaryKeyValue)
+        // 시작시간과 완료시간을 DB에서 불러와 소요시간을 계산 후 DB에 저장
+        private void WorkTime(string orderNo)
+        {
+            string selectQuery = "SELECT StartTime, FinishTime FROM manufacture WHERE OrderNo = @OrderNo";
+            string updateQuery = "UPDATE manufacture SET takeTime = @takeTime WHERE OrderNo = @OrderNo";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (MySqlCommand Cmd = new MySqlCommand(selectQuery, connection))
+                    {
+                        Cmd.Parameters.AddWithValue("@OrderNo", orderNo);
+                        using (MySqlDataReader reader = Cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                DateTime startTime = reader.GetDateTime("StartTime");
+                                DateTime finishTime = reader.GetDateTime("FinishTime");
+
+                                reader.Close();
+
+                                using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
+                                {
+                                    TimeSpan takeTime = finishTime - startTime;
+                                    double dTakeTime = takeTime.TotalHours;
+                                    double roundedTakeTime = Math.Round(dTakeTime,2);
+
+                                    updateCmd.Parameters.AddWithValue("@takeTime", roundedTakeTime);
+                                    updateCmd.Parameters.AddWithValue("@OrderNo", orderNo);
+
+                                    updateCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"데이터베이스 오류: {ex.Message}");
+                }
+            }
+        }
+
+
+        // 작업상태 변경 시간을 DB에 저장하는 메서드
+        private void SaveTime(string orderNo, string updateQuery)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -171,11 +279,10 @@ namespace dip_mes
                     connection.Open();
 
                     // 데이터베이스 업데이트 쿼리 작성
-                    string updateQuery = "UPDATE manufacture SET Timesave = CURRENT_TIMESTAMP WHERE No = @primaryKey";
 
                     using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
                     {
-                        cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
+                        cmd.Parameters.AddWithValue("@OrderNo", orderNo);
 
                         // 쿼리 실행
                         int affectedRows = cmd.ExecuteNonQuery();
@@ -185,7 +292,7 @@ namespace dip_mes
                             // 현재 시간을 startTime 변수에 저장
                             startTime = DateTime.Now;
                             // 로그를 남깁니다.
-                            Console.WriteLine($"Start time saved for No {primaryKeyValue}");
+                            Console.WriteLine($"Start time saved for OrderNo {orderNo}");
                         }
                         else
                         {
@@ -199,55 +306,27 @@ namespace dip_mes
                 }
             }
         }
-        private void SaveWorkTimeInDatabase(string primaryKeyValue)
+        
+        // DB에 작업상태를 저장하는 메서드
+        private void UpdateStatus(string orderNo, string workStatus)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
-
-                    // 데이터베이스 업데이트 쿼리 작성
-                    string updateQuery = SaveWorkTimeQuery;
+                    string updateQuery = "UPDATE manufacture SET WorkStatus = @WorkStatus WHERE OrderNo = @OrderNo";
 
                     using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
                     {
-                        cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
-
-                        // 쿼리 실행
-                        int affectedRows = cmd.ExecuteNonQuery();
-
-                        if (affectedRows > 0)
-                        {
-                            // 로그를 남깁니다.
-                            Console.WriteLine($"Work time saved for No {primaryKeyValue}");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error in SaveWorkTimeInDatabase: " + ex.Message);
-                }
-            }
-        }
-        private void UpdateStatusInDatabase(string primaryKeyValue, string newStatusValue, string updateQuery)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@newStatus", newStatusValue);
-                        cmd.Parameters.AddWithValue("@primaryKey", primaryKeyValue);
+                        cmd.Parameters.AddWithValue("@WorkStatus", workStatus);
+                        cmd.Parameters.AddWithValue("@OrderNo", orderNo);
 
                         int affectedRows = cmd.ExecuteNonQuery();
 
                         if (affectedRows > 0)
                         {
-                            Console.WriteLine($"Status updated for No {primaryKeyValue}");
+                            Console.WriteLine($"WorkStatus updated for No {orderNo}");
                         }
                         else
                         {
@@ -261,100 +340,21 @@ namespace dip_mes
                 }
             }
         }
-        private void HandleWorkCompleteStatus(string primaryKeyValue, int rowIndex)
-        {
-            string statusValue = dataGridView1.Rows[rowIndex].Cells["작업상태"].Value?.ToString();
 
-            if (statusValue.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
-            {
-                // 작업 완료 상태에서 작업 시작 시간 저장 및 작업 시간 저장
-                SaveStartTimeInDatabase(primaryKeyValue);
-                SaveWorkTimeInDatabase(primaryKeyValue);
-            }
-        }
-        private void RemoveCompletedRow(int rowIndex)
-        {
-            if (rowIndex >= 0)
-            {
-                // 행을 제거하기 전에 필요한 데이터를 추출
-                string removedNoValue = dataGridView1.Rows[rowIndex].Cells["작업번호"].Value.ToString();
-
-                // 행 제거
-                dataGridView1.Rows.RemoveAt(rowIndex);
-            }
-        }
-        private void RemoveCompletedRows()
-        {
-            List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Cells["작업상태"].Value?.ToString() == "작업완료")
-                {
-                    rowsToRemove.Add(row);
-                }
-            }
-
-            foreach (DataGridViewRow rowToRemove in rowsToRemove)
-            {
-                if (!rowToRemove.IsNewRow)
-                {
-                    int rowIndex = rowToRemove.Index;
-                    RemoveCompletedRow(rowIndex);
-                }
-            }
-        }
-        private void SetDefaultText()
-        {
-            // 텍스트 박스에 기본값 설정
-            textBox1.Text = "제품명을 입력해주세요";
-            textBox1.ForeColor = Color.Gray;
-        }
-
-        private void TextBox1_GotFocus(object sender, EventArgs e)
-        {
-            // 포커스가 들어오면 텍스트 지우고 글씨 색 변경
-            if (textBox1.Text == "제품명을 입력해주세요")
-            {
-                textBox1.Text = "";
-                textBox1.ForeColor = Color.Black;
-            }
-        }
-
-        private void TextBox1_LostFocus(object sender, EventArgs e)
-        {
-            // 포커스를 잃으면 텍스트가 비어있으면 다시 기본값 설정
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
-            {
-                SetDefaultText();
-            }
-        }
-        private void ShowAddOrderForm()
-        {
-            AddOrder myForm = new AddOrder(this);
-            myForm.TopLevel = false; // 폼이 최상위 수준이 아닌 자식으로 설정
-            myForm.FormBorderStyle = FormBorderStyle.None; // 테두리 제거
-            panel1.Controls.Add(myForm); // 패널에 폼 추가
-            myForm.Show(); // 폼을 표시
-        }
+        // 조회버튼 클릭 이벤트
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("버튼1클릭");
             LoadDataToDataGridView1(); 
         }
 
+        // 키입력 이벤트, 'Enter'키로 데이터그리드 조회
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Console.WriteLine("textbox1_키다운,엔터");
                 LoadDataToDataGridView1();
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

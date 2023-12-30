@@ -23,7 +23,7 @@ namespace dip_mes
             // dateTimePicker1 초기화
             dateTimePicker1.Value = DateTime.Today;
             dateTimePicker1.Checked = false;
-            LoadDataToDataGridView();
+            LoadDataToDataGridView(false);
         }
        
         private void MfgResult_Load(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace dip_mes
             
         }
 
-        private void LoadDataToDataGridView()
+        private void LoadDataToDataGridView(bool selectedDate)
         {
             try
             {
@@ -39,11 +39,11 @@ namespace dip_mes
                 {
                     connection.Open();
 
-                    // My   SQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No AS '작업번호', product_name AS '제품명', PlannedQty AS '계획수량', ActualQty AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE WorkStatus = '작업완료'";
-
+                    string query = @"SELECT OrderNo AS '작업번호', product_name AS '제품명', PlannedQty AS '생산수량', WorkStatus AS '작업상태', Operator AS '작업자', 
+                                    StartTime AS '시작일자', FinishTime AS '완료일자', takeTime AS '소요시간', Lot FROM manufacture WHERE WorkStatus = '작업완료'";
+                    
                     // 선택한 날짜가 있는 경우에만 날짜 조건을 추가
-                    if (dateTimePicker1.Checked)
+                    if (selectedDate)
                     {
                         query += " AND DATE(Duration) = @SelectedDate";
                     }
@@ -51,45 +51,11 @@ namespace dip_mes
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 선택한 날짜가 있는 경우에만 파라미터 추가
-                        if (dateTimePicker1.Checked)
+                        if (selectedDate)
                         {
                             cmd.Parameters.AddWithValue("@SelectedDate", dateTimePicker1.Value.ToString("yyyy-MM-dd"));
                         }
 
-                        // 데이터를 담을 DataTable 생성
-                        DataTable dataTable = new DataTable();
-
-                        // MySQLDataAdapter를 사용하여 데이터 가져오기
-                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
-                        {
-                            adapter.Fill(dataTable);
-                        }
-
-                        // DataGridView에 데이터 바인딩
-                        dataGridView1.DataSource = null;
-                        dataGridView1.DataSource = dataTable;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-        private void LoadDataToDataGridView1()
-        {
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    // My   SQL에서 데이터 조회하는 SQL 쿼리 (Status가 '작업대기'인 데이터만 조회)
-                    string query = "SELECT No AS '작업번호', product_name AS '제품명', PlannedQty AS '계획수량', ActualQty AS '실적수량', Operator AS '작업자', Worktime AS '작업시간' FROM manufacture WHERE WorkStatus = '작업완료'";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                    {
-                       
                         // 데이터를 담을 DataTable 생성
                         DataTable dataTable = new DataTable();
 
@@ -117,13 +83,13 @@ namespace dip_mes
             startDate = dateTimePicker1.Value;
 
             // 데이터 조회 및 그리드 갱신
-            LoadDataToDataGridView();
+            LoadDataToDataGridView(true);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // 데이터 조회 및 그리드 갱신
-            LoadDataToDataGridView1();
+            LoadDataToDataGridView(false);
         }
     }
 }
