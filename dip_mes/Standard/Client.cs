@@ -16,9 +16,12 @@ namespace dip_mes
         private string connectionString = "Server=222.108.180.36; Database=mes_2; User ID=EDU_STUDENT; Password=1234;";
         private int pageSize = 25;  // 한 페이지에 보여질 행 수
         private int currentPage = 1; // 현재 페이지
+
         public Client()
         {
             InitializeComponent();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
         }
 
         private void Client_Load(object sender, EventArgs e)
@@ -34,6 +37,7 @@ namespace dip_mes
             // ShowDialog를 사용하여 팝업 창으로 표시
             registrationForm.ShowDialog();
         }
+
         private void RetrieveDataAndBindToGridView()
         {
             int offset = (currentPage - 1) * pageSize;
@@ -58,14 +62,19 @@ namespace dip_mes
 
                             // DataGridView에 체크박스 열 추가
                             DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+                            checkBoxColumn.Name = "체크";
                             dataGridView1.Columns.Add(checkBoxColumn);
+
+                            // 체크박스 열의 헤더 텍스트 및 크기 조절
+                            dataGridView1.Columns["체크"].HeaderText = "체크"; // 헤더 텍스트 지정
+                            dataGridView1.Columns["체크"].Width = 40; // 원하는 크기로 조절
 
                             // DataGridView에 "companycode" 열 추가
                             dataGridView1.Columns.Add("companycode", "업체코드");
 
                             // 나머지 열은 그대로 유지
                             dataGridView1.Columns.Add("division", "구분");
-                            dataGridView1.Columns.Add("companyname", "회사명");
+                            dataGridView1.Columns.Add("companyname", "업체명");
                             dataGridView1.Columns.Add("phonenumber", "전화번호");
                             dataGridView1.Columns.Add("address", "주소");
                             dataGridView1.Columns.Add("formattedDate", "등록일"); // 변경된 등록일
@@ -105,15 +114,13 @@ namespace dip_mes
             }
         }
 
-
-
         private void button3_Click(object sender, EventArgs e)
         {
             // 선택된 행을 기준으로 데이터베이스에서 삭제
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 // DataGridView 첫 번째 열이 체크되어 있는지 확인
-                DataGridViewCheckBoxCell checkBoxCell = row.Cells[0] as DataGridViewCheckBoxCell;
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["체크"] as DataGridViewCheckBoxCell;
 
                 if (checkBoxCell != null && Convert.ToBoolean(checkBoxCell.Value))
                 {
@@ -181,12 +188,24 @@ namespace dip_mes
                             DataTable dataTable = new DataTable();
                             adapter.Fill(dataTable);
 
+                            // 검색된 데이터가 없으면 메시지 박스 표시
+                            if (dataTable.Rows.Count == 0)
+                            {
+                                MessageBox.Show("없는 업체명입니다. 다시 확인해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+
                             // DataGridView 초기화
                             dataGridView1.Columns.Clear();
 
                             // DataGridView에 체크박스 열 추가
                             DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
+                            checkBoxColumn.Name = "체크";
                             dataGridView1.Columns.Add(checkBoxColumn);
+
+                            // 체크박스 열의 헤더 텍스트 및 크기 조절
+                            dataGridView1.Columns["체크"].HeaderText = "체크"; // 헤더 텍스트 지정
+                            dataGridView1.Columns["체크"].Width = 50; // 원하는 크기로 조절
 
                             // DataGridView에 "companycode" 열 추가
                             dataGridView1.Columns.Add("companycode", "업체코드");
@@ -228,7 +247,10 @@ namespace dip_mes
                     // 오류가 발생한 경우 메시지를 표시
                     MessageBox.Show("오류가 발생했습니다: " + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                textBox1.Clear();
+                finally
+                {
+                    textBox1.Clear(); // 예외 발생 여부와 관계없이 textBox1 초기화
+                }
             }
         }
 
@@ -253,6 +275,7 @@ namespace dip_mes
                 RetrieveDataAndBindToGridView();
             }
         }
+
         // GetTotalRowCount 메서드 추가
         private int GetTotalRowCount()
         {

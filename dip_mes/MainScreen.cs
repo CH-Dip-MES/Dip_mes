@@ -41,7 +41,7 @@ namespace dip_mes
         //회원관리
         Manage ManageSc = new Manage();
 
-        
+
         private TabPage tabPageProduct; // 탭 페이지 변수 선언
         private TabPage tabPageMaterial; // 탭 페이지 변수 선언
         private TabPage tabPageProcess; // 탭 페이지 변수 선언
@@ -74,7 +74,7 @@ namespace dip_mes
         }
         private void InitializeTabs()
         {
-            
+
             // 각 탭 페이지 초기화
             tabPageProduct = InitializeTabPage("제품관리", ProductSc);
             tabPageMaterial = InitializeTabPage("자재관리", MaterialSc);
@@ -104,7 +104,7 @@ namespace dip_mes
             tabControl1.TabPages.Add(tabPageOrder);
             tabControl1.TabPages.Add(tabPageMfgResult);
             tabControl1.TabPages.Add(tabPageManage);
-            
+
         }
 
         private TabPage InitializeTabPage(string tabPageText, Control contentControl)
@@ -575,7 +575,7 @@ namespace dip_mes
             }
         }
 
-            
+
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
