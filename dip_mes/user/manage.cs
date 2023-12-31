@@ -28,7 +28,7 @@ namespace dip_mes
             {
                 sConn.Open();
                 string searchName = textBox_name.Text.Trim();
-                string findName = "select name,id,pwd,number,email,department from test";
+                string findName = "select name,id,pwd,number,email,department from user";
                 if (!string.IsNullOrEmpty(searchName))
                 {
                     findName += $" WHERE name = '{searchName}'";
@@ -63,6 +63,9 @@ namespace dip_mes
                                     column.ReadOnly = true;
                                 }
                             }
+
+                            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                            dataGridView1.Columns[0].Width = 50;
                         }
                         else
                         {
@@ -98,7 +101,7 @@ namespace dip_mes
 
                         // MySQL에서 해당 행 삭제
                         string idToDelete = row.Cells["id"].Value.ToString();
-                        string deleteQuery = $"DELETE FROM test WHERE id = '{idToDelete}'";
+                        string deleteQuery = $"DELETE FROM user WHERE id = '{idToDelete}'";
 
                         using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, sConn))
                         {

@@ -8,83 +8,67 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
     public partial class AddOrder : Form
     {
-        private Order ProductForm;
-        private int orderCount = 0; // 주문 번호 카운터
-        public AddOrder(Order productForm)
+        private Order OrderForm;
+        public event EventHandler Button2Clicked;   // 이벤트 정의
+
+        public AddOrder(Order orderForm)
         {
             InitializeComponent();
             textBox3.Leave += textBox3_Leave;
-            ProductForm = productForm;
+            OrderForm = orderForm;
+            LoadProductNames();
+            this.comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            this.comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            textBox3.KeyDown += textBox3_KeyDown;
         }
 
-      
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        // 콤보박스 제품명 리스트업 메서드
+        private void LoadProductNames()
         {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-        
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string columnName = textBox2.Text.Trim();
-            LoadDataToComboBoxForColumn(columnName);
-        }
-        private void LoadDataToComboBoxForColumn(string columnName)
-        {
-            // 콤보박스 초기화
-            comboBox1.Items.Clear();
-
-            // 입력된 컬럼 이름으로 데이터를 조회하고 콤보박스에 추가
-            using (MySqlConnection connection = new MySqlConnection("Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;"))
+            string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
+            using (MySqlConnection conn = new MySqlConnection(jConn))
             {
                 try
                 {
-                    connection.Open();
+                    conn.Open();
+                    string query = "SELECT product_name FROM product";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                    // 입력된 컬럼 이름을 기반으로 데이터 조회
-                    string query = $"SELECT DISTINCT Process FROM manufacture WHERE Product = @inputValue";
-                    
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@inputValue", textBox2.Text.Trim());
+                        comboBox2.Items.Clear(); // 기존 항목을 지웁니다.
 
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                // 콤보박스에 데이터 추가
-                                comboBox1.Items.Add(reader["process"].ToString());
-                            }
+                            string companyName = reader["product_name"].ToString();
+                            comboBox2.Items.Add(companyName);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show($"데이터베이스 오류: {ex.Message}");
                 }
             }
         }
-        // 이벤트 정의
-        public event EventHandler Button2Clicked;
+
+        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ShowEstTime();
+            }
+        }
+
+
+        // 작업지시 등록 이벤트
         private void button2_Click(object sender, EventArgs e)
         {
             // 데이터베이스 연결 문자열
@@ -98,39 +82,69 @@ namespace dip_mes
 
                     // 텍스트박스 및 콤보박스에서 입력된 값 가져오기
                     string textBox1Value = textBox1.Text.Trim();
-                    string textBox2Value = textBox2.Text.Trim();
+                    string comboBox2Value = comboBox2.Text.Trim();
                     string comboBox1Value = comboBox1.Text.Trim();
                     string textBox3Value = textBox3.Text.Trim();
                     string textBox4Value = textBox4.Text.Trim();
 
                     // 중복되지 않는 Lot 번호 생성
-                    string lotNumber = GenerateLotNumber(connection, textBox2Value);
+                    string lotNumber = GenerateLotNumber(connection, comboBox2Value);
 
                     // 데이터베이스에 데이터 추가하는 SQL 쿼리
-                    string query = "INSERT INTO manufacture (No, Product, Process, Planned, Estimated, Status, Lot) " +
-                            "VALUES (@textBox1, @textBox2, @comboBox1, @textBox3, @textBox4, '작업대기', @lotNumber )"; // '작업대기'로 추가
+                    string query = "INSERT INTO manufacture (OrderNo, product_name, process_name, PlannedQty, EstTime, WorkStatus, Lot, Duration) " +
+                            "VALUES (@textBox1, @comboBox2, @comboBox1, @textBox3, @textBox4, '작업대기', @lotNumber, CURRENT_TIMESTAMP )"; // '작업대기'로 추가
 
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    if (textBox1Value == "")
                     {
-                        // 매개변수 설정
-                        cmd.Parameters.AddWithValue("@textBox1", textBox1Value);
-                        cmd.Parameters.AddWithValue("@textBox2", textBox2Value);
-                        cmd.Parameters.AddWithValue("@comboBox1", comboBox1Value);
-                        cmd.Parameters.AddWithValue("@textBox3", textBox3Value);
-                        cmd.Parameters.AddWithValue("@textBox4", textBox4Value);
-                        cmd.Parameters.AddWithValue("@lotNumber", lotNumber);
+                        MessageBox.Show("작업지시번호를 입력해주세요");
+                    }
+                    else if (comboBox2Value == "")
+                    {
+                        MessageBox.Show("제품을 선택해주세요");
 
-                        OnButton2Clicked(EventArgs.Empty);
+                    }
+                    else if (comboBox2Value == "")
+                    {
+                        MessageBox.Show("공정을 선택해주세요");
+                    }
+                    else if (textBox3Value == "")
+                    {
+                        MessageBox.Show("목표수량을 입력해주세요");
+                    }
+                    else if (textBox4Value == "")
+                    {
+                        MessageBox.Show("예상완료시간이 필요합니다");
+                    }
+                    else
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                        {
+                            // 매개변수 설정
+                            cmd.Parameters.AddWithValue("@textBox1", textBox1Value);
+                            cmd.Parameters.AddWithValue("@comboBox2", comboBox2Value);
+                            cmd.Parameters.AddWithValue("@comboBox1", comboBox1Value);
+                            cmd.Parameters.AddWithValue("@textBox3", textBox3Value);
+                            cmd.Parameters.AddWithValue("@textBox4", textBox4Value);
+                            cmd.Parameters.AddWithValue("@lotNumber", lotNumber);
 
-                        // 쿼리 실행
-                        cmd.ExecuteNonQuery();
+                            OnButton2Clicked(EventArgs.Empty);
 
-                        // 데이터그리드 최신화
-                        ProductForm.LoadDataToDataGridView1();
+                            // 쿼리 실행
+                            cmd.ExecuteNonQuery();
 
-                        this.Close();
+                            // 데이터그리드 최신화
+                            OrderForm.LoadDataToDataGridView1();
 
+                            // 등록 성공 시 텍스트박스, 콤보박스 초기화
+                            textBox1.Clear();
+                            textBox3.Clear();
+                            textBox4.Clear();
+                            comboBox1.SelectedIndex = -1;
+                            comboBox2.SelectedIndex = -1;
+                            LoadProductNames();
+
+                            MessageBox.Show("등록 완료");
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -139,18 +153,22 @@ namespace dip_mes
                 }
             }
         }
-       
-        // 이벤트 호출 메서드
+
+
+        // 등록버튼 클릭 이벤트 호출 메서드
         protected virtual void OnButton2Clicked(EventArgs e)
         {
             Button2Clicked?.Invoke(this, e);
         }
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
 
+        // 목표수량 입력후 포커스를 잃어버릴때 이벤트
+        private void textBox3_Leave(object sender, EventArgs e) 
+        {
+            ShowEstTime();
         }
-        private void textBox3_Leave(object sender, EventArgs e)
+
+        private void ShowEstTime()
         {
             // 텍스트박스3에서 입력된 숫자 가져오기
             if (!int.TryParse(textBox3.Text, out int textBox3Value))
@@ -170,14 +188,18 @@ namespace dip_mes
 
                     // 콤보박스1에서 선택된 값 가져오기
                     string selectedProcess = comboBox1.Text.Trim();
+                    string productName = comboBox2.Text.Trim();
 
                     // MySQL에서 데이터 조회하는 SQL 쿼리
-                    string query = "SELECT Time FROM manufacture WHERE Process = @selectedProcess";
+                    string query = @"SELECT product.product_name,product.product_code,product_process.process_name,product_process.process_time
+                                   FROM product JOIN product_process ON product_process.product_code = product.product_code 
+                                   WHERE product.product_name = @productName";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
                         // 매개변수 설정
                         cmd.Parameters.AddWithValue("@selectedProcess", selectedProcess);
+                        cmd.Parameters.AddWithValue("@productName", productName);
 
                         // 데이터를 담을 DataTable 생성
                         DataTable dataTable = new DataTable();
@@ -191,21 +213,16 @@ namespace dip_mes
                         // 조회된 데이터가 없을 경우 메시지 표시 후 리턴
                         if (dataTable.Rows.Count == 0)
                         {
-                            MessageBox.Show("데이터가 없습니다.");
+                            MessageBox.Show("예상시간을 계산할 수 없습니다.");
                             return;
                         }
 
-                        // 텍스트박스4에 표시할 값 계산
-                        TimeSpan timeSpan = (TimeSpan)dataTable.Rows[0]["Time"];
-                        double totalSeconds = timeSpan.TotalSeconds; // double 형식으로 받아옴
+                        Console.WriteLine("예상시간불러오기성공");
+                        // DB에서 불러온 데이터 dataTable 객체의 값을 int형으로 변환하여 저장
+                        int processTime = Convert.ToInt32(dataTable.Rows[comboBox1.SelectedIndex]["process_time"]);
 
-                        int resultInSeconds = (int)totalSeconds * textBox3Value;
-
-                        // 초를 시간 간격으로 변환
-                        TimeSpan resultTimeSpan = TimeSpan.FromSeconds(resultInSeconds);
-
-                        // 텍스트박스4에 결과 표시
-                        textBox4.Text = resultTimeSpan.ToString();
+                        // 목표수량과 DB정보를 곱해 예상시간을 계산
+                        textBox4.Text = (textBox3Value * processTime).ToString();
                     }
                 }
                 catch (Exception ex)
@@ -214,15 +231,19 @@ namespace dip_mes
                 }
             }
         }
+
+
+
+        // Lot넘버 생성 메서드
         private string GenerateLotNumber(MySqlConnection connection, string product)
         {
             string today = DateTime.Now.ToString("yyMMdd");
 
-            string query = "SELECT Lot FROM manufacture WHERE Lot LIKE @pattern ORDER BY Lot DESC LIMIT 1";
+            string query = "SELECT Lot FROM manufacture WHERE Lot LIKE @selectLot ORDER BY Lot DESC LIMIT 1";
 
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                cmd.Parameters.AddWithValue("@pattern", $"{today}-{product}-%");
+                cmd.Parameters.AddWithValue("@selectLot", $"{today}-{product}-%");
 
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -241,6 +262,59 @@ namespace dip_mes
 
             // 해당 날짜와 제품으로 시작하는 Lot 번호가 없으면 0001로 반환
             return $"{today}-{product}-0001";
+        }
+
+
+        // 제품 콤보박스에서 항목선택시 이벤트
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBox3.Clear();
+        }
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadDataToComboBoxForColumn(comboBox2.Text);
+        }
+
+
+        // 제품명 선택 시 공정명 콤보박스 리스트업 메서드
+        private void LoadDataToComboBoxForColumn(string productName)
+        {
+            // 콤보박스 초기화
+            comboBox1.Items.Clear();
+
+            // 입력된 컬럼 이름으로 데이터를 조회하고 콤보박스에 추가
+            using (MySqlConnection connection = new MySqlConnection("Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;"))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // 입력된 컬럼 이름을 기반으로 데이터 조회
+                    string query = @"SELECT product.product_name,product.product_code,product_process.process_name,product_process.process_time
+                                   FROM product JOIN product_process ON product_process.product_code = product.product_code 
+                                   WHERE product.product_name = @productName";
+
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@productName", productName);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // 콤보박스에 데이터 추가
+                                comboBox1.Items.Add(reader["process_name"].ToString());
+                            }
+                            reader.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
         }
     }
 }

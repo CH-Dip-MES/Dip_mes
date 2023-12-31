@@ -46,7 +46,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(287, 52);
+            this.label1.Location = new System.Drawing.Point(306, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 21);
             this.label1.TabIndex = 0;
@@ -55,15 +55,14 @@
             // textBox_name
             // 
             this.textBox_name.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_name.Location = new System.Drawing.Point(185, 97);
+            this.textBox_name.Location = new System.Drawing.Point(204, 96);
             this.textBox_name.Name = "textBox_name";
             this.textBox_name.Size = new System.Drawing.Size(255, 32);
             this.textBox_name.TabIndex = 1;
-            this.textBox_name.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(231, 259);
+            this.button1.Location = new System.Drawing.Point(250, 258);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(163, 23);
             this.button1.TabIndex = 2;
@@ -74,7 +73,7 @@
             // textBox_email
             // 
             this.textBox_email.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_email.Location = new System.Drawing.Point(185, 195);
+            this.textBox_email.Location = new System.Drawing.Point(204, 194);
             this.textBox_email.Name = "textBox_email";
             this.textBox_email.Size = new System.Drawing.Size(255, 32);
             this.textBox_email.TabIndex = 4;
@@ -83,7 +82,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(279, 150);
+            this.label2.Location = new System.Drawing.Point(298, 149);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 21);
             this.label2.TabIndex = 3;
@@ -92,7 +91,7 @@
             // textBox_number
             // 
             this.textBox_number.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_number.Location = new System.Drawing.Point(185, 541);
+            this.textBox_number.Location = new System.Drawing.Point(204, 540);
             this.textBox_number.Name = "textBox_number";
             this.textBox_number.Size = new System.Drawing.Size(255, 32);
             this.textBox_number.TabIndex = 9;
@@ -101,7 +100,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(269, 507);
+            this.label3.Location = new System.Drawing.Point(288, 506);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 21);
             this.label3.TabIndex = 8;
@@ -109,7 +108,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(231, 604);
+            this.button2.Location = new System.Drawing.Point(250, 603);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(163, 23);
             this.button2.TabIndex = 7;
@@ -120,7 +119,7 @@
             // textBox_name2
             // 
             this.textBox_name2.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_name2.Location = new System.Drawing.Point(185, 375);
+            this.textBox_name2.Location = new System.Drawing.Point(204, 374);
             this.textBox_name2.Name = "textBox_name2";
             this.textBox_name2.Size = new System.Drawing.Size(255, 32);
             this.textBox_name2.TabIndex = 6;
@@ -129,7 +128,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(287, 338);
+            this.label4.Location = new System.Drawing.Point(306, 337);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 21);
             this.label4.TabIndex = 5;
@@ -138,7 +137,7 @@
             // textBox_ID
             // 
             this.textBox_ID.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.textBox_ID.Location = new System.Drawing.Point(185, 461);
+            this.textBox_ID.Location = new System.Drawing.Point(204, 460);
             this.textBox_ID.Name = "textBox_ID";
             this.textBox_ID.Size = new System.Drawing.Size(255, 32);
             this.textBox_ID.TabIndex = 11;
@@ -147,13 +146,13 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(307, 426);
+            this.label5.Location = new System.Drawing.Point(326, 425);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 21);
             this.label5.TabIndex = 10;
             this.label5.Text = "ID";
             // 
-            // Form4
+            // FindUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,7 +169,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox_name);
             this.Controls.Add(this.label1);
-            this.Name = "Form4";
+            this.Name = "FindUser";
             this.Text = "Form4";
             this.ResumeLayout(false);
             this.PerformLayout();

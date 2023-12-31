@@ -31,6 +31,7 @@ namespace dip_mes
             email.TabIndex = 5;
             Department.TabIndex = 6;
             button1.TabIndex = 7;
+            this.AcceptButton = button1;
         }
         
         private void Search_KeyDown(object sender, KeyEventArgs e)

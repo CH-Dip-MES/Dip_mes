@@ -112,5 +112,10 @@ namespace dip_mes
             Join Join = new Join();
             Join.Show();
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
