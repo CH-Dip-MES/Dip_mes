@@ -57,60 +57,80 @@
             // 
             // delRow
             // 
-            this.delRow.Font = new System.Drawing.Font("굴림", 16F);
+            this.delRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.delRow.FlatAppearance.BorderSize = 0;
+            this.delRow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.delRow.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.delRow.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.delRow.Location = new System.Drawing.Point(1375, 640);
             this.delRow.Name = "delRow";
             this.delRow.Size = new System.Drawing.Size(136, 34);
             this.delRow.TabIndex = 61;
             this.delRow.Text = "행삭제";
-            this.delRow.UseVisualStyleBackColor = true;
+            this.delRow.UseVisualStyleBackColor = false;
             this.delRow.Visible = false;
             this.delRow.Click += new System.EventHandler(this.delRow_Click);
             // 
             // addRow
             // 
-            this.addRow.Font = new System.Drawing.Font("굴림", 16F);
+            this.addRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.addRow.FlatAppearance.BorderSize = 0;
+            this.addRow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addRow.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addRow.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.addRow.Location = new System.Drawing.Point(1226, 641);
             this.addRow.Name = "addRow";
             this.addRow.Size = new System.Drawing.Size(136, 34);
             this.addRow.TabIndex = 60;
             this.addRow.Text = "행추가";
-            this.addRow.UseVisualStyleBackColor = true;
+            this.addRow.UseVisualStyleBackColor = false;
             this.addRow.Visible = false;
             this.addRow.Click += new System.EventHandler(this.addRow_Click);
             // 
             // RegButton2
             // 
-            this.RegButton2.Font = new System.Drawing.Font("굴림", 16F);
+            this.RegButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.RegButton2.FlatAppearance.BorderSize = 0;
+            this.RegButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RegButton2.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RegButton2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RegButton2.Location = new System.Drawing.Point(1525, 639);
             this.RegButton2.Name = "RegButton2";
             this.RegButton2.Size = new System.Drawing.Size(136, 34);
             this.RegButton2.TabIndex = 59;
             this.RegButton2.Text = "등록";
-            this.RegButton2.UseVisualStyleBackColor = true;
+            this.RegButton2.UseVisualStyleBackColor = false;
             this.RegButton2.Visible = false;
             this.RegButton2.Click += new System.EventHandler(this.RegButton2_Click);
             // 
             // RegButton1
             // 
-            this.RegButton1.Font = new System.Drawing.Font("굴림", 16F);
+            this.RegButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.RegButton1.FlatAppearance.BorderSize = 0;
+            this.RegButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RegButton1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RegButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RegButton1.Location = new System.Drawing.Point(1522, 303);
             this.RegButton1.Name = "RegButton1";
             this.RegButton1.Size = new System.Drawing.Size(136, 34);
             this.RegButton1.TabIndex = 58;
             this.RegButton1.Text = "등록";
-            this.RegButton1.UseVisualStyleBackColor = true;
+            this.RegButton1.UseVisualStyleBackColor = false;
             this.RegButton1.Click += new System.EventHandler(this.RegButton1_Click);
             // 
             // CheckButton1
             // 
-            this.CheckButton1.Font = new System.Drawing.Font("굴림", 16F);
+            this.CheckButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.CheckButton1.FlatAppearance.BorderSize = 0;
+            this.CheckButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckButton1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CheckButton1.Location = new System.Drawing.Point(1523, 47);
             this.CheckButton1.Name = "CheckButton1";
             this.CheckButton1.Size = new System.Drawing.Size(136, 34);
             this.CheckButton1.TabIndex = 57;
             this.CheckButton1.Text = "조회";
-            this.CheckButton1.UseVisualStyleBackColor = true;
+            this.CheckButton1.UseVisualStyleBackColor = false;
             this.CheckButton1.Click += new System.EventHandler(this.CheckButton1_Click);
             // 
             // saledate

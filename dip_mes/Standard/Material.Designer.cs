@@ -51,12 +51,17 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Location = new System.Drawing.Point(1503, 96);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(135, 34);
             this.button1.TabIndex = 23;
             this.button1.Text = "조회";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView2
@@ -100,21 +105,31 @@
             // 
             // DeleteButton1
             // 
+            this.DeleteButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.DeleteButton1.FlatAppearance.BorderSize = 0;
+            this.DeleteButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteButton1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.DeleteButton1.Location = new System.Drawing.Point(670, 129);
             this.DeleteButton1.Name = "DeleteButton1";
             this.DeleteButton1.Size = new System.Drawing.Size(78, 27);
             this.DeleteButton1.TabIndex = 19;
             this.DeleteButton1.Text = "삭제";
-            this.DeleteButton1.UseVisualStyleBackColor = true;
+            this.DeleteButton1.UseVisualStyleBackColor = false;
             // 
             // RegisterButton1
             // 
+            this.RegisterButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.RegisterButton1.FlatAppearance.BorderSize = 0;
+            this.RegisterButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RegisterButton1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RegisterButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.RegisterButton1.Location = new System.Drawing.Point(705, 77);
             this.RegisterButton1.Name = "RegisterButton1";
             this.RegisterButton1.Size = new System.Drawing.Size(136, 34);
             this.RegisterButton1.TabIndex = 18;
             this.RegisterButton1.Text = "등록";
-            this.RegisterButton1.UseVisualStyleBackColor = true;
+            this.RegisterButton1.UseVisualStyleBackColor = false;
             // 
             // label2
             // 
@@ -165,12 +180,17 @@
             // 
             // SearchButton1
             // 
+            this.SearchButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.SearchButton1.FlatAppearance.BorderSize = 0;
+            this.SearchButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SearchButton1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SearchButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.SearchButton1.Location = new System.Drawing.Point(763, 129);
             this.SearchButton1.Name = "SearchButton1";
             this.SearchButton1.Size = new System.Drawing.Size(78, 27);
             this.SearchButton1.TabIndex = 14;
             this.SearchButton1.Text = "조회";
-            this.SearchButton1.UseVisualStyleBackColor = true;
+            this.SearchButton1.UseVisualStyleBackColor = false;
             // 
             // label1
             // 

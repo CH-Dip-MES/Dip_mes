@@ -51,13 +51,17 @@
             // 
             // CheckButton1
             // 
-            this.CheckButton1.Font = new System.Drawing.Font("굴림", 16F);
+            this.CheckButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.CheckButton1.FlatAppearance.BorderSize = 0;
+            this.CheckButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckButton1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckButton1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CheckButton1.Location = new System.Drawing.Point(1524, 71);
             this.CheckButton1.Name = "CheckButton1";
             this.CheckButton1.Size = new System.Drawing.Size(136, 34);
             this.CheckButton1.TabIndex = 62;
             this.CheckButton1.Text = "조회";
-            this.CheckButton1.UseVisualStyleBackColor = true;
+            this.CheckButton1.UseVisualStyleBackColor = false;
             this.CheckButton1.Click += new System.EventHandler(this.CheckButton1_Click);
             // 
             // lookNo
