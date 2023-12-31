@@ -82,7 +82,7 @@ namespace dip_mes
                     int userAuth = UserAuthCheck.GetUserAuth(userID);
                     getAuth = userAuth;
                     UserAuthStock?.Invoke(userAuth);
-                    Console.WriteLine(userAuth);
+                    Console.WriteLine(getAuth);
                     MainScreen mainScreen = new MainScreen
                     {
                         UserID = userID,

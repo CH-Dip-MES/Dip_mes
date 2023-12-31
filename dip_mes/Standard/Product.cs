@@ -180,8 +180,11 @@ namespace dip_mes
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
+                Console.WriteLine(Login.getAuth);
+                Console.WriteLine(Login.getAuth != 1 || Login.getAuth != 3);
+                Console.WriteLine(true || false);
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
@@ -579,6 +582,7 @@ namespace dip_mes
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
+
             if (string.IsNullOrEmpty(textbox6.Text)) 
             {
                 MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
@@ -678,6 +682,11 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             foreach (DataGridViewRow row in dataGridView3.Rows)
             {
                 DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
@@ -709,22 +718,12 @@ namespace dip_mes
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
         }
