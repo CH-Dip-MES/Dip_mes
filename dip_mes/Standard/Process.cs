@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace dip_mes
 {
@@ -17,10 +19,19 @@ namespace dip_mes
             InitializeComponent();
             connection = new MySqlConnection(connectionString);
 
-         
-
             // 데이터그리드뷰 초기화
             InitializeDataGridView();
+            InitializeComboBox(); // comboBox1 초기화 추가
+
+            textBox1.TabIndex = 1;
+            textBox2.TabIndex = 2;
+            SearchButton.TabIndex = 3;
+            comboBox1.TabIndex = 4; 
+            button1.TabIndex = 5;
+
+            textBox1.KeyPress += textBox1_KeyPress;
+            textBox2.KeyPress += textBox2_KeyPress;
+            comboBox1.KeyPress += comboBox1_KeyPress; // comboBox1의 KeyPress 이벤트 추가
         }
 
         private void InitializeDataGridView()
@@ -40,6 +51,13 @@ namespace dip_mes
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["process_code"].HeaderText = "공정코드";
             dataGridView1.Columns["process_name"].HeaderText = "공정명";
+
+            // 체크박스 열의 너비 설정
+            dataGridView1.Columns["CheckBoxColumn"].Width = 50;
+
+            // 체크박스 열의 크기 조절을 위해 Padding 속성 사용
+            dataGridView1.Columns["CheckBoxColumn"].DefaultCellStyle.Padding = new Padding(5, 0, 5, 0);
+
             // 모든 열에 대해 ReadOnly 속성 설정
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
@@ -50,6 +68,66 @@ namespace dip_mes
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
         }
 
+        private void InitializeComboBox()
+        {
+            // comboBox1에 데이터베이스에서 가져온 product_name 추가
+            string query = "SELECT product_name FROM product";
+
+            try
+            {
+                connection.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox1.Items.Add(reader["product_name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류: " + ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                SearchButton.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button2 클릭
+                SearchButton.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                button1.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
 
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -98,6 +176,13 @@ namespace dip_mes
                         adapter.Fill(dataTable);
                     }
                 }
+
+                // 검색 결과가 없을 때 메시지 표시
+                if (dataTable.Rows.Count == 0)
+                {
+                    string message = string.IsNullOrWhiteSpace(textBox2.Text) ? "정확한 코드을 입력해주세요." : "정확한 공정을 입력해주세요.";
+                    MessageBox.Show(message, "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -112,6 +197,10 @@ namespace dip_mes
             textBox1.Clear();
             textBox2.Clear();
         }
+       
+
+
+
 
 
 
@@ -155,6 +244,7 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntocomboBox1();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -162,7 +252,7 @@ namespace dip_mes
             using (MySqlConnection sConn = new MySqlConnection(connectionString))
             {
                 sConn.Open();
-                string searchItemNo = textBox3.Text.Trim(); // 검색창 텍스트
+                string searchItemNo = comboBox1.Text.Trim(); // 검색창 텍스트
                 string fItem = @"SELECT product.product_name,product.product_code,product_process.process_name,product_process.process_time
                         FROM product
                         JOIN product_process ON product_process.product_code = product.product_code
@@ -202,7 +292,7 @@ namespace dip_mes
             }
         }
 
-        private void RegisterButton_Click_1(object sender, EventArgs e)
+        public void RegisterButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -216,40 +306,56 @@ namespace dip_mes
                 if (string.IsNullOrWhiteSpace(value1) || string.IsNullOrWhiteSpace(value2))
                 {
                     MessageBox.Show("정보를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
                 }
                 else
                 {
-                    // SQL 쿼리를 작성하여 데이터베이스에 값을 삽입
-                    string query = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
+                    // SQL 쿼리를 작성하여 데이터베이스에 중복 여부 확인
+                    string checkDuplicateQuery = "SELECT COUNT(*) FROM process WHERE process_code = @value1 OR process_name = @value2";
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    using (MySqlCommand checkDuplicateCmd = new MySqlCommand(checkDuplicateQuery, connection))
                     {
-                        cmd.Parameters.AddWithValue("@value1", value1);
-                        cmd.Parameters.AddWithValue("@value2", value2);
+                        checkDuplicateCmd.Parameters.AddWithValue("@value1", value1);
+                        checkDuplicateCmd.Parameters.AddWithValue("@value2", value2);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
+                        int duplicateCount = Convert.ToInt32(checkDuplicateCmd.ExecuteScalar());
+
+                        if (duplicateCount > 0)
                         {
-                            MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
-
-                            // 등록한 데이터를 데이터 테이블에 추가
-                            DataRow newRow = dataTable.NewRow();
-                            newRow["process_code"] = value1;
-                            newRow["process_name"] = value2;
-                            dataTable.Rows.Add(newRow);
-
-                            // 텍스트 박스 초기화
-                            textBox1.Text = string.Empty;
-                            textBox2.Text = string.Empty;
+                            MessageBox.Show("중복된 코드입니다. 확인해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
                         {
-                            MessageBox.Show("데이터 등록에 실패했습니다.");
+                            // 중복이 아닌 경우에만 등록 수행
+                            string insertQuery = "INSERT INTO process (process_code, process_name) VALUES (@value1, @value2)";
+
+                            using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
+                            {
+                                cmd.Parameters.AddWithValue("@value1", value1);
+                                cmd.Parameters.AddWithValue("@value2", value2);
+
+                                int rowsAffected = cmd.ExecuteNonQuery();
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("데이터가 성공적으로 등록되었습니다.");
+
+                                    // 등록한 데이터를 데이터 테이블에 추가
+                                    DataRow newRow = dataTable.NewRow();
+                                    newRow["process_code"] = value1;
+                                    newRow["process_name"] = value2;
+                                    dataTable.Rows.Add(newRow);
+
+                                    // 텍스트 박스 초기화
+                                    textBox1.Text = string.Empty;
+                                    textBox2.Text = string.Empty;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("데이터 등록에 실패했습니다.");
+                                }
+                            }
                         }
                     }
                 }
-                
             }
             catch (Exception ex)
             {
@@ -259,7 +365,9 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntocomboBox1();
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -267,5 +375,3 @@ namespace dip_mes
         }
     }
 }
-
-

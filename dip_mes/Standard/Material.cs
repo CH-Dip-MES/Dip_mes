@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
@@ -27,12 +28,56 @@ namespace dip_mes
             // 삭제 버튼 클릭 이벤트 핸들러 등록
             DeleteButton1.Click += DeleteButton1_Click;
 
+            // ComboBox 초기화
+            InitializeComboBox();
+
             // 데이터그리드뷰 초기화
             InitializeDataGridView();
 
             // DataGridView1 컬럼 헤더 텍스트 설정
             dataGridView1.Columns["Material_code"].HeaderText = "자재코드";
             dataGridView1.Columns["Material_name"].HeaderText = "자재명";
+
+            textBox1.TabIndex = 1;
+            textBox2.TabIndex = 2;
+            SearchButton1.TabIndex = 3;
+            comboBox1.TabIndex = 4; // textBox3를 comboBox1로 수정
+            button1.TabIndex = 5;
+
+            textBox1.KeyPress += textBox1_KeyPress;
+            textBox2.KeyPress += textBox2_KeyPress;
+            comboBox1.KeyPress += comboBox1_KeyPress;
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                SearchButton1.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button2 클릭
+                SearchButton1.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
+        }
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 엔터 키를 누르면
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // button1 클릭
+                button1.PerformClick();
+                e.Handled = true; // 이벤트 처리 완료
+            }
         }
 
         private void InitializeDataGridView()
@@ -59,6 +104,39 @@ namespace dip_mes
 
             // 특정 열에 대해 수정 가능하도록 예외적으로 설정
             dataGridView1.Columns["CheckBoxColumn"].ReadOnly = false;
+
+            // 체크박스 열의 너비 설정
+            dataGridView1.Columns["CheckBoxColumn"].Width = 50; // 여기서 너비를 조절합니다.
+        }
+
+        private void InitializeComboBox()
+        {
+            // comboBox1에 데이터베이스에서 가져온 product_name 추가
+            string query = "SELECT product_name FROM product";
+
+            try
+            {
+                connection.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox1.Items.Add(reader["product_name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류: " + ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         // 중복 체크 함수
@@ -127,6 +205,7 @@ namespace dip_mes
                         MessageBox.Show("데이터 등록에 실패했습니다.");
                     }
                 }
+                Product.staticProduct.LoadDataIntoComboBox2();
             }
             catch (Exception ex)
             {
@@ -178,6 +257,16 @@ namespace dip_mes
                         adapter.Fill(dataTable);
                     }
                 }
+
+                // 검색 결과가 없을 때 메시지 표시
+                if (dataTable.Rows.Count == 0 && !string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show("정확한 자재코드를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (dataTable.Rows.Count == 0 && !string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    MessageBox.Show("정확한 자재를 입력해주세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -192,6 +281,9 @@ namespace dip_mes
             textBox1.Clear();
             textBox2.Clear();
         }
+
+
+
 
 
 
@@ -234,6 +326,7 @@ namespace dip_mes
             {
                 connection.Close();
             }
+            Product.staticProduct.LoadDataIntoComboBox2();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -241,11 +334,11 @@ namespace dip_mes
             using (MySqlConnection sConn = new MySqlConnection(connectionString))
             {
                 sConn.Open();
-                string searchItemNo = textBox3.Text.Trim(); // 검색창 텍스트
+                string searchItemNo = comboBox1.Text.Trim(); // 검색창 텍스트
                 string fItem = @"SELECT product.product_name,product.product_code,product_Material.Material_name,product_Material.Material_number
-                                FROM product
-                                JOIN product_Material ON product_Material.product_code = product.product_code
-                                WHERE product.product_name = @searchItemNo";
+                            FROM product
+                            JOIN product_Material ON product_Material.product_code = product.product_code
+                            WHERE product.product_name = @searchItemNo";
                 MySqlCommand cmd = new MySqlCommand(fItem, sConn);
                 cmd.Parameters.AddWithValue("@searchItemNo", searchItemNo);
                 try
@@ -255,7 +348,7 @@ namespace dip_mes
                         DataTable fManage = new DataTable();
                         adapter.Fill(fManage);
 
-                        // Check if any rows are returned
+                        // 반환된 행이 있는지 확인
                         if (fManage.Rows.Count > 0)
                         {
                             // DataGridView에 데이터 설정
@@ -280,6 +373,6 @@ namespace dip_mes
             }
         }
 
-       
+
     }
 }

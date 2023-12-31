@@ -46,7 +46,7 @@
             // txtbox_name
             // 
             this.txtbox_name.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtbox_name.Location = new System.Drawing.Point(232, 86);
+            this.txtbox_name.Location = new System.Drawing.Point(277, 88);
             this.txtbox_name.Name = "txtbox_name";
             this.txtbox_name.Size = new System.Drawing.Size(218, 29);
             this.txtbox_name.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(160, 89);
+            this.label1.Location = new System.Drawing.Point(205, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.TabIndex = 2;
@@ -65,7 +65,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(182, 151);
+            this.label2.Location = new System.Drawing.Point(227, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 21);
             this.label2.TabIndex = 4;
@@ -75,7 +75,7 @@
             // txtbox_id
             // 
             this.txtbox_id.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtbox_id.Location = new System.Drawing.Point(232, 148);
+            this.txtbox_id.Location = new System.Drawing.Point(277, 150);
             this.txtbox_id.Name = "txtbox_id";
             this.txtbox_id.Size = new System.Drawing.Size(218, 29);
             this.txtbox_id.TabIndex = 3;
@@ -84,7 +84,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(168, 216);
+            this.label3.Location = new System.Drawing.Point(213, 218);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 21);
             this.label3.TabIndex = 6;
@@ -93,14 +93,14 @@
             // txtbox_pwd
             // 
             this.txtbox_pwd.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtbox_pwd.Location = new System.Drawing.Point(232, 213);
+            this.txtbox_pwd.Location = new System.Drawing.Point(277, 215);
             this.txtbox_pwd.Name = "txtbox_pwd";
             this.txtbox_pwd.Size = new System.Drawing.Size(218, 29);
             this.txtbox_pwd.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(244, 499);
+            this.button1.Location = new System.Drawing.Point(289, 501);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(181, 42);
             this.button1.TabIndex = 13;
@@ -112,7 +112,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(154, 404);
+            this.label4.Location = new System.Drawing.Point(199, 406);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 21);
             this.label4.TabIndex = 19;
@@ -121,7 +121,7 @@
             // department
             // 
             this.department.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.department.Location = new System.Drawing.Point(232, 401);
+            this.department.Location = new System.Drawing.Point(277, 403);
             this.department.Name = "department";
             this.department.Size = new System.Drawing.Size(218, 29);
             this.department.TabIndex = 18;
@@ -130,7 +130,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(133, 340);
+            this.label5.Location = new System.Drawing.Point(178, 342);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 21);
             this.label5.TabIndex = 17;
@@ -139,7 +139,7 @@
             // email
             // 
             this.email.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.email.Location = new System.Drawing.Point(232, 336);
+            this.email.Location = new System.Drawing.Point(277, 338);
             this.email.Name = "email";
             this.email.Size = new System.Drawing.Size(218, 29);
             this.email.TabIndex = 16;
@@ -148,7 +148,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("굴림", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(112, 278);
+            this.label6.Location = new System.Drawing.Point(157, 280);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(114, 21);
             this.label6.TabIndex = 15;
@@ -157,7 +157,7 @@
             // number
             // 
             this.number.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.number.Location = new System.Drawing.Point(232, 274);
+            this.number.Location = new System.Drawing.Point(277, 276);
             this.number.Name = "number";
             this.number.Size = new System.Drawing.Size(218, 29);
             this.number.TabIndex = 14;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace dip_mes
 {
@@ -18,6 +19,13 @@ namespace dip_mes
         public AddClient()
         {
             InitializeComponent();
+
+            textBox1.TabIndex = 1;
+            textBox4.TabIndex = 2;
+            textBox2.TabIndex = 3;
+            textBox3.TabIndex = 4;
+            button1.TabIndex = 5;
+            button2.TabIndex = 6;
         }
 
         private void bnss_registration_Load(object sender, EventArgs e)
@@ -48,8 +56,15 @@ namespace dip_mes
                 {
                     connection.Open();
 
+                    // 중복된 companycode 확인
+                    if (IsCompanyCodeDuplicate(companycode, connection))
+                    {
+                        MessageBox.Show("중복된 업체코드입니다. 다시 확인해주세요.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     // MySQL에 데이터 삽입하는 SQL 쿼리
-                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate, companycode) VALUES (@division, @companyname, @phonenumber, @address, NOW(),@companycode)";
+                    string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate, companycode) VALUES (@division, @companyname, @phonenumber, @address, NOW(), @companycode)";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
                     {
@@ -77,6 +92,20 @@ namespace dip_mes
             }
         }
 
+        // 중복된 companycode 확인하는 메서드
+        private bool IsCompanyCodeDuplicate(string companycode, MySqlConnection connection)
+        {
+            string query = "SELECT COUNT(*) FROM business WHERE companycode = @companycode";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@companycode", companycode);
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+        }
+
+
         private void button2_Click(object sender, EventArgs e)
         {
             // 각 TextBox에서 텍스트 가져오기
@@ -100,6 +129,13 @@ namespace dip_mes
                 {
                     connection.Open();
 
+                    // 중복된 companycode 확인
+                    if (IsCompanyCodeDuplicate(companycode, connection))
+                    {
+                        MessageBox.Show("중복된 업체코드입니다. 다시 확인해주세요.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     // MySQL에 데이터 삽입하는 SQL 쿼리
                     string query = "INSERT INTO business (division, companyname, phonenumber, address, registrationdate,companycode) VALUES (@division, @companyname, @phonenumber, @address, NOW(),@companycode)";
 
@@ -111,7 +147,6 @@ namespace dip_mes
                         cmd.Parameters.AddWithValue("@phonenumber", phoneNumber);
                         cmd.Parameters.AddWithValue("@address", address);
                         cmd.Parameters.AddWithValue("@companycode", companycode);
-
 
                         // 쿼리 실행
                         cmd.ExecuteNonQuery();
