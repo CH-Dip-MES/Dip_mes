@@ -13,6 +13,7 @@ namespace dip_mes
 {
     public partial class Login : Form
     {
+        private Join popJoin;
         public static int getAuth;
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         public event Action<int> UserAuthStock;
@@ -109,13 +110,18 @@ namespace dip_mes
         }
         private void New_Click(object sender, EventArgs e)
         {
-            Join Join = new Join();
-            Join.Show();
+            popJoin = new Join();
+            popJoin.Show();
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

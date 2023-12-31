@@ -67,7 +67,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -79,7 +78,7 @@
             this.label5.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.Location = new System.Drawing.Point(1224, 404);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(82, 16);
+            this.label5.Size = new System.Drawing.Size(81, 16);
             this.label5.TabIndex = 37;
             this.label5.Text = "제품규격 :";
             // 
@@ -97,7 +96,7 @@
             this.label6.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.Location = new System.Drawing.Point(936, 403);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(82, 16);
+            this.label6.Size = new System.Drawing.Size(81, 16);
             this.label6.TabIndex = 35;
             this.label6.Text = "제품구분 :";
             // 
@@ -107,7 +106,7 @@
             this.label4.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(672, 403);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 16);
+            this.label4.Size = new System.Drawing.Size(49, 16);
             this.label4.TabIndex = 33;
             this.label4.Text = "품명 :";
             // 
@@ -126,7 +125,7 @@
             this.label3.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.Location = new System.Drawing.Point(405, 403);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 16);
+            this.label3.Size = new System.Drawing.Size(49, 16);
             this.label3.TabIndex = 31;
             this.label3.Text = "품번 :";
             // 
@@ -141,12 +140,17 @@
             // 
             // btnRegister
             // 
+            this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.btnRegister.FlatAppearance.BorderSize = 0;
+            this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegister.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegister.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnRegister.Location = new System.Drawing.Point(1520, 395);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(136, 34);
             this.btnRegister.TabIndex = 29;
             this.btnRegister.Text = "등록";
-            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.UseVisualStyleBackColor = false;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
             // dataGridView1
@@ -181,13 +185,17 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Font = new System.Drawing.Font("굴림", 16F);
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnDelete.Location = new System.Drawing.Point(1480, 46);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(136, 34);
             this.btnDelete.TabIndex = 27;
             this.btnDelete.Text = "삭제";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // label2
@@ -223,13 +231,17 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("굴림", 16F);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Location = new System.Drawing.Point(1325, 46);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 34);
             this.button1.TabIndex = 23;
             this.button1.Text = "조회";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label9
@@ -238,7 +250,7 @@
             this.label9.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label9.Location = new System.Drawing.Point(131, 556);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 16);
+            this.label9.Size = new System.Drawing.Size(49, 16);
             this.label9.TabIndex = 16;
             this.label9.Text = "공정 :";
             // 
@@ -248,7 +260,7 @@
             this.label8.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.Location = new System.Drawing.Point(344, 556);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 16);
+            this.label8.Size = new System.Drawing.Size(81, 16);
             this.label8.TabIndex = 18;
             this.label8.Text = "공정시간 :";
             // 
@@ -286,12 +298,17 @@
             // 
             // btnRegister1
             // 
+            this.btnRegister1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.btnRegister1.FlatAppearance.BorderSize = 0;
+            this.btnRegister1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegister1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegister1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnRegister1.Location = new System.Drawing.Point(664, 777);
             this.btnRegister1.Name = "btnRegister1";
             this.btnRegister1.Size = new System.Drawing.Size(78, 27);
             this.btnRegister1.TabIndex = 20;
             this.btnRegister1.Text = "등록";
-            this.btnRegister1.UseVisualStyleBackColor = true;
+            this.btnRegister1.UseVisualStyleBackColor = false;
             this.btnRegister1.Click += new System.EventHandler(this.btnRegister1_Click);
             // 
             // txtInput
@@ -304,12 +321,17 @@
             // 
             // btnDelete1
             // 
+            this.btnDelete1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.btnDelete1.FlatAppearance.BorderSize = 0;
+            this.btnDelete1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnDelete1.Location = new System.Drawing.Point(751, 777);
             this.btnDelete1.Name = "btnDelete1";
             this.btnDelete1.Size = new System.Drawing.Size(78, 27);
             this.btnDelete1.TabIndex = 23;
             this.btnDelete1.Text = "삭제";
-            this.btnDelete1.UseVisualStyleBackColor = true;
+            this.btnDelete1.UseVisualStyleBackColor = false;
             this.btnDelete1.Click += new System.EventHandler(this.btnDelete1_Click);
             // 
             // comboBox1
@@ -335,7 +357,7 @@
             this.label11.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label11.Location = new System.Drawing.Point(591, 556);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 16);
+            this.label11.Size = new System.Drawing.Size(81, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = "제품코드 :";
             // 
@@ -353,7 +375,7 @@
             this.label7.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label7.Location = new System.Drawing.Point(1418, 551);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(82, 16);
+            this.label7.Size = new System.Drawing.Size(81, 16);
             this.label7.TabIndex = 50;
             this.label7.Text = "제품코드 :";
             // 
@@ -367,12 +389,17 @@
             // 
             // button2
             // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button2.Location = new System.Drawing.Point(1578, 777);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(78, 27);
             this.button2.TabIndex = 48;
             this.button2.Text = "삭제";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox8
@@ -385,12 +412,17 @@
             // 
             // button3
             // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button3.Location = new System.Drawing.Point(1491, 777);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(78, 27);
             this.button3.TabIndex = 46;
             this.button3.Text = "등록";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // dataGridView3
@@ -429,7 +461,7 @@
             this.label10.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label10.Location = new System.Drawing.Point(1171, 551);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(82, 16);
+            this.label10.Size = new System.Drawing.Size(81, 16);
             this.label10.TabIndex = 44;
             this.label10.Text = "자재수량 :";
             // 
@@ -439,7 +471,7 @@
             this.label12.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label12.Location = new System.Drawing.Point(958, 551);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(50, 16);
+            this.label12.Size = new System.Drawing.Size(49, 16);
             this.label12.TabIndex = 43;
             this.label12.Text = "자재 :";
             // 
@@ -452,21 +484,10 @@
             this.comboBox3.Size = new System.Drawing.Size(201, 24);
             this.comboBox3.TabIndex = 52;
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(16, 401);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(117, 27);
-            this.button4.TabIndex = 53;
-            this.button4.Text = "새로고침";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // Product
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label7);
@@ -542,7 +563,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Button button4;
         public System.Windows.Forms.ComboBox comboBox1;
         public System.Windows.Forms.ComboBox comboBox2;
     }

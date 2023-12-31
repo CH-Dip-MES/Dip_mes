@@ -37,9 +37,10 @@
             this.Find = new System.Windows.Forms.Button();
             this.New = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,9 +67,11 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Location = new System.Drawing.Point(205, 566);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(250, 29);
@@ -111,10 +114,12 @@
             // 
             // Find
             // 
-            this.Find.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Find.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
             this.Find.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
             this.Find.FlatAppearance.BorderSize = 0;
             this.Find.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Find.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Find.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Find.Location = new System.Drawing.Point(212, 620);
             this.Find.Name = "Find";
             this.Find.Size = new System.Drawing.Size(116, 34);
@@ -125,9 +130,11 @@
             // 
             // New
             // 
-            this.New.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.New.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
             this.New.FlatAppearance.BorderSize = 0;
             this.New.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.New.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.New.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.New.Location = new System.Drawing.Point(332, 620);
             this.New.Name = "New";
             this.New.Size = new System.Drawing.Size(116, 34);
@@ -139,12 +146,24 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(4)))), ((int)(((byte)(58)))));
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(640, 411);
             this.panel1.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(194, 58);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(274, 64);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Dip Cop";
             // 
             // panel2
             // 
@@ -162,16 +181,20 @@
             this.panel3.Size = new System.Drawing.Size(250, 1);
             this.panel3.TabIndex = 8;
             // 
-            // label4
+            // button2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("굴림", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(194, 58);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(274, 64);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Dip Cop";
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(4)))), ((int)(((byte)(58)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button2.Location = new System.Drawing.Point(611, 1);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(28, 29);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "X";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Login
             // 
@@ -196,7 +219,8 @@
             this.Load += new System.EventHandler(this.Login_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -214,5 +238,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button2;
     }
 }

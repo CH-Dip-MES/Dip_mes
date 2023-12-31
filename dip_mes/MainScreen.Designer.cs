@@ -215,13 +215,16 @@ namespace dip_mes
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(227)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(3, 20);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "로그아웃";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tableLayoutPanel5
@@ -258,9 +261,12 @@ namespace dip_mes
             // 
             // button18
             // 
-            this.button18.BackColor = System.Drawing.Color.White;
+            this.button18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(73)))), ((int)(((byte)(153)))));
             this.button18.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button18.FlatAppearance.BorderSize = 0;
             this.button18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button18.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button18.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button18.Location = new System.Drawing.Point(1742, 0);
             this.button18.Margin = new System.Windows.Forms.Padding(0);
             this.button18.Name = "button18";
