@@ -34,6 +34,8 @@ namespace dip_mes
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+
             // 날짜 형식을 MySQL의 DATETIME 형식으로 변환
             string orderDate = dateTimePicker1.Value.ToString("yyyyMMdd");
             string deliveryDate = dateTimePicker2.Value.ToString("yyyyMMdd");
@@ -50,15 +52,16 @@ namespace dip_mes
                 textBox1.Text = orderingCode;
 
                 // buy1 테이블에 데이터 삽입
-                string insertQuery = "INSERT INTO buy1 (DeliveryDate, Code, OrderDate, Orderingcode, Companyname) VALUES (@DeliveryDate, @Code, @OrderDate, @OrderingCode, @Companyname)";
+                string insertQuery = "INSERT INTO buy1 (DeliveryDate, Code, OrderDate, Orderingcode, Companyname, Writer) VALUES (@DeliveryDate, @Code, @OrderDate, @OrderingCode, @Companyname, @Writer)";
 
                 using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
-                    command.Parameters.AddWithValue("@Code", textBox4.Text);
+                    command.Parameters.AddWithValue("@Code", comboBox1.Text);
                     command.Parameters.AddWithValue("@OrderDate", orderDate);
                     command.Parameters.AddWithValue("@OrderingCode", orderingCode);
                     command.Parameters.AddWithValue("@Companyname", textBox2.Text);
+                    command.Parameters.AddWithValue("@Writer", MainScreen.label2Text);
 
                     command.ExecuteNonQuery();
                 }
@@ -108,6 +111,11 @@ namespace dip_mes
         private void MaterialOrder_Load(object sender, EventArgs e)
         {
             LoadDataToDataGridView1();
+            LoadBusinessData();
+            // comboBox1의 이벤트 핸들러 등록
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // dataGridView2의 CellValueChanged 이벤트 핸들러 등록
+            dataGridView2.CellValueChanged += dataGridView2_CellValueChanged;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -139,14 +147,14 @@ namespace dip_mes
                 if (string.IsNullOrEmpty(textBox3.Text))
                 {
                     // TextBox3에 값이 없으면 DeliveryDate만 일치한 행들 조회
-                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
+                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', DeliveryDate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                 }
                 else
                 {
                     // TextBox3에 값이 있으면 code와 DeliveryDate가 일치한 행들 조회
-                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
+                    selectQuery = "SELECT ROW_NUMBER() OVER(ORDER BY nb DESC) as 'N0.', DeliveryDate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1 WHERE DeliveryDate = @DeliveryDate AND Code = @Code";
                     command = new MySqlCommand(selectQuery, connection);
                     command.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                     command.Parameters.AddWithValue("@Code", textBox3.Text);
@@ -161,10 +169,10 @@ namespace dip_mes
                     // DataGridView에 데이터 바인딩
                     dataGridView1.DataSource = dataTable;
                 }
-                
+
                 connection.Close();
 
-                
+
             }
         }
 
@@ -193,7 +201,7 @@ namespace dip_mes
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'N0.', orderdate AS '발주일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
+                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'N0.', DeliveryDate AS '납기일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                 {
                     DataTable dataTable = new DataTable();
@@ -234,7 +242,7 @@ namespace dip_mes
                 connection.Open();
 
                 // DataGridView2에 데이터를 가져오는 쿼리
-                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '중량', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE Orderingcode = @Orderingcode";
+                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '갯수', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE Orderingcode = @Orderingcode";
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Orderingcode", selectedCode);
@@ -332,10 +340,74 @@ namespace dip_mes
                         command.Parameters.AddWithValue("@nb", row.Cells["NO."].Value);
                         command.Parameters.AddWithValue("@Itemnumber", row.Cells["품번"].Value);
                         command.Parameters.AddWithValue("@Itemname", row.Cells["품명"].Value);
-                        command.Parameters.AddWithValue("@Weight", row.Cells["중량"].Value);
-                        command.Parameters.AddWithValue("@Unitprice", row.Cells["단가"].Value);
-                        command.Parameters.AddWithValue("@Orderamount", row.Cells["발주금액"].Value);
-                        command.Parameters.AddWithValue("@Surtax", row.Cells["부가세"].Value);
+                        command.Parameters.AddWithValue("@Weight", row.Cells["갯수"].Value);
+
+                        // 단가 열 처리
+                        try
+                        {
+                            // 단가 열이 비어있지 않으면 숫자로 변환
+                            if (row.Cells["단가"].Value != null)
+                            {
+                                decimal unitPrice = decimal.Parse(row.Cells["단가"].Value.ToString());
+                                command.Parameters.AddWithValue("@Unitprice", unitPrice);
+                            }
+                            else
+                            {
+                                // 단가 열이 비어있으면 DBNull.Value로 처리
+                                command.Parameters.AddWithValue("@Unitprice", DBNull.Value);
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            // 숫자로 변환할 수 없는 경우 메시지 박스로 알림 표시
+                            MessageBox.Show("단가에는 숫자를 입력하세요.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // 발주금액 열 처리
+                        try
+                        {
+                            // 발주금액 열이 비어있지 않으면 숫자로 변환
+                            if (row.Cells["발주금액"].Value != null)
+                            {
+                                decimal orderAmount = decimal.Parse(row.Cells["발주금액"].Value.ToString());
+                                command.Parameters.AddWithValue("@Orderamount", orderAmount);
+                            }
+                            else
+                            {
+                                // 발주금액 열이 비어있으면 DBNull.Value로 처리
+                                command.Parameters.AddWithValue("@Orderamount", DBNull.Value);
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            // 숫자로 변환할 수 없는 경우 메시지 박스로 알림 표시
+                            MessageBox.Show("발주금액에는 숫자를 입력하세요.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // 부가세 열 처리
+                        try
+                        {
+                            // 부가세 열이 비어있지 않으면 숫자로 변환
+                            if (row.Cells["부가세"].Value != null)
+                            {
+                                decimal surtax = decimal.Parse(row.Cells["부가세"].Value.ToString());
+                                command.Parameters.AddWithValue("@Surtax", surtax);
+                            }
+                            else
+                            {
+                                // 부가세 열이 비어있으면 DBNull.Value로 처리
+                                command.Parameters.AddWithValue("@Surtax", DBNull.Value);
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            // 숫자로 변환할 수 없는 경우 메시지 박스로 알림 표시
+                            MessageBox.Show("부가세에는 숫자를 입력하세요.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
                         command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
 
                         command.ExecuteNonQuery();
@@ -348,7 +420,7 @@ namespace dip_mes
             MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
             // 등록 후 발주금액 합 다시 계산
             CalculateTotalOrderAmount();
-            
+            CalculateTotalSurtaxForGridView2();
             UpdateBuy1TotalAmounts();
         }
 
@@ -398,7 +470,7 @@ namespace dip_mes
             }
             // 등록 후 발주금액 합 다시 계산
             CalculateTotalOrderAmount();
-
+            CalculateTotalSurtaxForGridView2();
             UpdateBuy1TotalAmounts();
         }
 
@@ -431,9 +503,9 @@ namespace dip_mes
                     {
                         // 발주금액 합을 textBox6에 표시
                         decimal totalOrderAmount = Convert.ToDecimal(result);
-                        textBox6.Text = totalOrderAmount.ToString("#,##0"); 
+                        textBox6.Text = totalOrderAmount.ToString("#,##0");
                         decimal TotalSurtax = Convert.ToDecimal(result);
-                        textBox5.Text = TotalSurtax.ToString("#,##0"); 
+                        textBox5.Text = TotalSurtax.ToString("#,##0");
                     }
                     else
                     {
@@ -551,7 +623,7 @@ namespace dip_mes
         private void button6_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-            {    
+            {
                 // MySQL 연결 및 명령어 생성
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -582,6 +654,130 @@ namespace dip_mes
             {
                 MessageBox.Show("행을 선택하세요.");
             }
+        }
+        private void LoadBusinessData()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // division이 '협력사'인 행들의 companycode를 선택
+                string selectQuery = "SELECT companycode FROM business WHERE division = '협력사'";
+
+                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        // comboBox1를 초기화
+                        comboBox1.Items.Clear();
+
+                        // 데이터를 comboBox1에 추가
+                        while (reader.Read())
+                        {
+                            // 각 행의 "companycode"를 가져와서 comboBox1에 추가
+                            string companyCode = reader["companycode"].ToString();
+                            comboBox1.Items.Add(companyCode);
+                        }
+                    }
+                }
+
+                connection.Close();
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // comboBox1에서 선택된 companycode 가져오기
+            string selectedCompanyCode = comboBox1.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCompanyCode))
+            {
+                // MySQL 연결 및 명령어 생성
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // 선택된 companycode에 해당하는 companyname 가져오기
+                    string selectQuery = "SELECT companyname FROM business WHERE companycode = @CompanyCode";
+
+                    using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@CompanyCode", selectedCompanyCode);
+
+                        // 결과 가져오기
+                        object result = command.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            // companyname을 textBox2에 표시
+                            textBox2.Text = result.ToString();
+                        }
+                        else
+                        {
+                            // 선택된 companycode에 해당하는 데이터가 없을 경우 textBox2를 초기화
+                            textBox2.Text = string.Empty;
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // 발주금액 열이 변경된 경우
+            if (e.ColumnIndex == dataGridView2.Columns["발주금액"].Index && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = dataGridView2.Rows[e.RowIndex].Cells["발주금액"];
+                DataGridViewCell surtaxCell = dataGridView2.Rows[e.RowIndex].Cells["부가세"];
+
+                // 발주금액이 비어있지 않으면 계산 후 부가세 열에 넣기
+                if (cell.Value != null && decimal.TryParse(cell.Value.ToString(), out decimal orderAmount))
+                {
+                    decimal surtax = Math.Round(orderAmount * 0.1M); // 부가세 계산 (10%) 후 반올림
+                    surtaxCell.Value = surtax == (int)surtax ? ((int)surtax).ToString() : surtax.ToString(); // 소수점 이하가 0이면 점 없애기
+                }
+                else
+                {
+                    // 발주금액이 비어있거나 숫자로 변환할 수 없으면 부가세 열 초기화
+                    surtaxCell.Value = DBNull.Value;
+                }
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            LoadDataToDataGridView1();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -13,6 +13,9 @@ namespace dip_mes
 
     public partial class MainScreen : Form
     {
+        //라벨 읽기
+        static public string label2Text;
+
         private Boolean showpanelStandard = false;
         private Boolean showpanelSale = false;
         private Boolean showpanelBuy = false;
@@ -56,6 +59,8 @@ namespace dip_mes
         public string UserID { get; set; }
         public string UserName { get; set; }
 
+        
+
         public MainScreen()
         {
             InitializeComponent();
@@ -63,8 +68,9 @@ namespace dip_mes
             toglepanels();
             tabControl1.TabPages.Clear();
             // 여기에 tabControl1의 백그라운드 컬러를 설정하는 코드 추가
-            //tabControl1.BackColor = Color.LightBlue;
-
+            // tableLayoutPanel2의 백그라운드 컬러 설정
+            tableLayoutPanel2.BackColor = ColorTranslator.FromHtml("#263959");
+            panelbase.BackColor = ColorTranslator.FromHtml("#ECEFF4");
         }
         private void InitializeTabs()
         {
@@ -133,6 +139,7 @@ namespace dip_mes
             // 사용자 정보로 레이블 설정
             label2.Text = UserID;
             label3.Text = UserName;
+            label2Text = label2.Text;
         }
 
         // 탭이 이미 열려있는지 확인하는 함수
@@ -222,7 +229,7 @@ namespace dip_mes
             showpanelStandard = !showpanelStandard;
             toglepanels();
         }
-
+        
         private void toglepanels()
         {
             //슬라이드메뉴 설정
@@ -707,5 +714,9 @@ namespace dip_mes
             this.Close();
         }
 
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
