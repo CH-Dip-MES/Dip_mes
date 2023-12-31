@@ -76,35 +76,67 @@ namespace dip_mes
         }
         private void button2_Click(object sender, EventArgs e) //Req5-2
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (ItemStatus.SelectedItem != null && ItemNo.SelectedItem != null && ItemName.Text != "" && ItemAmount.Text != "" && RegistDate.Value != DateTimePicker.MinimumDateTime && Inven.SelectedItem != null)
             {
-                // 입력된 데이터를 메시지박스에 표시
-                string message = $"상태: {ItemStatus.SelectedItem}\n품번: {ItemNo.SelectedItem}\n품명: {ItemName.Text}\n수량: {ItemAmount.Text}\n등록일자: {RegistDate.Value}\n창고: {Inven.SelectedItem}";
-                string caption = "등록 현황";
-                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
-                DialogResult result = MessageBox.Show(message, caption, buttons);
+                int currentStockAmount = 0; // 현재 재고 수량
+                int requestedAmount = int.Parse(ItemAmount.Text); // 사용자가 요청한 수량
+                string selectedInven = Inven.SelectedItem.ToString(); // 선택된 창고
 
-                // 확인 버튼을 눌렀을 경우 데이터 등록
-                if (result == DialogResult.OK)
+                using (MySqlConnection iConn = new MySqlConnection(jConn))
                 {
-                    int amount = int.Parse(ItemAmount.Text);
-                    using (MySqlConnection iConn = new MySqlConnection(jConn))
+                    iConn.Open();
+                    // 해당 품번의 현재 입고된 수량을 창고별로 조회
+                    MySqlCommand checkAmountCmd = new MySqlCommand("SELECT SUM(ItemAmount) FROM sale1 WHERE ItemNo = @ItemNo AND ItemStat = '입고' AND Inven = @Inven", iConn);
+                    checkAmountCmd.Parameters.AddWithValue("@ItemNo", ItemNo.SelectedItem.ToString());
+                    checkAmountCmd.Parameters.AddWithValue("@Inven", selectedInven);
+                    object checkre = checkAmountCmd.ExecuteScalar();
+                    currentStockAmount = Convert.IsDBNull(checkre) ? 0 : Convert.ToInt32(checkre);
+                }
+                if (requestedAmount <= currentStockAmount)
+                {
+                    // 입력된 데이터를 메시지박스에 표시
+                    string message = $"상태: {ItemStatus.SelectedItem}\n품번: {ItemNo.SelectedItem}\n품명: {ItemName.Text}\n수량: {ItemAmount.Text}\n등록일자: {RegistDate.Value}\n창고: {Inven.SelectedItem}";
+                    string caption = "등록 현황";
+                    MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
+                    DialogResult result = MessageBox.Show(message, caption, buttons);
+
+                    // 확인 버튼을 눌렀을 경우 데이터 등록
+                    if (result == DialogResult.OK)
                     {
-                        iConn.Open();
-                        MySqlCommand msc = new MySqlCommand("insert into sale1(ItemStat, ItemNo, ItemName, ItemAmount, RegistDate, Inven) values(@ItemStat, @ItemNo, @ItemName, @ItemAmount, @RegistDate, @Inven)", iConn);
-                        msc.Parameters.AddWithValue("@ItemStat", ItemStatus.SelectedItem.ToString());
-                        msc.Parameters.AddWithValue("@ItemNo", ItemNo.SelectedItem.ToString());
-                        msc.Parameters.AddWithValue("@ItemName", ItemName.Text);
-                        msc.Parameters.AddWithValue("@ItemAmount", amount);
-                        msc.Parameters.AddWithValue("@RegistDate", RegistDate.Value);
-                        msc.Parameters.AddWithValue("@Inven", Inven.SelectedItem.ToString());
-                        msc.ExecuteNonQuery();
-                        MessageBox.Show("성공적으로 등록되었습니다.");
+                        int amount = int.Parse(ItemAmount.Text);
+                        using (MySqlConnection iConn = new MySqlConnection(jConn))
+                        {
+                            iConn.Open();
+                            MySqlCommand msc = new MySqlCommand("insert into sale1(ItemStat, ItemNo, ItemName, ItemAmount, RegistDate, Inven) values(@ItemStat, @ItemNo, @ItemName, @ItemAmount, @RegistDate, @Inven)", iConn);
+                            msc.Parameters.AddWithValue("@ItemStat", ItemStatus.SelectedItem.ToString());
+                            msc.Parameters.AddWithValue("@ItemNo", ItemNo.SelectedItem.ToString());
+                            msc.Parameters.AddWithValue("@ItemName", ItemName.Text);
+                            msc.Parameters.AddWithValue("@ItemAmount", amount);
+                            msc.Parameters.AddWithValue("@RegistDate", RegistDate.Value);
+                            msc.Parameters.AddWithValue("@Inven", Inven.SelectedItem.ToString());
+                            msc.ExecuteNonQuery();
+                            MessageBox.Show("성공적으로 등록되었습니다.");
+                            ItemStatus.SelectedItem = null;
+                            ItemNo.SelectedItem = null;
+                            ItemName.Text = "";
+                            ItemAmount.Text = "";
+                            RegistDate.Value = DateTimePicker.MinimumDateTime;
+                            Inven.SelectedItem = null;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("등록이 취소되었습니다.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("등록이 취소되었습니다.");
+                    MessageBox.Show("출고 수량이 현재 창고의 재고량보다 많습니다");
                 }
             }
             else
@@ -112,7 +144,13 @@ namespace dip_mes
                 MessageBox.Show("기입되지 않은 필수 항목이 있습니다");
             }
         }
-
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(sender, e);
+            }
+        }
         private void button1_Click(object sender, EventArgs e) //Req5-1
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
@@ -122,7 +160,7 @@ namespace dip_mes
                 string fItem = "select ItemStat,ItemNo,ItemName,ItemAmount,RegistDate,Inven from sale1";
                 if (!string.IsNullOrEmpty(searchItemNo)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
                 {
-                    fItem += $" WHERE ItemNo = '{searchItemNo}'";
+                    fItem += $" WHERE ItemNo LIKE '%{searchItemNo}%'";
                 }
                 string camount = "SELECT ItemNo,ItemName, SUM(CASE WHEN ItemStat = '입고' THEN ItemAmount ELSE -ItemAmount END) " +
                     "AS CurrentStock,Inven FROM sale1 GROUP BY ItemNo,ItemName, Inven";

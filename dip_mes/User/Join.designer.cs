@@ -36,11 +36,11 @@
             this.txtbox_pwd = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.department = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.email = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.number = new System.Windows.Forms.TextBox();
+            this.Department = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txtbox_name
@@ -50,6 +50,7 @@
             this.txtbox_name.Name = "txtbox_name";
             this.txtbox_name.Size = new System.Drawing.Size(218, 29);
             this.txtbox_name.TabIndex = 0;
+            this.txtbox_name.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // label1
             // 
@@ -70,7 +71,6 @@
             this.label2.Size = new System.Drawing.Size(44, 21);
             this.label2.TabIndex = 4;
             this.label2.Text = "ID :";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtbox_id
             // 
@@ -79,6 +79,7 @@
             this.txtbox_id.Name = "txtbox_id";
             this.txtbox_id.Size = new System.Drawing.Size(218, 29);
             this.txtbox_id.TabIndex = 3;
+            this.txtbox_id.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // label3
             // 
@@ -97,6 +98,7 @@
             this.txtbox_pwd.Name = "txtbox_pwd";
             this.txtbox_pwd.Size = new System.Drawing.Size(218, 29);
             this.txtbox_pwd.TabIndex = 5;
+            this.txtbox_pwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // button1
             // 
@@ -118,14 +120,6 @@
             this.label4.TabIndex = 19;
             this.label4.Text = "부서 :";
             // 
-            // department
-            // 
-            this.department.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.department.Location = new System.Drawing.Point(277, 403);
-            this.department.Name = "department";
-            this.department.Size = new System.Drawing.Size(218, 29);
-            this.department.TabIndex = 18;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -143,6 +137,7 @@
             this.email.Name = "email";
             this.email.Size = new System.Drawing.Size(218, 29);
             this.email.TabIndex = 16;
+            this.email.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
             // 
             // label6
             // 
@@ -161,14 +156,27 @@
             this.number.Name = "number";
             this.number.Size = new System.Drawing.Size(218, 29);
             this.number.TabIndex = 14;
+            this.number.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Search_KeyDown);
+            // 
+            // Department
+            // 
+            this.Department.Font = new System.Drawing.Font("굴림", 14.25F);
+            this.Department.FormattingEnabled = true;
+            this.Department.Items.AddRange(new object[] {
+            "영업부",
+            "생산부"});
+            this.Department.Location = new System.Drawing.Point(232, 404);
+            this.Department.Name = "Department";
+            this.Department.Size = new System.Drawing.Size(218, 27);
+            this.Department.TabIndex = 20;
             // 
             // Join
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(669, 658);
+            this.Controls.Add(this.Department);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.department);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.email);
             this.Controls.Add(this.label6);
@@ -182,7 +190,6 @@
             this.Controls.Add(this.txtbox_name);
             this.Name = "Join";
             this.Text = "Form3";
-            this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,10 +205,10 @@
         private System.Windows.Forms.TextBox txtbox_pwd;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox department;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox email;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox number;
+        private System.Windows.Forms.ComboBox Department;
     }
 }

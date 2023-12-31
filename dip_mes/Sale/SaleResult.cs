@@ -20,6 +20,13 @@ namespace dip_mes
             InitializeComponent();
             LoadYearSalesData();
         }
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CheckButton1_Click(sender, e);
+            }
+        }
         private void CheckButton1_Click(object sender, EventArgs e)
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
@@ -52,7 +59,7 @@ namespace dip_mes
 
                             // DataGridView 컬럼 헤더 텍스트 설정
                             dataGridView1.Columns["salecode"].HeaderText = "판매번호";
-                            dataGridView1.Columns["buyername"].HeaderText = "구매자명";
+                            dataGridView1.Columns["buyername"].HeaderText = "고객명";
                             dataGridView1.Columns["tSell"].HeaderText = "판매금액";
                             dataGridView1.Columns["tVat"].HeaderText = "부가세";
                         }
@@ -67,6 +74,7 @@ namespace dip_mes
                     MessageBox.Show($"오류 발생: {ex.Message}");
                 }
             }
+            LoadYearSalesData();
         }
         private void LoadYearSalesData()
         {
@@ -90,14 +98,15 @@ namespace dip_mes
         private void GenerateAnnualSalesChart(DataTable dataTable)
         {
             chart1.Series.Clear();
-            chart1.ChartAreas[0].AxisX.Title = "고객명";
-            chart1.ChartAreas[0].AxisY.Title = "연간 매출액";
 
             var series = new Series("연간 매출")
             {
-                ChartType = SeriesChartType.Column
+                ChartType = SeriesChartType.Doughnut,
+                ToolTip = "고객명: #VALX\n매출액: #VAL{N0}원"
             };
+           
             chart1.Series.Add(series);
+            chart1.Series[0].Font = new Font("나눔고딕", 12, FontStyle.Bold);
 
             foreach (DataRow row in dataTable.Rows)
             {
@@ -106,7 +115,9 @@ namespace dip_mes
 
                 series.Points.AddXY(buyerName, totalSales);
             }
+            chart1.ChartAreas[0].Area3DStyle.Enable3D = true;
         }
+        // 차트 초기화 및 이벤트 핸들러 설정
         private void chart1_MouseClick(object sender, MouseEventArgs e)
         {
             // 차트의 히트 테스트를 수행하여 클릭된 요소를 찾습니다.
@@ -119,10 +130,10 @@ namespace dip_mes
                 string selectedBuyerName = series.Points[pointIndex].AxisLabel;
 
                 // 선택된 고객명으로 데이터 로드
-                LoadCustomerProductSalesData(selectedBuyerName);
+                LoadCustomerData(selectedBuyerName);
             }
         }
-        private void LoadCustomerProductSalesData(string buyerName)
+        private void LoadCustomerData(string buyerName)
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
             {
@@ -138,21 +149,25 @@ namespace dip_mes
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                GenerateCustomerProductSalesChart(dataTable);
+                GenerateCustomerChart(dataTable);
             }
         }
-        private void GenerateCustomerProductSalesChart(DataTable dataTable)
+        private void GenerateCustomerChart(DataTable dataTable)
         {
             chart2.Series.Clear();
             chart2.ChartAreas[0].AxisX.Interval = 1;
             chart2.ChartAreas[0].AxisX.Title = "월";
-            chart2.ChartAreas[0].AxisY.Title = "제품별 매출";
+            chart2.ChartAreas[0].AxisY.Title = "매출";
 
             // 제품별로 시리즈 추가
             var productNames = dataTable.AsEnumerable().Select(row => row.Field<string>("ItemName")).Distinct();
             foreach (var productName in productNames)
             {
-                Series series = new Series(productName) { ChartType = SeriesChartType.Column };
+                Series series = new Series(productName) 
+                { 
+                    ChartType = SeriesChartType.Column,
+                    ToolTip = "제품: " + productName + "\n월: #VALX\n매출액: #VALY{N0}원"
+                };
                 chart2.Series.Add(series);
 
                 for (int month = 1; month <= 12; month++)

@@ -180,6 +180,11 @@ namespace dip_mes
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 데이터 그리드뷰에 데이터 추가
             DateTime ins_date = DateTime.Now;
 
@@ -241,6 +246,11 @@ namespace dip_mes
 
         private void InsertProductProcess(string processName, int processTime, string productCode)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // product_process 테이블에 사용자에게 입력받은 데이터 DB 저장
             string Query = "INSERT INTO product_process (product_code, process_name, process_time) VALUES (@product_code, @process_name, @process_time)";
             using (MySqlCommand Cmd = new MySqlCommand(Query, connection))
@@ -262,6 +272,11 @@ namespace dip_mes
         }
         private void InsertProductMaterial(string MaterialName, int MaterialNumber, string productCode)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // product_Material 테이블에 사용자에게 입력받은 데이터 DB 저장
             string Query = "INSERT INTO product_Material (product_code, Material_name, Material_number) VALUES (@product_code, @Material_name, @Material_number)";
             using (MySqlCommand Cmd = new MySqlCommand(Query, connection))
@@ -298,6 +313,11 @@ namespace dip_mes
 
         private void InsertDataIntoMySQL(string product_code, string product_name, string category, string product_size, DateTime ins_date)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             string query = "INSERT INTO product (product_code, product_name, category, product_size, ins_date) VALUES (@product_code, @product_name, @category, @product_size, @ins_date)";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
@@ -345,12 +365,18 @@ namespace dip_mes
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 체크된 항목 삭제
             DeleteCheckedItems();
         }
 
         private void DeleteCheckedItems()
         {
+
             // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -548,7 +574,12 @@ namespace dip_mes
 
         private void btnRegister1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textbox6.Text))
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
+            if (string.IsNullOrEmpty(textbox6.Text)) 
             {
                 MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
             }
@@ -575,6 +606,11 @@ namespace dip_mes
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (string.IsNullOrEmpty(textBox7.Text))
             {
                 MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
@@ -603,6 +639,12 @@ namespace dip_mes
 
         private void btnDelete1_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 || Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
+            // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
                 DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;

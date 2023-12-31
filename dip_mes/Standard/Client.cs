@@ -31,6 +31,11 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // bnss_registration 폼 인스턴스 생성
             AddClient registrationForm = new AddClient();
 

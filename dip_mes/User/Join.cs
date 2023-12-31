@@ -29,26 +29,18 @@ namespace dip_mes
             txtbox_pwd.TabIndex = 3;
             number.TabIndex = 4;
             email.TabIndex = 5;
-            department.TabIndex = 6;
+            Department.TabIndex = 6;
             button1.TabIndex = 7;
             this.AcceptButton = button1;
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        
+        private void Search_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(sender, e);
+            }
         }
-
-        private void Form3_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             // 입력값이 비어 있는지 확인
@@ -57,7 +49,7 @@ namespace dip_mes
                 string.IsNullOrWhiteSpace(txtbox_pwd.Text) ||
                 string.IsNullOrWhiteSpace(number.Text) ||
                 string.IsNullOrWhiteSpace(email.Text) ||
-                string.IsNullOrWhiteSpace(department.Text))
+                string.IsNullOrWhiteSpace(Department.Text))
             {
                 MessageBox.Show("모든 정보를 입력하세요.");
                 return; // 등록 중단
@@ -82,10 +74,29 @@ namespace dip_mes
                         MessageBox.Show("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
                         return; // 등록 중단
                     }
-                    
+
                     // 중복된 아이디가 없으면 회원가입 처리
-                    
-                    string insertQuery = "INSERT INTO user (name, id, pwd, number, email, department) VALUES (@name, @id, @pwd, @number, @email, @department)";
+                    int authority;
+                    if(txtbox_name.Text == "송상욱") // 특정 관리자 이름 일 시
+                    {
+                        authority = 3;
+                    }
+                    else
+                    {
+                        switch(Department.Text)
+                        {
+                            case "영업부":
+                                authority = 2;
+                                break;
+                            case "생산부":
+                                authority = 1; // 생산부 권한
+                                break;
+                            default:
+                                authority = 0; // 기본 권한 (접근 제한)
+                                break;
+                        }
+                    }
+                    string insertQuery = "INSERT INTO user (name, id, pwd, number, email, department, authority) VALUES (@name, @id, @pwd, @number, @email, @department, @authority)";
                     MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
                     // 매개변수 추가
@@ -94,7 +105,8 @@ namespace dip_mes
                     command.Parameters.AddWithValue("@pwd", txtbox_pwd.Text);
                     command.Parameters.AddWithValue("@number", number.Text);
                     command.Parameters.AddWithValue("@email", email.Text);
-                    command.Parameters.AddWithValue("@department", department.Text);
+                    command.Parameters.AddWithValue("@department", Department.Text);
+                    command.Parameters.AddWithValue("@authority", authority);
 
                     if (command.ExecuteNonQuery() == 1)
                     {
