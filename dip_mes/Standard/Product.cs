@@ -24,6 +24,7 @@ namespace dip_mes
             dataGridView1.CellClick += dataGridView1_CellClick;
             textBox1.KeyDown += textBox1_KeyDown;
         }
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -32,7 +33,6 @@ namespace dip_mes
                 button1.PerformClick();
             }
         }
-
 
         private void InitializeDatabaseConnection()
         {
@@ -76,7 +76,6 @@ namespace dip_mes
 
             dataGridView3.Columns["checkBoxColumn3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridView3.Columns["checkBoxColumn3"].Width = 50;
-
 
             // DataGridView에 컬럼 추가
             dataGridView1.Columns.Add("Field2Column", "품번");

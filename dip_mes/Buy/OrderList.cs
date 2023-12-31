@@ -435,7 +435,7 @@ namespace dip_mes
             DateTime deliveryDate;
             try
             {
-                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[1].Value.ToString());
+                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[0].Value.ToString());
             }
             catch (FormatException)
             {

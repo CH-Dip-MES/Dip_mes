@@ -180,6 +180,11 @@ namespace dip_mes
         // 데이터그리드의 셀 값이 변경될 때 발생하는 이벤트 메서드
         public void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             try
             {
                 string startTime = "UPDATE manufacture SET StartTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
@@ -226,6 +231,11 @@ namespace dip_mes
         // 시작시간과 완료시간을 DB에서 불러와 소요시간을 계산 후 DB에 저장
         private void WorkTime(string orderNo)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             string selectQuery = "SELECT StartTime, FinishTime FROM manufacture WHERE OrderNo = @OrderNo";
             string updateQuery = "UPDATE manufacture SET takeTime = @takeTime WHERE OrderNo = @OrderNo";
 
@@ -272,6 +282,11 @@ namespace dip_mes
         // 작업상태 변경 시간을 DB에 저장하는 메서드
         private void SaveTime(string orderNo, string updateQuery)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -310,6 +325,12 @@ namespace dip_mes
         // DB에 작업상태를 저장하는 메서드
         private void UpdateStatus(string orderNo, string workStatus)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
+
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -344,11 +365,6 @@ namespace dip_mes
         // 조회버튼 클릭 이벤트
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
-            {
-                MessageBox.Show("권한이 없습니다.");
-                return;
-            }
             LoadDataToDataGridView1(); 
         }
 
