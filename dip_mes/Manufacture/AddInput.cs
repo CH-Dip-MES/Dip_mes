@@ -164,7 +164,11 @@ namespace dip_mes
         // 자재투입등록 버튼 클릭 이벤트
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 텍스트박스1 데이터(등록된 작업지시번호) 저장
             string textBox1Data = textBox1.Text;
 

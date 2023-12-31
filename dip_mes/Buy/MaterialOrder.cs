@@ -434,6 +434,11 @@ namespace dip_mes
 
         private void button5_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (dataGridView2.SelectedRows.Count > 0)
             {
                 // 선택된 행의 발주코드 가져오기
@@ -630,6 +635,11 @@ namespace dip_mes
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 // MySQL 연결 및 명령어 생성

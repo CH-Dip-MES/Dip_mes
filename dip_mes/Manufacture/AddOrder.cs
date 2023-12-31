@@ -71,6 +71,11 @@ namespace dip_mes
         // 작업지시 등록 이벤트
         private void button2_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 데이터베이스 연결 문자열
             string connectionString = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;"; //테이블 변경과 패스워드 설정
 
