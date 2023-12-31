@@ -24,6 +24,7 @@ namespace dip_mes
             dataGridView1.CellClick += dataGridView1_CellClick;
             textBox1.KeyDown += textBox1_KeyDown;
         }
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -32,7 +33,6 @@ namespace dip_mes
                 button1.PerformClick();
             }
         }
-
 
         private void InitializeDatabaseConnection()
         {
@@ -76,7 +76,6 @@ namespace dip_mes
 
             dataGridView3.Columns["checkBoxColumn3"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridView3.Columns["checkBoxColumn3"].Width = 50;
-
 
             // DataGridView에 컬럼 추가
             dataGridView1.Columns.Add("Field2Column", "품번");
@@ -180,7 +179,7 @@ namespace dip_mes
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -246,7 +245,7 @@ namespace dip_mes
 
         private void InsertProductProcess(string processName, int processTime, string productCode)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -272,11 +271,6 @@ namespace dip_mes
         }
         private void InsertProductMaterial(string MaterialName, int MaterialNumber, string productCode)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
-            {
-                MessageBox.Show("권한이 없습니다.");
-                return;
-            }
             // product_Material 테이블에 사용자에게 입력받은 데이터 DB 저장
             string Query = "INSERT INTO product_Material (product_code, Material_name, Material_number) VALUES (@product_code, @Material_name, @Material_number)";
             using (MySqlCommand Cmd = new MySqlCommand(Query, connection))
@@ -313,11 +307,6 @@ namespace dip_mes
 
         private void InsertDataIntoMySQL(string product_code, string product_name, string category, string product_size, DateTime ins_date)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
-            {
-                MessageBox.Show("권한이 없습니다.");
-                return;
-            }
             string query = "INSERT INTO product (product_code, product_name, category, product_size, ins_date) VALUES (@product_code, @product_name, @category, @product_size, @ins_date)";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
@@ -365,7 +354,7 @@ namespace dip_mes
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -574,11 +563,12 @@ namespace dip_mes
 
         private void btnRegister1_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
+
             if (string.IsNullOrEmpty(textbox6.Text)) 
             {
                 MessageBox.Show("먼저 제품정보를 조회후 선택하세요");
@@ -606,7 +596,7 @@ namespace dip_mes
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -639,7 +629,7 @@ namespace dip_mes
 
         private void btnDelete1_Click(object sender, EventArgs e)
         {
-            if (Login.getAuth != 1 || Login.getAuth != 3)
+            if (Login.getAuth != 1 && Login.getAuth != 3)
             {
                 MessageBox.Show("권한이 없습니다.");
                 return;
@@ -678,6 +668,11 @@ namespace dip_mes
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth != 1 && Login.getAuth != 3)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             foreach (DataGridViewRow row in dataGridView3.Rows)
             {
                 DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
@@ -709,22 +704,12 @@ namespace dip_mes
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -431,11 +431,16 @@ namespace dip_mes
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 납기일자 열에서 년도와 월을 추출
             DateTime deliveryDate;
             try
             {
-                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[1].Value.ToString());
+                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[0].Value.ToString());
             }
             catch (FormatException)
             {

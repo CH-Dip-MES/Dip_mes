@@ -121,6 +121,11 @@ namespace dip_mes
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             // 선택된 행을 기준으로 데이터베이스에서 삭제
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {

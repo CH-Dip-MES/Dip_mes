@@ -536,7 +536,7 @@ namespace dip_mes
         {
             if (Login.getAuth != 3)
             {
-                MessageBox.Show("권한이 없습니다.");
+                MessageBox.Show("관리자 권한이 필요합니다.");
                 return;
             }
             // 자재발주등록 탭이 이미 생성되었는지 확인
