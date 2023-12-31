@@ -139,12 +139,6 @@
     <Compile Include="Standard\Client.Designer.cs">
       <DependentUpon>Client.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manufacture\Lot.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Manufacture\Lot.Designer.cs">
-      <DependentUpon>Lot.cs</DependentUpon>
-    </Compile>
     <Compile Include="Manufacture\MfgResult.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -248,9 +242,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Standard\Client.resx">
       <DependentUpon>Client.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Manufacture\Lot.resx">
-      <DependentUpon>Lot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manufacture\MfgResult.resx">
       <DependentUpon>MfgResult.cs</DependentUpon>

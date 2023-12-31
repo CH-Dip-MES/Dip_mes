@@ -196,8 +196,7 @@
             this.Load += new System.EventHandler(this.Login_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+
 
         }
 
