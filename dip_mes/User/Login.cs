@@ -91,6 +91,7 @@ namespace dip_mes
                         UserID = userID,
                         UserName = userName
                     };
+
                     this.Hide();
                     mainScreen.ShowDialog();
                     this.Show();

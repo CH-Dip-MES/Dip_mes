@@ -81,7 +81,7 @@ namespace dip_mes
             tabPageProcess = InitializeTabPage("공정관리", ProcessSc);
             tabPageClient = InitializeTabPage("거래처", ClientSc);
             tabPageSale = InitializeTabPage("판매관리", SaleSc);
-            tabPageLogistics = InitializeTabPage("완제품관리", LogisticsSc);
+            tabPageLogistics = InitializeTabPage("입출고관리", LogisticsSc);
             tabPageSaleResult = InitializeTabPage("매출현황", SaleResultSc);
             tabPageMaterialOrder = InitializeTabPage("자재발주등록", MaterialOrderSc);
             tabPageOrderList = InitializeTabPage("발주현황", OrderListSc);
@@ -443,15 +443,15 @@ namespace dip_mes
         private void button14_Click(object sender, EventArgs e)
         {
             // 자재발주등록 탭이 이미 생성되었는지 확인
-            if (IsTabAlreadyOpen("완제품관리"))
+            if (IsTabAlreadyOpen("입출고관리"))
             {
                 // 이미 열려있다면 해당 탭으로 이동
-                ShowExistingTab("완제품관리");
+                ShowExistingTab("입출고관리");
             }
             else
             {
                 // 탭을 생성하고 추가
-                TabPage tabPage = InitializeTabPage("완제품관리", LogisticsSc);
+                TabPage tabPage = InitializeTabPage("입출고관리", LogisticsSc);
                 tabControl1.TabPages.Add(tabPage);
 
                 // 탭을 선택하고 선택한 탭만 표시합니다.
@@ -628,7 +628,7 @@ namespace dip_mes
                         SaleSc.Visible = true;
                         break;
 
-                    case "완제품관리":
+                    case "입출고관리":
                         panel.Controls.Clear();
                         panel.Controls.Add(LogisticsSc);
                         LogisticsSc.Visible = true;
@@ -709,6 +709,8 @@ namespace dip_mes
         {
             // 현재 폼을 숨김
             this.Hide();
+            Login.getAuth = 0;
+            Console.WriteLine(Login.getAuth);
 
             // 새로운 로그인 폼 인스턴스 생성
             Login loginForm = new Login();

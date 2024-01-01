@@ -22,9 +22,9 @@ namespace dip_mes
             InitializeDataGridViewColumns();
             LoadDataIntocomboBox1();
             LoadDataIntoComboBox2();
-            LoadDataIntoComboBox3(); // 추가된 부분
             dataGridView1.CellClick += dataGridView1_CellClick;
             textBox1.KeyDown += textBox1_KeyDown;
+            RetrieveAllData();
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -80,10 +80,10 @@ namespace dip_mes
             dataGridView3.Columns["checkBoxColumn3"].Width = 50;
 
             // DataGridView에 컬럼 추가
-            dataGridView1.Columns.Add("Field2Column", "품번");
+            dataGridView1.Columns.Add("Field2Column", "제품번호");
             dataGridView1.Columns["Field2Column"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dataGridView1.Columns["Field2Column"].Width = 250;
-            dataGridView1.Columns.Add("Field3Column", "품명");
+            dataGridView1.Columns.Add("Field3Column", "제품명");
             dataGridView1.Columns.Add("Field4Column", "제품구분");
             dataGridView1.Columns.Add("Field5Column", "제품규격");
             dataGridView1.Columns.Add("ins_dateColumn", "등록 시간");
@@ -114,8 +114,9 @@ namespace dip_mes
 
             // ComboBox3 추가
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox3.Items.Add("선택하세요");  // 초기 선택 항목 추가
-            comboBox3.SelectedIndex = 0;
+            comboBox3.Items.Add("완제품");
+            comboBox3.Items.Add("반제품");
+            comboBox3.SelectedIndex = -1;
             groupBox1.Controls.Add(comboBox3);  // 폼에 컨트롤 추가
 
             dataGridView2.Columns["Field5Column"].Visible = false;
@@ -126,13 +127,6 @@ namespace dip_mes
             dataGridView1.DefaultCellStyle.Font = new Font("Arial", 16);
             dataGridView2.DefaultCellStyle.Font = new Font("Arial", 16);
             dataGridView3.DefaultCellStyle.Font = new Font("Arial", 16);
-        }
-
-        private void LoadDataIntoComboBox3()
-        {
-            // ComboBox3에 아이템 추가
-            comboBox3.Items.Add("완제품");
-            comboBox3.Items.Add("반제품");
         }
 
         public void LoadDataIntocomboBox1()
@@ -201,7 +195,7 @@ namespace dip_mes
             string productCode = textBox2.Text;
             if (IsProductCodeDuplicate(productCode))
             {
-                MessageBox.Show("중복된 품번입니다. 확인 부탁드립니다.");
+                MessageBox.Show("중복된 제품번호입니다. 확인 부탁드립니다.");
                 return; // 중복이면 더 이상 진행하지 않음
             }
 
@@ -216,7 +210,7 @@ namespace dip_mes
             }
 
             // 등록할 데이터 메시지 생성
-            string registerMessage = $"품번: {textBox2.Text}\n이름: {textBox3.Text}\n가격: {comboBox3.Text}\n수량: {textBox5.Text}";
+            string registerMessage = $"제품번호: {textBox2.Text}\n이름: {textBox3.Text}\n가격: {comboBox3.Text}\n수량: {textBox5.Text}";
 
             // 확인/취소 다이얼로그 표시
             DialogResult result = MessageBox.Show($"{registerMessage}\n\n데이터를 등록하시겠습니까?", "확인", MessageBoxButtons.OKCancel);
@@ -239,7 +233,7 @@ namespace dip_mes
                 // 텍스트 칸 비우기
                 textBox2.Clear();
                 textBox3.Clear();
-                comboBox3.SelectedIndex = 0;
+                comboBox3.SelectedIndex = -1;
                 textBox5.Clear();
             }
             // 사용자가 취소를 선택한 경우
