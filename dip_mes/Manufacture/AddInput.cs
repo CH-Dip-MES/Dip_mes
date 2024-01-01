@@ -297,9 +297,9 @@ namespace dip_mes
             return currentQty;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void AddInput_Load(object sender, EventArgs e)
         {
-            this.Close();
+
         }
     }
 }

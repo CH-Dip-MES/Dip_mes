@@ -153,18 +153,13 @@ namespace dip_mes
             {
                 connection.Open();
 
-                // buy4 테이블에서 데이터 조회
-                string selectQuery = @"
-            SELECT 
-                year, 1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
-                3Deliveryquantity, 3Enterquantity, 4Deliveryquantity, 4Enterquantity,
-                5Deliveryquantity, 5Enterquantity, 6Deliveryquantity, 6Enterquantity,
-                7Deliveryquantity, 7Enterquantity, 8Deliveryquantity, 8Enterquantity,
-                9Deliveryquantity, 9Enterquantity, 10Deliveryquantity, 10Enterquantity,
-                11Deliveryquantity, 11Enterquantity, 12Deliveryquantity, 12Enterquantity
-            FROM buy4
-            WHERE year = @Year
-        ";
+                // 특정연도의 월별 입고내역과 출고내역 합계를 가져오기
+                string selectQuery = @"SELECT MONTH(buy1.Orderdate) AS OrderMonth, 
+                                       SUM(buy2.weight) AS TotalWeight 
+                              FROM buy2 
+                              JOIN buy1 ON buy2.Orderingcode = buy1.Orderingcode 
+                              WHERE YEAR(buy1.Orderdate) = @Year
+                              GROUP BY OrderMonth";
 
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
@@ -184,31 +179,54 @@ namespace dip_mes
 
                         for (int month = 1; month <= 12; month++)
                         {
-                            dataGridView1.Columns.Add("입고내역", "입고내역");
-                            dataGridView1.Columns.Add("출고내역", "출고내역");
+                            dataGridView1.Columns.Add("입고", "입고");
+                            dataGridView1.Columns.Add("출고", "출고");
                         }
 
-
-                        // 3행 추가 (DB 데이터)
-                        // 3행 추가 (DB 데이터)
+                        // 2행 추가 (DB 데이터)
                         if (dataTable.Rows.Count > 0)
                         {
-                            object[] rowData = new object[37];
-                            rowData[0] = dataTable.Rows[0]["year"].ToString(); // "년도" 열에 년도 데이터 설정
+                            object[] rowData = new object[25];
+                            rowData[0] = selectedYear; // "년도" 열에 년도 데이터 설정
 
-                            for (int month = 1; month <= 12; month++)
+                            foreach (DataRow row in dataTable.Rows)
                             {
-                                string enterColumnName = month + "Enterquantity";
-                                string deliveryColumnName = month + "Deliveryquantity";
+                                int orderMonth = Convert.ToInt32(row["OrderMonth"]);
+                                rowData[2 * orderMonth - 1] = row["TotalWeight"];
+                            }
 
-                                rowData[2 * month - 1] = dataTable.Rows[0][enterColumnName];
-                                rowData[2 * month] = dataTable.Rows[0][deliveryColumnName];
+                            // manufacture 테이블에서 월별 inputQty 합계를 가져오기
+                            string manufactureQuery = @"SELECT MONTH(StartTime) AS Month, 
+                                                SUM(inputQty) AS TotalInputQty 
+                                         FROM manufacture 
+                                         WHERE YEAR(StartTime) = @Year
+                                         GROUP BY Month";
+
+                            using (MySqlCommand manufactureCommand = new MySqlCommand(manufactureQuery, connection))
+                            {
+                                manufactureCommand.Parameters.AddWithValue("@Year", selectedYear);
+
+                                using (MySqlDataAdapter manufactureAdapter = new MySqlDataAdapter(manufactureCommand))
+                                {
+                                    DataTable manufactureDataTable = new DataTable();
+                                    manufactureAdapter.Fill(manufactureDataTable);
+
+                                    // 2행 추가 (manufacture 테이블 데이터)
+                                    if (manufactureDataTable.Rows.Count > 0)
+                                    {
+
+                                        foreach (DataRow row in manufactureDataTable.Rows)
+                                        {
+                                            int month = Convert.ToInt32(row["Month"]);
+                                            rowData[2 * month] = row["TotalInputQty"];
+                                        }
+                                    }
+                                }
                             }
                             dataGridView1.Rows.Add(rowData);
                         }
                     }
                 }
-
                 connection.Close();
             }
         }
@@ -264,85 +282,92 @@ namespace dip_mes
             gv.Invalidate(rtHeader);
         }
 
-        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            Console.WriteLine("----------------");
-            Console.WriteLine(e.RowIndex);
-            Console.WriteLine(e.ColumnIndex);
-            Console.WriteLine("----------------");
-            if (e.RowIndex == -1 && e.ColumnIndex > -1)
-            {
-                Rectangle r = e.CellBounds;
-                r.Y += e.CellBounds.Height / 2;
-                r.Height = e.CellBounds.Height / 2;
-                e.PaintBackground(r, true); e.PaintContent(r);
-                e.Handled = true;
-            }
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void LoadDataToChart(int selectedYear)
         {
-            // MySQL 연결 및 명령어 생성
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // buy4 테이블에서 데이터 조회
-                string selectQuery = @"
-            SELECT 
-                1Enterquantity, 1Deliveryquantity, 2Enterquantity, 2Deliveryquantity,
-                3Enterquantity, 3Deliveryquantity, 4Enterquantity, 4Deliveryquantity,
-                5Enterquantity, 5Deliveryquantity, 6Enterquantity, 6Deliveryquantity,
-                7Enterquantity, 7Deliveryquantity, 8Enterquantity, 8Deliveryquantity,
-                9Enterquantity, 9Deliveryquantity, 10Enterquantity, 10Deliveryquantity,
-                11Enterquantity, 11Deliveryquantity, 12Enterquantity, 12Deliveryquantity
-            FROM buy4
-            WHERE year = @Year";
-
-                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                // "입고내역" 시리즈 생성 및 설정
+                Series enterSeries = chart2.Series.FirstOrDefault(s => s.Name == "입고내역");
+                if (enterSeries == null)
                 {
-                    command.Parameters.AddWithValue("@Year", selectedYear);
+                    enterSeries = new Series("입고내역");
+                    enterSeries.ChartType = SeriesChartType.Column;
+                    enterSeries.Color = Color.FromArgb(9, 4, 58); // Set custom color
+                    chart2.Series.Add(enterSeries);
+                }
+                else
+                {
+                    // 기존 "입고내역" 시리즈를 초기화
+                    enterSeries.Points.Clear();
+                }
 
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                // buy2 테이블에서 데이터 조회 (입고내역)
+                string selectBuyQuery = @"
+            SELECT MONTH(buy1.Orderdate) AS OrderMonth, 
+                   SUM(buy2.weight) AS TotalWeight 
+            FROM buy2 
+            JOIN buy1 ON buy2.Orderingcode = buy1.Orderingcode 
+            WHERE YEAR(buy1.Orderdate) = @Year
+            GROUP BY OrderMonth";
+
+                using (MySqlCommand buyCommand = new MySqlCommand(selectBuyQuery, connection))
+                {
+                    buyCommand.Parameters.AddWithValue("@Year", selectedYear);
+
+                    using (MySqlDataReader buyReader = buyCommand.ExecuteReader())
                     {
-                        // Series 초기화
-                        chart2.Series.Clear();
-
-                        // "입고내역" 시리즈 생성 및 설정
-                        Series enterSeries = new Series("입고내역");
-                        enterSeries.ChartType = SeriesChartType.Column;
-                        enterSeries.Color = Color.FromArgb(9, 4, 58); // Set custom color
-
-                        // "출고내역" 시리즈 생성 및 설정
-                        Series deliverySeries = new Series("출고내역");
-                        deliverySeries.ChartType = SeriesChartType.Column;
-                        deliverySeries.Color = Color.FromArgb(108, 189, 182); // Set custom color
-
-                        // 데이터 바인딩
-                        if (reader.Read())
+                        // 데이터 바인딩 (입고내역)
+                        while (buyReader.Read())
                         {
-                            for (int month = 1; month <= 12; month++)
-                            {
-                                string enterColumnName = month + "Enterquantity";
-                                string deliveryColumnName = month + "Deliveryquantity";
+                            int orderMonth = Convert.ToInt32(buyReader["OrderMonth"]);
+                            int totalWeight = Convert.ToInt32(buyReader["TotalWeight"]);
 
-                                int enterValue = Convert.ToInt32(reader[enterColumnName]);
-                                int deliveryValue = Convert.ToInt32(reader[deliveryColumnName]);
-
-                                // 데이터 포인트 추가
-                                enterSeries.Points.AddXY(month, enterValue);
-                                deliverySeries.Points.AddXY(month, deliveryValue);
-                            }
+                            // 데이터 포인트 추가 (입고내역)
+                            enterSeries.Points.AddXY(orderMonth, totalWeight);
                         }
+                    }
+                }
 
-                        // 차트에 시리즈 추가
-                        chart2.Series.Add(enterSeries);
-                        chart2.Series.Add(deliverySeries);
+                // "출고내역" 시리즈 생성 및 설정
+                Series deliverySeries = chart2.Series.FirstOrDefault(s => s.Name == "출고내역");
+                if (deliverySeries == null)
+                {
+                    deliverySeries = new Series("출고내역");
+                    deliverySeries.ChartType = SeriesChartType.Column;
+                    deliverySeries.Color = Color.FromArgb(108, 189, 182); // Set custom color
+                    chart2.Series.Add(deliverySeries);
+                }
+                else
+                {
+                    // 기존 "출고내역" 시리즈를 초기화
+                    deliverySeries.Points.Clear();
+                }
+
+                // manufacture 테이블에서 월별 inputQty 합계를 가져오기
+                string selectManufactureQuery = @"SELECT MONTH(StartTime) AS Month, 
+                                            SUM(inputQty) AS TotalInputQty 
+                                        FROM manufacture 
+                                        WHERE YEAR(StartTime) = @Year
+                                        GROUP BY Month";
+
+                using (MySqlCommand manufactureCommand = new MySqlCommand(selectManufactureQuery, connection))
+                {
+                    manufactureCommand.Parameters.AddWithValue("@Year", selectedYear);
+
+                    using (MySqlDataReader manufactureReader = manufactureCommand.ExecuteReader())
+                    {
+                        // 데이터 바인딩 (출고내역)
+                        while (manufactureReader.Read())
+                        {
+                            int month = Convert.ToInt32(manufactureReader["Month"]);
+                            int totalInputQty = Convert.ToInt32(manufactureReader["TotalInputQty"]);
+
+                            // 데이터 포인트 추가 (출고내역)
+                            deliverySeries.Points.AddXY(month, totalInputQty);
+                        }
                     }
                 }
 
@@ -422,84 +447,6 @@ namespace dip_mes
         private void button2_Click(object sender, EventArgs e)
         {
             LoadDataToDataGridView3();
-        }
-
-        private void dataGridView3_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (Login.getAuth < 2)
-            {
-                MessageBox.Show("권한이 없습니다.");
-                return;
-            }
-            // 납기일자 열에서 년도와 월을 추출
-            DateTime deliveryDate;
-            try
-            {
-                deliveryDate = Convert.ToDateTime(dataGridView1.Rows[0].Cells[0].Value.ToString());
-            }
-            catch (FormatException)
-            {
-                return;
-            }
-            int year = deliveryDate.Year;
-            int month = deliveryDate.Month;
-
-
-            // DB에서 year 칼럼 업데이트
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-
-                // SQL 쿼리 생성
-                string updateQuery = $"UPDATE buy4 SET year = {year} WHERE year = {dataGridView1.Rows[0].Cells[1].Value.ToString()}";
-
-                // 쿼리 실행
-                MySqlCommand command = new MySqlCommand(updateQuery, connection);
-                command.ExecuteNonQuery();
-            }
-
-            // DB에서 입고수량 칼럼 업데이트
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-
-                // SQL 쿼리 생성
-                string updateQuery = $"UPDATE buy4 SET {month + 1}Deliveryquantity = (SELECT SUM(quantity) FROM buy4 WHERE year = {year} AND month = {month}) WHERE year = {year} AND month = {month}";
-
-                // 쿼리 실행
-                MySqlCommand command = new MySqlCommand(updateQuery, connection);
-                command.ExecuteNonQuery();
-            }
-
-            // 데이터그리드에서 입고수량 열의 값을 가져와서 합산
-            int totalQuantity = 0;
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                totalQuantity += Convert.ToInt32(dataGridView1.Rows[i].Cells[2].Value.ToString());
-            }
-
-            // DB에서 입고수량 칼럼 업데이트
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-
-                // SQL 쿼리 생성
-                string updateQuery = $"UPDATE buy4 SET {month + 1}Deliveryquantity = {totalQuantity} WHERE year = {year} AND month = {month}";
-
-                // 쿼리 실행
-                MySqlCommand command = new MySqlCommand(updateQuery, connection);
-                command.ExecuteNonQuery();
-            }
-        }
-
-        private void chart2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

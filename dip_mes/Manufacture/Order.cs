@@ -154,6 +154,13 @@ namespace dip_mes
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns[5].ReadOnly = true;
+            dataGridView1.Columns[7].ReadOnly = true;
         }
 
         // 작업상태가 완료로 변경되면 해당 행을 데이터그리드에서 지우는 기능
@@ -182,13 +189,14 @@ namespace dip_mes
         {
             if (Login.getAuth != 1 && Login.getAuth != 3)
             {
+                LoadDataToDataGridView1();
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
             try
             {
-                string startTime = "UPDATE manufacture SET StartTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
-                string finishTime = "UPDATE manufacture SET FinishTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
+                string startUpdateQuery = "UPDATE manufacture SET StartTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
+                string finishUpdateQuery = "UPDATE manufacture SET FinishTime = CURRENT_TIMESTAMP WHERE OrderNo = @OrderNo";
                 // 헤더행이 아닌 작업상태 컬럼을 선택했을 때
                 if (e.ColumnIndex == dataGridView1.Columns["작업상태"].Index && e.RowIndex >= 0)
                 {
@@ -204,16 +212,17 @@ namespace dip_mes
                     if (workStatus.Equals("작업완료", StringComparison.OrdinalIgnoreCase))
                     {   
                         // 작업상태가 "작업완료" 일 때
-                        SaveTime(orderNo, finishTime);
+                        SaveTime(orderNo, finishUpdateQuery);
                         // 데이터그리드에서 행 삭제
                         dataGridView1.Rows.RemoveAt(e.RowIndex);
                         MessageBox.Show($" 작업지시번호 : {orderNo}이 완료 처리되어 목록에서 사라집니다.");
                         WorkTime(orderNo);
+                        CompleteUser(orderNo, Login.getName);
                     }
                     else if (workStatus.Equals("작업시작", StringComparison.OrdinalIgnoreCase))
                     {   
                         // 작업상태가 "작업시작" 일 때
-                        SaveTime(orderNo, startTime);
+                        SaveTime(orderNo, startUpdateQuery);
                         MessageBox.Show($"작업지시번호 : {orderNo}의 상태가 '작업시작'으로 변경되었습니다.");
                     }
                     // DB에 상태 업데이트
@@ -227,6 +236,33 @@ namespace dip_mes
             }
         }
         // ----------------------------------------------------------------- 
+
+
+        // 작업이 완료되면 DB에 작업자정보를 저장하는 메서드
+        private void CompleteUser(string orderNo, string userName)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string updateQuery = "UPDATE manufacture SET Operator = @operator WHERE OrderNo = @OrderNo";
+
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@operator", userName);
+                        cmd.Parameters.AddWithValue("@OrderNo", orderNo);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
 
         // 시작시간과 완료시간을 DB에서 불러와 소요시간을 계산 후 DB에 저장
         private void WorkTime(string orderNo)
@@ -259,10 +295,10 @@ namespace dip_mes
                                 using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, connection))
                                 {
                                     TimeSpan takeTime = finishTime - startTime;
-                                    double dTakeTime = takeTime.TotalHours;
-                                    double roundedTakeTime = Math.Round(dTakeTime,2);
+                                    //double dTakeTime = takeTime.TotalHours;
+                                    //double roundedTakeTime = Math.Round(dTakeTime,2);
 
-                                    updateCmd.Parameters.AddWithValue("@takeTime", roundedTakeTime);
+                                    updateCmd.Parameters.AddWithValue("@takeTime", takeTime);
                                     updateCmd.Parameters.AddWithValue("@OrderNo", orderNo);
 
                                     updateCmd.ExecuteNonQuery();

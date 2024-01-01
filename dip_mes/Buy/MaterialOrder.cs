@@ -20,6 +20,7 @@ namespace dip_mes
         public MaterialOrder()
         {
             InitializeComponent();
+            LoadMaterialMapping();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -75,11 +76,13 @@ namespace dip_mes
                     command2.Parameters.AddWithValue("@OrderingCode", orderingCode);
                     command2.ExecuteNonQuery();
                 }
-
                 connection.Close();
+                MessageBox.Show($"{orderingCode} 발주건 등록 성공");
+                LoadDataToDataGridView1();
             }
-
-            MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
+            textBox1.Clear();
+            textBox2.Clear();
+            comboBox1.SelectedIndex = -1;
         }
 
         // 중복되지 않는 orderingcode 생성 메서드
@@ -204,7 +207,9 @@ namespace dip_mes
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'N0.', DeliveryDate AS '납기일자', code as '업체코드', Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액', Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
+                string selectQuery = @"SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'N0.', DeliveryDate AS '납기일자', code as '업체코드',
+                                    Companyname AS '업체명', number AS '건수', Orderamount AS '발주금액', Surtax AS '부가세', Totalamount AS '합계금액',
+                                    Writer AS '작성자', Orderingcode AS '발주코드' FROM buy1";
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(selectQuery, connection))
                 {
                     DataTable dataTable = new DataTable();
@@ -238,14 +243,45 @@ namespace dip_mes
             textBox6.Text = $"{totalOrderAmount:N0}원"; // N0는 숫자를 천 단위로 구분하여 표시
         }
 
+        private List<string> GetMaterialData(string columnName)
+        {
+            List<string> data = new List<string>();
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string cbConn = $"SELECT Material_name FROM material";
+                MySqlCommand cbmd = new MySqlCommand(cbConn, conn);
+
+                try
+                {
+                    using (MySqlDataReader reader = cbmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            data.Add(reader[columnName].ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"데이터베이스 오류: {ex.Message}");
+                }
+            }
+            return data;
+        }
+
         private void LoadDataToDataGridView2(string selectedCode)
         {
+            List<string> materialName = GetMaterialData("Material_name");
+
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
                 // DataGridView2에 데이터를 가져오는 쿼리
-                string selectQuery = "SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'NO.', Itemnumber as '품번', Itemname as '품명', Weight as '갯수', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE Orderingcode = @Orderingcode";
+                string selectQuery = @"SELECT ROW_NUMBER() OVER (ORDER BY nb DESC) as 'NO.', Itemnumber as '품번', Itemname as '품명', 
+                Weight as '갯수', Unitprice as '단가', Orderamount as '발주금액', Surtax as '부가세' FROM buy2 WHERE Orderingcode = @Orderingcode";
                 using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Orderingcode", selectedCode);
@@ -261,23 +297,111 @@ namespace dip_mes
                         // 발주금액 컬럼에 대한 형식 지정
                         dataGridView2.Columns["발주금액"].DefaultCellStyle.Format = "Orderamount";
                     }
+                    dataGridView2.CellValueChanged -= DataGridView2_CellValueChanged; // 이전 핸들러 제거 (중복 방지)
+                    dataGridView2.CellValueChanged += DataGridView2_CellValueChanged; // 새 핸들러 추가
                 }
 
                 connection.Close();
-                // 발주금액 합 다시 계산
-                CalculateTotalOrderAmountForGridView2();
-                // 부가세 합 계산
-                CalculateTotalSurtaxForGridView2();
-            }
 
-            // DataGridView2에서 첫 번째 행을 선택하도록 설정
-            if (dataGridView2.Rows.Count > 0)
+                if (dataGridView2.Rows.Count > 0)
+                {
+                    dataGridView2.Rows[0].Selected = true;
+                }
+
+                // DataGridView2에서 첫 번째 행을 선택하도록 설정
+                dataGridView2.RowsAdded -= dataGridView2_RowsAdded;
+                dataGridView2.RowsAdded += dataGridView2_RowsAdded;
+
+                // 열을 콤보박스 셀로 변환
+                ConvertColumnToComboBoxCell(dataGridView2, "품명", materialName);
+            }
+            // 발주금액 합 다시 계산
+            CalculateTotalOrderAmountForGridView2();
+            // 부가세 합 계산
+            CalculateTotalSurtaxForGridView2();
+            dataGridView2.Columns[0].ReadOnly = true;
+            dataGridView2.Columns[0].DefaultCellStyle.BackColor = Color.Gray;
+            dataGridView2.Columns[0].DefaultCellStyle.ForeColor = Color.White;
+        }
+
+        private void ConvertColumnToComboBoxCell(DataGridView dataGridView, string columnName, List<string> items)
+        {
+            if (dataGridView.Columns.Contains(columnName))
             {
-                dataGridView2.Rows[0].Selected = true;
+                int columnIndex = dataGridView.Columns[columnName].Index;
+
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        // 기존 셀의 값을 저장
+                        var existingValue = row.Cells[columnIndex].Value;
+
+                        DataGridViewComboBoxCell comboBoxCell;
+
+                        // 이미 콤보박스 셀인 경우 기존 셀을 사용
+                        if (row.Cells[columnIndex] is DataGridViewComboBoxCell existingComboBoxCell)
+                        {
+                            comboBoxCell = existingComboBoxCell;
+                            comboBoxCell.Items.Clear();
+                        }
+                        else
+                        {
+                            comboBoxCell = new DataGridViewComboBoxCell();
+                            row.Cells[columnIndex] = comboBoxCell;
+                        }
+
+                        comboBoxCell.Items.AddRange(items.ToArray());
+
+                        // 콤보박스의 선택된 값으로 기존 값을 설정
+                        if (existingValue != null && items.Contains(existingValue.ToString()))
+                        {
+                            comboBoxCell.Value = existingValue;
+                        }
+                    }
+                }
             }
         }
 
+            private void DataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == -1 || e.RowIndex == -1)
+                return;
 
+            var dataGridView = sender as DataGridView;
+
+            // '품명' 열의 값이 변경될 때, 매핑된 '품번'을 설정
+            if (e.ColumnIndex == dataGridView.Columns["품명"].Index && e.RowIndex >= 0)
+            {
+                string selectedMaterialName = dataGridView.Rows[e.RowIndex].Cells["품명"].Value?.ToString();
+
+                if (materialNameToNumberMapping.TryGetValue(selectedMaterialName, out string materialCode))
+                {
+                    dataGridView.Rows[e.RowIndex].Cells["품번"].Value = materialCode;
+                }
+            }
+        }
+        private Dictionary<string, string> materialNameToNumberMapping = new Dictionary<string, string>();
+
+        private void LoadMaterialMapping()
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT Material_code, Material_name FROM material";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string materialCode = reader["Material_code"].ToString();
+                        string materialName = reader["Material_name"].ToString();
+                        materialNameToNumberMapping[materialName] = materialCode;
+                    }
+                }
+            }
+        }
 
         private void CalculateTotalSurtaxForGridView2()
         {
@@ -430,10 +554,15 @@ namespace dip_mes
             CalculateTotalOrderAmount();
             CalculateTotalSurtaxForGridView2();
             UpdateBuy1TotalAmounts();
+            UpdateBuy1TotalAmountColumn();
+            UpdateBuy1NumberColumn();
+            LoadDataToDataGridView1();
+            LoadDataToDataGridView2(selectedOrderingCode);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
+            string selectedOrderingCode = textBox7.Text;
             if (Login.getAuth < 2)
             {
                 MessageBox.Show("권한이 없습니다.");
@@ -442,7 +571,6 @@ namespace dip_mes
             if (dataGridView2.SelectedRows.Count > 0)
             {
                 // 선택된 행의 발주코드 가져오기
-                string selectedOrderingCode = textBox7.Text;
 
                 if (string.IsNullOrEmpty(selectedOrderingCode))
                 {
@@ -457,6 +585,11 @@ namespace dip_mes
 
                     foreach (DataGridViewRow row in dataGridView2.SelectedRows)
                     {
+                        if (!IsRowCommitted(row, selectedOrderingCode))
+                        {
+                            MessageBox.Show("DB에 존재하지 않는 데이터 입니다.");
+                            continue;
+                        }
                         // DataGridView2의 선택된 행에 대한 데이터를 DB에서 삭제
                         string deleteQuery = "DELETE FROM buy2 WHERE Itemnumber = @Itemnumber AND Orderingcode = @Orderingcode AND Orderamount = @Orderamount";
                         using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
@@ -466,6 +599,7 @@ namespace dip_mes
                             command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
 
                             command.ExecuteNonQuery();
+                            MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
                         }
 
                         // DataGridView2에서 선택된 행 삭제
@@ -474,8 +608,6 @@ namespace dip_mes
 
                     connection.Close();
                 }
-
-                MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
             }
             else
             {
@@ -485,7 +617,36 @@ namespace dip_mes
             CalculateTotalOrderAmount();
             CalculateTotalSurtaxForGridView2();
             UpdateBuy1TotalAmounts();
+            UpdateBuy1TotalAmountColumn();
+            UpdateBuy1NumberColumn();
+            LoadDataToDataGridView1();
+            LoadDataToDataGridView2(selectedOrderingCode);
         }
+
+        // 행이 데이터베이스에 커밋되었는지 확인하는 로직
+        private bool IsRowCommitted(DataGridViewRow row, string selectedOrderingCode)
+        {
+
+            // 실제로는 데이터베이스 쿼리를 사용하여 기본 키가 존재하는지 확인해야 합니다.
+            // 아래 예제는 가상의 데이터베이스 연결 및 쿼리를 사용하는 것을 나타냅니다.
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string checkQuery = "SELECT COUNT(*) FROM buy2 WHERE Itemnumber = @Itemnumber AND Orderingcode = @Orderingcode AND Orderamount = @Orderamount";
+                using (MySqlCommand command = new MySqlCommand(checkQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Itemnumber", row.Cells["품번"].Value);
+                    command.Parameters.AddWithValue("@Orderamount", row.Cells["발주금액"].Value);
+                    command.Parameters.AddWithValue("@Orderingcode", selectedOrderingCode);
+
+                    int rowCount = Convert.ToInt32(command.ExecuteScalar());
+
+                    return rowCount > 0; // 기본 키가 존재하면 true를 반환
+                }
+            }
+        }
+
 
         private void CalculateTotalOrderAmount()
         {
@@ -581,11 +742,12 @@ namespace dip_mes
                 string updateNumberQuery = @"
             UPDATE buy1 b1
             LEFT JOIN (
-                SELECT orderingcode, COALESCE(COUNT(*), 0) AS OrderCount
+                SELECT orderingcode, COUNT(*) AS OrderCount
                 FROM buy2
+                WHERE Itemnumber IS NOT NULL AND Itemname IS NOT NULL AND Unitprice IS NOT NULL AND weight IS NOT NULL AND Surtax IS NOT NULL AND Orderamount
                 GROUP BY orderingcode
             ) b2 ON b1.Orderingcode = b2.orderingcode
-            SET b1.number = b2.OrderCount;
+            SET b1.number = COALESCE(b2.OrderCount, 0);
         ";
 
                 using (MySqlCommand command = new MySqlCommand(updateNumberQuery, connection))
@@ -615,14 +777,13 @@ namespace dip_mes
 
                 // Totalamount 업데이트
                 string updateTotalAmountQuery = @"
-            UPDATE buy1 b1
-            LEFT JOIN (
+                UPDATE buy1 b1
+                LEFT JOIN (
                 SELECT orderingcode, COALESCE(SUM(Orderamount), 0) + COALESCE(SUM(Surtax), 0) AS TotalAmount
                 FROM buy2
                 GROUP BY orderingcode
-            ) b2 ON b1.Orderingcode = b2.orderingcode
-            SET b1.Totalamount = b2.TotalAmount;
-        ";
+                ) b2 ON b1.Orderingcode = b2.orderingcode
+                SET b1.Totalamount = b2.TotalAmount;";
 
                 using (MySqlCommand command = new MySqlCommand(updateTotalAmountQuery, connection))
                 {
@@ -662,11 +823,11 @@ namespace dip_mes
                         // DataGridView2에서 선택된 행 삭제
                         dataGridView1.Rows.Remove(row);
                     }
-
                     connection.Close();
                 }
-
                 MessageBox.Show("데이터가 성공적으로 삭제되었습니다.");
+                dataGridView2.DataSource = null;
+                dataGridView2.Rows.Clear();
             }
             else
             {
@@ -796,6 +957,50 @@ namespace dip_mes
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //LoadDataToDataGridView2(textBox7.Text);
+        }
+
+        private void dataGridView2_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ConvertColumnToComboBoxCell2(dataGridView2, "품명", GetMaterialData("Material_name"), e.RowIndex);
+        }
+
+        private void ConvertColumnToComboBoxCell2(DataGridView dataGridView, string columnName, List<string> items, int rowIndex)
+        {
+            if (dataGridView.Columns.Contains(columnName) && rowIndex >= 0)
+            {
+                int columnIndex = dataGridView.Columns[columnName].Index;
+                DataGridViewRow row = dataGridView.Rows[rowIndex];
+
+                // 기존 셀의 값을 저장
+                var existingValue = row.Cells[columnIndex].Value;
+
+                DataGridViewComboBoxCell comboBoxCell;
+
+                // 이미 콤보박스 셀인 경우 기존 셀을 사용
+                if (row.Cells[columnIndex] is DataGridViewComboBoxCell existingComboBoxCell)
+                {
+                    comboBoxCell = existingComboBoxCell;
+                    comboBoxCell.Items.Clear();
+                }
+                else
+                {
+                    comboBoxCell = new DataGridViewComboBoxCell();
+                    row.Cells[columnIndex] = comboBoxCell;
+                }
+
+                comboBoxCell.Items.AddRange(items.ToArray());
+
+                // 콤보박스의 선택된 값으로 기존 값을 설정
+                if (existingValue != null && items.Contains(existingValue.ToString()))
+                {
+                    comboBoxCell.Value = existingValue;
+                }
+            }
         }
     }
 }

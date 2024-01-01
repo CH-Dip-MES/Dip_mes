@@ -87,7 +87,7 @@ namespace dip_mes
                             msc.Parameters.AddWithValue("@buyername", buyername.SelectedItem.ToString());
                             msc.ExecuteNonQuery();
                             MessageBox.Show("성공적으로 등록되었습니다.");
-                            CheckButton1_Click(sender, e);
+                            LoadDataGridView();
                         }
                         else
                         {
@@ -110,10 +110,15 @@ namespace dip_mes
         {
             if (e.KeyCode == Keys.Enter)
             {
-                CheckButton1_Click(sender, e);
+                LoadDataGridView();
             }
         }
         private void CheckButton1_Click(object sender, EventArgs e)
+        {
+            LoadDataGridView();
+        }
+
+        private void LoadDataGridView()
         {
             using (MySqlConnection sConn = new MySqlConnection(jConn))
             {
@@ -121,7 +126,7 @@ namespace dip_mes
                 string fSellNo = findNo.Text.Trim(); // 검색창 텍스트
                 string sInfo = "select saledate,salecode,buyername,procstat,delistat,delidate from sale2";
 
-                
+
                 if (!string.IsNullOrEmpty(fSellNo)) // 검색창에 입력한 문자 있을 시 활성화 없으면 위의 fItem 문구 그대로
                 {
                     sInfo += $" WHERE salecode = '{fSellNo}'";
@@ -192,8 +197,15 @@ namespace dip_mes
                 }
             }
         }
+
         private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (Login.getAuth < 2)
+            {
+                LoadDataGridView();
+                MessageBox.Show("권한이 없습니다.");
+                return;
+            }
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 DataGridView dataGridView = (DataGridView)sender;
@@ -479,6 +491,7 @@ namespace dip_mes
                 ConvertCellToComboBoxCell(dataGridView2, "ItemNo", GetProductData("product_code"), newIndex);
             }
         }
+
         private void ConvertCellToComboBoxCell(DataGridView dataGridView, string columnName, List<string> items, int rowIndex) //행추가 시 셀 콤보박스 전환
         {
             int columnIndex = dataGridView.Columns[columnName].Index;
@@ -498,6 +511,7 @@ namespace dip_mes
 
             dataGridView.InvalidateColumn(columnIndex); // 해당 열을 다시 그립니다.
         }
+
         private void delRow_Click(object sender, EventArgs e) // 행삭제
         {
             if (Login.getAuth < 2)
@@ -580,6 +594,12 @@ namespace dip_mes
             {
                 MessageBox.Show("등록을 취소하였습니다.");
             }
+        }
+
+        private void dataGridView2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            LoadSaleDetails(selectedSaleCode);
+            UpdateTotalSums();
         }
     }
 }

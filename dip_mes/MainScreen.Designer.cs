@@ -117,7 +117,7 @@ namespace dip_mes
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1042F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel2, 4, 0);
@@ -143,7 +143,7 @@ namespace dip_mes
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77778F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72.22222F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(468, 74);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(465, 74);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -154,7 +154,7 @@ namespace dip_mes
             this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(462, 44);
+            this.label1.Size = new System.Drawing.Size(459, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "Dip Cop";
             // 
@@ -163,7 +163,7 @@ namespace dip_mes
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(1555, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(1552, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.33333F));
@@ -208,7 +208,7 @@ namespace dip_mes
             // panel2
             // 
             this.panel2.Controls.Add(this.button1);
-            this.panel2.Location = new System.Drawing.Point(1735, 3);
+            this.panel2.Location = new System.Drawing.Point(1732, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(135, 74);
             this.panel2.TabIndex = 2;
@@ -561,7 +561,7 @@ namespace dip_mes
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(185, 46);
             this.button14.TabIndex = 3;
-            this.button14.Text = "완제품관리";
+            this.button14.Text = "입출고관리";
             this.button14.UseVisualStyleBackColor = false;
             this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
@@ -695,6 +695,7 @@ namespace dip_mes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1904, 1001);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainScreen";

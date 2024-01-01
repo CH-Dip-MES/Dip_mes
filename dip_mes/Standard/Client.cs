@@ -86,6 +86,11 @@ namespace dip_mes
 
                             // formattedDate 열에 대한 정렬 비활성화
                             dataGridView1.Columns["formattedDate"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                            dataGridView1.Columns["체크"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                            dataGridView1.Columns["체크"].Width = 50;
+                            dataGridView1.Columns["division"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                            dataGridView1.Columns["division"].Width = 100;
+                            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                             // 첫 번째 체크박스 열을 제외한 모든 열을 읽기 전용으로 설정
                             foreach (DataGridViewColumn column in dataGridView1.Columns)

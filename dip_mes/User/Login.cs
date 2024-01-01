@@ -15,6 +15,7 @@ namespace dip_mes
     {
         private Join popJoin;
         public static int getAuth;
+        public static string getName;
         string jConn = "Server=222.108.180.36;Database=mes_2;Uid=EDU_STUDENT;Pwd=1234;";
         public event Action<int> UserAuthStock;
 
@@ -82,6 +83,7 @@ namespace dip_mes
                     string userName = result.ToString();
                     int userAuth = UserAuthCheck.GetUserAuth(userID);
                     getAuth = userAuth;
+                    getName = userName;
                     UserAuthStock?.Invoke(userAuth);
                     Console.WriteLine(getAuth);
                     MainScreen mainScreen = new MainScreen

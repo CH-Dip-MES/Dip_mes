@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Drawing;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -79,6 +81,8 @@ namespace dip_mes
 
             // DataGridView에 컬럼 추가
             dataGridView1.Columns.Add("Field2Column", "품번");
+            dataGridView1.Columns["Field2Column"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dataGridView1.Columns["Field2Column"].Width = 250;
             dataGridView1.Columns.Add("Field3Column", "품명");
             dataGridView1.Columns.Add("Field4Column", "제품구분");
             dataGridView1.Columns.Add("Field5Column", "제품규격");
@@ -100,22 +104,28 @@ namespace dip_mes
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox1.SelectedIndex = 0;
-            Controls.Add(comboBox1);  // 폼에 컨트롤 추가
+            groupBox2.Controls.Add(comboBox1);  // 폼에 컨트롤 추가
 
             // ComboBox 추가
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox2.SelectedIndex = 0;
-            Controls.Add(comboBox2);  // 폼에 컨트롤 추가
+            groupBox3.Controls.Add(comboBox2);  // 폼에 컨트롤 추가
 
             // ComboBox3 추가
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox3.Items.Add("선택하세요");  // 초기 선택 항목 추가
             comboBox3.SelectedIndex = 0;
-            Controls.Add(comboBox3);  // 폼에 컨트롤 추가
+            groupBox1.Controls.Add(comboBox3);  // 폼에 컨트롤 추가
 
             dataGridView2.Columns["Field5Column"].Visible = false;
             dataGridView3.Columns["Field5Column"].Visible = false;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView2.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView3.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 16);
+            dataGridView2.DefaultCellStyle.Font = new Font("Arial", 16);
+            dataGridView3.DefaultCellStyle.Font = new Font("Arial", 16);
         }
 
         private void LoadDataIntoComboBox3()
@@ -229,7 +239,7 @@ namespace dip_mes
                 // 텍스트 칸 비우기
                 textBox2.Clear();
                 textBox3.Clear();
-                comboBox3.Text = string.Empty;
+                comboBox3.SelectedIndex = 0;
                 textBox5.Clear();
             }
             // 사용자가 취소를 선택한 경우
@@ -238,9 +248,6 @@ namespace dip_mes
                 MessageBox.Show("데이터 등록이 취소되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-
-
 
 
         private void InsertProductProcess(string processName, int processTime, string productCode)
@@ -261,11 +268,11 @@ namespace dip_mes
                 try
                 {
                     Cmd.ExecuteNonQuery();
-                    MessageBox.Show("product_process 테이블에 데이터가 성공적으로 등록되었습니다");
+                    MessageBox.Show("해당 제품의 공정정보가 성공적으로 등록되었습니다.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error inserting data into product_process table: " + ex.Message);
+                    MessageBox.Show("Error inserting data : " + ex.Message);
                 }
             }
         }
@@ -282,11 +289,11 @@ namespace dip_mes
                 try
                 {
                     Cmd.ExecuteNonQuery();
-                    MessageBox.Show("product_Material 테이블에 데이터가 성공적으로 등록되었습니다");
+                    MessageBox.Show("해당 제품의 자재정보가 성공적으로 등록되었습니다.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error inserting data into product_Material table: " + ex.Message);
+                    MessageBox.Show("Error inserting data : " + ex.Message);
                 }
             }
         }
@@ -323,7 +330,7 @@ namespace dip_mes
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error inserting data into MySQL: " + ex.Message);
+                    MessageBox.Show("Error inserting data : " + ex.Message);
                 }
             }
         }
@@ -365,12 +372,11 @@ namespace dip_mes
 
         private void DeleteCheckedItems()
         {
-
             // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 // 체크된 항목인지 확인
-                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn1"] as DataGridViewCheckBoxCell;
                 bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
                 if (isChecked)
@@ -404,7 +410,7 @@ namespace dip_mes
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                    MessageBox.Show("Error deleting data : " + ex.Message);
                 }
             }
         }
@@ -634,10 +640,13 @@ namespace dip_mes
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
+
+            List<DataGridViewRow> rowBuffer = new List<DataGridViewRow>();
+
             // 체크된 항목을 반복하여 삭제
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn2"] as DataGridViewCheckBoxCell;
                 bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
                 if (isChecked)
@@ -645,7 +654,7 @@ namespace dip_mes
                     string getid = row.Cells["Field5Column"].Value.ToString();
                     int id = int.Parse(getid);
 
-                    dataGridView2.Rows.Remove(row);
+                    rowBuffer.Add(row);
 
                     string query = "DELETE FROM product_process WHERE product_process_id = @product_process_id";
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
@@ -655,15 +664,23 @@ namespace dip_mes
                         try
                         {
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                            MessageBox.Show("Error deleting data : " + ex.Message);
+                            return;
                         }
                     }
                 }
             }
+            foreach (DataGridViewRow rowDelete in rowBuffer)
+            {
+                if (!rowDelete.IsNewRow)
+                {
+                    dataGridView2.Rows.Remove(rowDelete);
+                }
+            }
+            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -673,9 +690,12 @@ namespace dip_mes
                 MessageBox.Show("권한이 없습니다.");
                 return;
             }
+
+            List<DataGridViewRow> rowBuffer = new List<DataGridViewRow>();
+
             foreach (DataGridViewRow row in dataGridView3.Rows)
             {
-                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn"] as DataGridViewCheckBoxCell;
+                DataGridViewCheckBoxCell checkBoxCell = row.Cells["checkBoxColumn3"] as DataGridViewCheckBoxCell;
                 bool isChecked = Convert.ToBoolean(checkBoxCell.Value);
 
                 if (isChecked)
@@ -683,7 +703,7 @@ namespace dip_mes
                     string getid = row.Cells["Field5Column"].Value.ToString();
                     int id = int.Parse(getid);
 
-                    dataGridView3.Rows.Remove(row);
+                    rowBuffer.Add(row);
 
                     string query = "DELETE FROM product_Material WHERE product_Material_id = @product_Material_id";
                     using (MySqlCommand cmd = new MySqlCommand(query, connection))
@@ -693,15 +713,23 @@ namespace dip_mes
                         try
                         {
                             cmd.ExecuteNonQuery();
-                            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Error deleting data from MySQL: " + ex.Message);
+                            MessageBox.Show("Error deleting data : " + ex.Message);
+                            return;
                         }
                     }
                 }
             }
+            foreach (DataGridViewRow rowDelete in rowBuffer)
+            {
+                if (!rowDelete.IsNewRow)
+                {
+                    dataGridView3.Rows.Remove(rowDelete);
+                }
+            }
+            MessageBox.Show("데이터가 성공적으로 삭제되었습니다");
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -739,6 +767,5 @@ namespace dip_mes
             LoadDataIntocomboBox1();
             LoadDataIntoComboBox2();
         }
-
     }
 }
