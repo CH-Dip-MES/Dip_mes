@@ -91,6 +91,7 @@ namespace dip_mes
                             dataGridView1.Columns["division"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                             dataGridView1.Columns["division"].Width = 100;
                             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 18);
 
                             // 첫 번째 체크박스 열을 제외한 모든 열을 읽기 전용으로 설정
                             foreach (DataGridViewColumn column in dataGridView1.Columns)
