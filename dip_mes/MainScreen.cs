@@ -710,7 +710,7 @@ namespace dip_mes
             // 현재 폼을 숨김
             this.Hide();
             Login.getAuth = 0;
-            Console.WriteLine(Login.getAuth);
+            Console.WriteLine("권한조회 : " + Login.getAuth);
 
             // 새로운 로그인 폼 인스턴스 생성
             Login loginForm = new Login();

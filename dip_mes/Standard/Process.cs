@@ -233,6 +233,7 @@ namespace dip_mes
                         }
 
                         rowsToDelete.Add(row);
+                        MessageBox.Show("체크된 항목을 삭제했습니다.");
                     }
                 }
 

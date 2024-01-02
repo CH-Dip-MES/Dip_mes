@@ -85,7 +85,7 @@ namespace dip_mes
                     getAuth = userAuth;
                     getName = userName;
                     UserAuthStock?.Invoke(userAuth);
-                    Console.WriteLine(getAuth);
+                    Console.WriteLine("권한 조회 : " + getAuth);
                     MainScreen mainScreen = new MainScreen
                     {
                         UserID = userID,
