@@ -104,6 +104,8 @@ namespace dip_mes
                     MessageBox.Show("해당하는 회원정보가 없습니다");
                 }
             }
+            ID.Text = "";
+            PW.Text = "";
         }
 
         private void Find_Click(object sender, EventArgs e)
